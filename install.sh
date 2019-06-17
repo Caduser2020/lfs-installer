@@ -50,9 +50,25 @@ then echo "g++ compilation OK";
 else echo "g++ compilation failed"; fi
 rm -f dummy.c dummy
 EOF
-sudo bash version-check.sh
+bash version-check.sh
 sudo fdisk /dev/sda
-d
-p
-d
-n
+sudo mke2fs -jv /dev/sdal 
+sudo mkswap /dev/sda2 
+export LFS=/mnt/lfs 
+sudo mkdir -pv $LFS 
+sudo mount -v -t ext4 /dev/sdal $LFS 
+sudo /sbin/swapon -v /dev/sda2 
+sudo mkdir -v $LFS/sources 
+sudo chmod -v a+wt $LFS/sources 
+cd /mnt/lfs/sources 
+sudo wget -i wget-list -P $LFS/sources
+sudo mkdir -v $LFS/tools
+sudo ln -sv $LFS/tools /
+sudo groupadd lfs
+sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+# Enter a password for user lfs
+sudo passwd lfs
+sudo chown -v lfs $LFS/tools
+sudo chown -v lfs $LFS/sources
+# Enter previous password set
+sudo -u lfs -c "pwd"

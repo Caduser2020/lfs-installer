@@ -61,7 +61,7 @@ sudo /sbin/swapon -v /dev/sda2
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources 
-sudo wget -i /usr/Downloads/lfs-installer-master/wget-list.txt -P $LFS/sources
+sudo wget -i /home/usr/Downloads/lfs-installer-master/wget-list.txt -P $LFS/sources
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /
 sudo groupadd lfs

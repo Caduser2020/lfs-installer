@@ -1,11 +1,30 @@
-# lfs-wget-list
-List of required packages for Linux from scratch;
+# lfs-installer
+Installs a copy of Linux from Scratch onto a CentOS or similar machine.
 
-## How to use:
-Download the 'wget-list.txt' file onto the machine that you are installing Linux from scratch on. Then, run the command below to download all the sources.
+## Getting Started
+
+Download the 'install.sh' & 'wget-list.txt' files onto the machine that you are installing Linux from scratch on. Then, run the command below to start the install.
 ```
-wget -i wget-list -P $LFS sources'
+bash install.sh
 ```
-## FAQ
+
+### Prerequisites
+
+This script is validated for Red Hat based distros, such as:
+* CentOS
+* Fedora
+* RHEL
+
+## Troubleshooting
 Why are some of the urls not working? Some of the urls change with LFS versions or the site administrators of the download
 location remove older versions when new ones are released, espcially File (5.36). In that case, open an issue to let me know and check for an updated url at [LFS Downloads](http://www.linuxfromscratch.org/lfs/download.html#ftp).
+
+## Contributors
+
+See the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+

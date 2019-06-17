@@ -1,5 +1,4 @@
-su -
-yum install bison byacc gcc-c++ texinfo
+sudo yum install bison byacc gcc-c++ texinfo
 cat > version-check.sh << "EOF"
 #!/bin/bash
 # Simple script to list version numbers of critical development tools
@@ -51,8 +50,8 @@ then echo "g++ compilation OK";
 else echo "g++ compilation failed"; fi
 rm -f dummy.c dummy
 EOF
-bash version-check.sh
-fdisk /dev/sda
+sudo bash version-check.sh
+sudo fdisk /dev/sda
 d
 p
 d

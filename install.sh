@@ -39,7 +39,7 @@ m4 --version | head -n1
 make --version | head -n1
 patch --version | head -n1
 echo Perl `perl -V:version`
-python3 --version
+python --version
 sed --version | head -n1
 tar --version | head -n1
 makeinfo --version | head -n1 # texinfo version
@@ -61,14 +61,40 @@ sudo /sbin/swapon -v /dev/sda2
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources 
-sudo wget -i /home/usr/Downloads/lfs-installer-master/wget-list.txt -P $LFS/sources
+sudo wget -i /usr/Downloads/lfs-installer-master/wget-list.txt -P $LFS/sources
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /
 sudo groupadd lfs
 sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
-# Enter a password for user lfs
+# Enter a password for user lfs ?
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
 # Enter previous password set
-sudo -u lfs -c "pwd"
+sudo -v -u lfs whoami 
+sudo -v -u lfs cat > ~/.bash_profile << 'EOF'
+exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
+EOF
+
+sudo -v -u lfs cat > ~/.bashrc << 'EOF'
+set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/tools/bin:/bin:/usr/bin
+export LFS LC_ALL LFS_TGT PATH
+EOF
+
+sudo -u lfs source ~/.bash_profile
+sudo -u lfs mkdir -v build; cd build
+sudo -u lfs time {
+    ../configure --prefix=/tools \
+    --with-sysroot=$LFS \
+    --with-lib-path=/tools/lib \
+    --target=$LFS_TGT \
+    --disable-nls \
+    --disable-werror 
+    make
+    make install
+}

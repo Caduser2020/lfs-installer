@@ -86,7 +86,7 @@ PATH=/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TGT PATH
 EOF
 
-sudo -u lfs source ~/.bash_profile
+sudo -u lfs . ~/.bash_profile
 sudo -u lfs mkdir -v build; cd build
 sudo -u lfs time {
     ../configure --prefix=/tools \

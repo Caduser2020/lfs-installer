@@ -1,4 +1,4 @@
-sudo yum install bison byacc gcc-c++ texinfo
+sudo yum -y install bison byacc gcc-c++ texinfo
 cat > version-check.sh << "EOF"
 #!/bin/bash
 # Simple script to list version numbers of critical development tools

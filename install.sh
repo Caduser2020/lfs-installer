@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo yum -y install bison byacc gcc-c++ texinfo
 cat > version-check.sh << "EOF"
 #!/bin/bash

@@ -89,13 +89,4 @@ EOF
 
 sudo -u lfs . ~/.bash_profile
 sudo -u lfs mkdir -v build; cd build
-sudo -u lfs time {
-    ../configure --prefix=/tools \
-    --with-sysroot=$LFS \
-    --with-lib-path=/tools/lib \
-    --target=$LFS_TGT \
-    --disable-nls \
-    --disable-werror 
-    make
-    make install
-}
+sudo -u lfs time {../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror; make -j2; make install}

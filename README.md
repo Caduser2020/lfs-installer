@@ -11,9 +11,9 @@ bash install.sh
 ### Prerequisites
 
 This script is validated for Red Hat based distros, such as:
-* CentOS
-* Fedora
-* RHEL
+* [x] CentOS
+* [ ] Fedora
+* [x] RHEL
 
 ## Troubleshooting
 Why are some of the urls not working? Some of the urls change with LFS versions or the site administrators of the download

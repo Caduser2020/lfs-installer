@@ -71,8 +71,8 @@ sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
 # Enter previous password set
-sudo -v -u lfs whoami 
-sudo -v -u lfs cat > ~/.bash_profile << 'EOF'
+sudo -u lfs whoami 
+sudo -u lfs cat > ~/.bash_profile << 'EOF'
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
 EOF
 

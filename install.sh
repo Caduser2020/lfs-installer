@@ -76,7 +76,7 @@ sudo -u lfs cat > ~/.bash_profile << 'EOF'
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
 EOF
 
-sudo -v -u lfs cat > ~/.bashrc << 'EOF'
+sudo -u lfs cat > ~/.bashrc << 'EOF'
 set +h
 umask 022
 LFS=/mnt/lfs

@@ -73,6 +73,9 @@ sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
 # Enter previous password set
 sudo -u lfs whoami 
+sudo -u lfs cd /mnt/lfs/sources
+sudo -u lfs tar xvf binutils-2.32.tar.xz
+sudo -u lfs cd binutils-2.32
 sudo -u lfs cat > ~/.bash_profile << 'EOF'
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
 EOF
@@ -89,4 +92,6 @@ EOF
 
 sudo -u lfs . ~/.bash_profile
 sudo -u lfs mkdir -v build; cd build
-sudo -u lfs time {../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror; make -j2; make install}
+sudo -u lfs ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror; 
+sudo -u lfs time make -j2
+sudo -u lfs make install

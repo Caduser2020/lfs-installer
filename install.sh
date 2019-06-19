@@ -90,8 +90,20 @@ PATH=/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TGT PATH
 EOF
 
-sudo -u lfs . ~/.bash_profile
+sudo -u lfs source ~/.bash_profile
 sudo -u lfs mkdir -v build; cd build
-sudo -u lfs ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror; 
+sudo -u lfs mkdir -v ../binutils-build
+sudo -u lfs cd ../binutils-build
+sudo -u lfs ../binutils-2.23.1/configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
 sudo -u lfs time make -j2
 sudo -u lfs make install
+sudo -u lfs rm -Rf binutils-build
+sudo -u lfs rm -Rf binutils-2.32
+sudo -u lfs tar xvf gcc-8.2.0.tar.xz
+sudo -u lfs cd gcc-8.2.0
+sudo -u lfs tar -xf ../mpfr-4.0.2.tar.xz
+sudo -u lfs mv -v mpfr-4.0.2 mpfr
+sudo -u lfs tar -xf ../gmp-6.1.2.tar.xz
+sudo -u lfs mv -v gmp-6.1.2 gmp
+sudo -u lfs tar -xf ../mpc-1.1.0.tar.gz
+sudo -u lfs mv -v mpc-1.1.0 mpc

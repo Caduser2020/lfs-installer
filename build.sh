@@ -1,3 +1,4 @@
+#!/bin/bash
 # Enter previous password set
 whoami 
 cat > ~/.bash_profile << 'EOF' /
@@ -15,7 +16,7 @@ export LFS LC_ALL LFS_TGT PATH
 EOF
 source ~/.bash_profile
 cd /mnt/lfs/sources
-sudo tar xvf binutils-2.32.tar.xz
+tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
  mkdir -v build; cd build
 ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror

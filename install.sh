@@ -1,4 +1,5 @@
-sudo yum install bison byacc gcc-c++ texinfo
+#!/bin/bash
+sudo yum -y install bison byacc gcc-c++ texinfo
 cat > version-check.sh << "EOF"
 #!/bin/bash
 # Simple script to list version numbers of critical development tools
@@ -39,7 +40,7 @@ m4 --version | head -n1
 make --version | head -n1
 patch --version | head -n1
 echo Perl `perl -V:version`
-python3 --version
+python --version
 sed --version | head -n1
 tar --version | head -n1
 makeinfo --version | head -n1 # texinfo version
@@ -56,19 +57,18 @@ sudo mke2fs -jv /dev/sda1
 sudo mkswap /dev/sda2 
 export LFS=/mnt/lfs 
 sudo mkdir -pv $LFS 
-sudo mount -v -t ext4 /dev/sdal $LFS 
+sudo mount -v -t ext4 /dev/sda1 $LFS 
 sudo /sbin/swapon -v /dev/sda2 
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources 
-sudo wget -i /home/usr/Downloads/lfs-installer-master/wget-list.txt -P $LFS/sources
+sudo wget -i ~/Downloads/lfs-installer-lfs-8.4/wget-list.txt -P $LFS/sources
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /
 sudo groupadd lfs
 sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
-# Enter a password for user lfs
+# Enter a password for user lfs ?
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
-# Enter previous password set
-sudo -u lfs -c "pwd"
+sudo -u lfs sh ./build.sh

@@ -1,6 +1,7 @@
 #!/bin/bash
 # Enter previous password set
 whoami 
+sleep 5
 cat > ~/.bash_profile << 'EOF' \
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash \
 EOF
@@ -16,6 +17,7 @@ export LFS LC_ALL LFS_TGT PATH \
 EOF
 source ~/.bash_profile
 cd /mnt/lfs/sources
+sleep 5
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
  mkdir -v build; cd build

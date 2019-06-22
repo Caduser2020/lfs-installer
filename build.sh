@@ -25,6 +25,7 @@ time make -j2
 make install
 cd ..
 rm -Rf build
+cd /mnt/lfs/sources
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
 tar -xf ../mpfr-4.0.2.tar.xz

@@ -71,4 +71,4 @@ sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
-sudo -u lfs sh ./build.sh
+sudo -u lfs bash build.sh

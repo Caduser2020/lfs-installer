@@ -52,13 +52,27 @@ else echo "g++ compilation failed"; fi
 rm -f dummy.c dummy
 EOF
 bash version-check.sh
-sudo fdisk /dev/sda
-sudo mke2fs -jv /dev/sda1 
-sudo mkswap /dev/sda2 
+while true
+do
+  # (1) prompt user, and read command line argument
+  read -p "Partion the drive? (Answer n unless this is a live cd) " answer
+
+  # (2) handle the input we were given
+  case $answer in
+   [yY]* ) sudo fdisk /dev/sda
+           sudo mke2fs -jv /dev/sda1 
+           sudo mkswap /dev/sda2
+           sudo /sbin/swapon -v /dev/sda2 
+           break;;
+
+   [nN]* ) exit;;
+
+   * )     echo "Dude, just enter Y or N, please.";;
+  esac
+done 
 export LFS=/mnt/lfs 
 sudo mkdir -pv $LFS 
 sudo mount -v -t ext4 /dev/sda1 $LFS 
-sudo /sbin/swapon -v /dev/sda2 
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources 
@@ -71,5 +85,5 @@ sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
-cd /home/Downloads/lfs-installer-lfs-8.4
+cd ~/Downloads/lfs-installer-lfs-8.4
 sudo -u lfs bash build.sh

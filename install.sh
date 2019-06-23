@@ -65,7 +65,7 @@ do
            sudo /sbin/swapon -v /dev/sda2 
            break;;
 
-   [nN]* ) exit;;
+   [nN]* ) break;;
 
    * )     echo "Dude, just enter Y or N, please.";;
   esac

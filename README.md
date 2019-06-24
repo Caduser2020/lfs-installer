@@ -3,7 +3,7 @@ Installs a copy of Linux from Scratch onto a CentOS or similar machine.
 
 ## Getting Started
 
-Download the 'install.sh' & 'wget-list.txt' files onto the machine that you are installing Linux from scratch on. Then, run the command below to start the install.
+Download the 'install.sh' & 'wget-list.txt' files onto the Downloads folder of the machine that you are installing Linux from scratch on. Then, run the command below to start the install.
 ```
 bash install.sh
 ```
@@ -11,9 +11,13 @@ bash install.sh
 ### Prerequisites
 
 This script is validated for Red Hat based distros, such as:
-* [x] CentOS
-* [ ] Fedora
-* [x] RHEL
+* CentOS
+* Fedora
+* RHEL
+
+### Validated Host Operating Systems
+* CentOS 7
+* Fedora 30
 
 ## Troubleshooting
 Why are some of the urls not working? Some of the urls change with LFS versions or the site administrators of the download

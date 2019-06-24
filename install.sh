@@ -1,5 +1,21 @@
+# Installs LFS 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL
+# Copyright (C) 2019
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #!/bin/bash
-sudo yum -y install bison byacc gcc-c++ texinfo
+sudo yum -y install bison byacc gcc-c++ patch texinfo
 cat > version-check.sh << "EOF"
 #!/bin/bash
 # Simple script to list version numbers of critical development tools
@@ -40,7 +56,7 @@ m4 --version | head -n1
 make --version | head -n1
 patch --version | head -n1
 echo Perl `perl -V:version`
-python --version
+python3 --version
 sed --version | head -n1
 tar --version | head -n1
 makeinfo --version | head -n1 # texinfo version
@@ -52,13 +68,27 @@ else echo "g++ compilation failed"; fi
 rm -f dummy.c dummy
 EOF
 bash version-check.sh
-sudo fdisk /dev/sda
-sudo mke2fs -jv /dev/sda1 
-sudo mkswap /dev/sda2 
+while true
+do
+  # (1) prompt user, and read command line argument
+  read -p "Partion the drive? (Answer n unless this is a live cd) " answer
+
+  # (2) handle the input we were given
+  case $answer in
+   [yY]* ) sudo fdisk /dev/sda
+           sudo mke2fs -jv /dev/sda1 
+           sudo mkswap /dev/sda2
+           sudo /sbin/swapon -v /dev/sda2 
+           break;;
+
+   [nN]* ) break;;
+
+   * )     echo "Dude, just enter Y or N, please.";;
+  esac
+done 
 export LFS=/mnt/lfs 
 sudo mkdir -pv $LFS 
 sudo mount -v -t ext4 /dev/sda1 $LFS 
-sudo /sbin/swapon -v /dev/sda2 
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources 
@@ -71,4 +101,5 @@ sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
+cd ~/Downloads/lfs-installer-lfs-8.4
 sudo -u lfs bash build.sh

@@ -26,29 +26,22 @@ make install
 cd ..
 rm -Rf build
 cd /mnt/lfs/sources
+# Install Gcc
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
-tar -xf ../mpfr-4.0.2.tar.xz
-mv -v mpfr-4.0.2 mpfr
-tar -xf ../gmp-6.1.2.tar.xz
-mv -v gmp-6.1.2 gmp
-tar -xf ../mpc-1.1.0.tar.gz
-mv -v mpc-1.1.0 mpc
-for file in gcc/config/{linux,i386/linux{,64}}.h 
-do 
- cp -uv $file{,.orig} \
- sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g' \
- -e 's@/usr@/tools@g' $file.orig > $file \
- echo ' 
-#undef STANDARD_STARTFILE_PREFIX_1 
-#undef STANDARD_STARTFILE_PREFIX_2 
-#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/" 
-#define STANDARD_STARTFILE_PREFIX_2 ""' >> $file \
- touch $file.orig \
-done
-mkdir -v build
-cd build
-../configure \
+
+# tar -xf ../mpfr-4.0.2.tar.xz
+# mv -v mpfr-4.0.2 mpfr
+# tar -xf ../gmp-6.1.2.tar.xz
+# mv -v gmp-6.1.2 gmp
+# tar -xf ../mpc-1.1.0.tar.gz
+# mv -v mpc-1.1.0 mpc
+
+./contrib/download_prerequisites
+cd ..
+mkdir objdir
+cd objdir
+$PWD/../gcc-8.2.0/configure \
  --target=$LFS_TGT \
  --prefix=/tools \
  --with-glibc-version=2.11 \
@@ -70,11 +63,11 @@ cd build
  --disable-libvtv \
  --disable-libstdcxx \
  --enable-languages=c,c++
-make -j2
+make -j4
 make install
 cd ..
 pwd
-rm -Rf build
+rm -Rf objdir
 cd /mnt/lfs/sources
 tar xvf linux-4.20.12.tar.xz
 cd linux-4.20.12

@@ -1,4 +1,4 @@
-# Installs LFS 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL
+# Installs Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL
 # Copyright (C) 2019
 
 # This program is free software: you can redistribute it and/or modify

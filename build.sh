@@ -14,7 +14,7 @@ LFS_TGT=$(uname -m)-lfs-linux-gnu
 PATH=/tools/bin:/bin:/usr/bin 
 export LFS LC_ALL LFS_TGT PATH 
 EOF
-source ~/.bash_profile
+. ~/.bash_profile
 cd /mnt/lfs/sources
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32

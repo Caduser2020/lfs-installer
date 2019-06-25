@@ -1,5 +1,5 @@
 # lfs-installer
-Installs a copy of Linux from Scratch onto a CentOS or similar machine.
+Installs a copy of Linux from Scratch onto a Red Hat based distribution of Linux.
 
 ## Getting Started
 
@@ -20,12 +20,11 @@ This script is validated for Red Hat based distros, such as:
 * Fedora 30
 
 ## Troubleshooting
-Why are some of the urls not working? Some of the urls change with LFS versions or the site administrators of the download
-location remove older versions when new ones are released, espcially File (5.36). In that case, open an issue to let me know and check for an updated url at [LFS Downloads](http://www.linuxfromscratch.org/lfs/download.html#ftp).
+Why are some of the urls not working? Some of the URLs change with LFS versions or the site administrators of the download location remove older versions when new ones are released, espcially File (5.36). In that case, open an issue to let me know and check for an updated url at [LFS Downloads](http://www.linuxfromscratch.org/lfs/download.html#ftp).
 
 ## Contributors
 
-See the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See the list of [contributors](https://github.com/Caduser2020/lfs-installer/contributors) who participated in this project.
 
 ## License
 

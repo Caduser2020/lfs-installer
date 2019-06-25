@@ -21,8 +21,10 @@ cd binutils-2.32
  mkdir -v build; cd build
 ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
 time make -j2
+read -p "Press [Enter] key to resume..."
 # real is 1 SBU
 make install
+read -p "Press [Enter] key to resume..."
 cd ..
 rm -Rf build
 cd /mnt/lfs/sources
@@ -64,7 +66,9 @@ $PWD/../gcc-8.2.0/configure \
  --disable-libstdcxx \
  --enable-languages=c,c++
 make -j4
+read -p "Press [Enter] key to resume..."
 make install
+read -p "Press [Enter] key to resume..."
 # cd ..
 # pwd
 # rm -Rf objdir

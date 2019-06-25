@@ -69,6 +69,9 @@ make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
+break
+echo 'Break failed'
+exit
 # cd ..
 # pwd
 # rm -Rf objdir

@@ -65,6 +65,7 @@ $PWD/../gcc-8.2.0/configure \
  --disable-libvtv \
  --disable-libstdcxx \
  --enable-languages=c,c++
+read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
 make install
@@ -100,3 +101,4 @@ exit
 # readelf -l a.out | grep ': /tools'
 # should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'
 # rm -v dummy.c a.out
+# https://github.com/Caduser2020/lfs-installer.git

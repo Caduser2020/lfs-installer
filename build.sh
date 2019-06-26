@@ -1,4 +1,21 @@
 #!/bin/bash
+
+# Builds necessary packages for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
+# Copyright (C) 2019
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>
+
 # Enter previous password set
 whoami 
 cat > ~/.bash_profile << 'EOF' 
@@ -20,7 +37,7 @@ tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
  mkdir -v build; cd build
 ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
-time make -j2
+time make -j4
 read -p "Press [Enter] key to resume..."
 # real is 1 SBU
 make install

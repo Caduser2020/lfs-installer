@@ -60,6 +60,7 @@ cd gcc-8.2.0
 cd ..
 mkdir objdir
 cd objdir
+LD_LIBRARY_PATH=/tools/lib
 $PWD/../gcc-8.2.0/configure \
  --target=$LFS_TGT \
  --prefix=/tools \

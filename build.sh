@@ -60,7 +60,7 @@ cd gcc-8.2.0
 cd ..
 mkdir objdir
 cd objdir
-LD_LIBRARY_PATH=/tools/lib
+s
 $PWD/../gcc-8.2.0/configure \
  --target=$LFS_TGT \
  --prefix=/tools \
@@ -98,7 +98,9 @@ cd /mnt/lfs/sources
 tar xvf linux-4.20.12.tar.xz
 cd linux-4.20.12
 make mrproper
+read -p "Press [Enter] key to resume..."
 make INSTALL_HDR_PATH=dest headers_install
+read -p "Press [Enter] key to resume..."
 cp -rv dest/include/* /tools/include
 cd ..
 cd /mnt/lfs/sources
@@ -112,8 +114,11 @@ cd build
  --build=$(../scripts/config.guess) \
  --enable-kernel=3.2 \
  --with-headers=/tools/include
+ read -p "Press [Enter] key to resume..."
 make
+read -p "Press [Enter] key to resume..."
 make install
+read -p "Press [Enter] key to resume..."
 echo 'int main(){}' > dummy.c
 $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'

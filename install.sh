@@ -97,7 +97,7 @@ sudo mkdir -pv $LFS
 sudo mount -v -t ext4 /dev/sda1 $LFS 
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
-cd /mnt/lfs/sources 
+cd /mnt/lfs/sources
 sudo wget -i ~/Downloads/lfs-installer-lfs-8.4/wget-list.txt -P $LFS/sources
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /

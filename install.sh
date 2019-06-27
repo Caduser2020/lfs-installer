@@ -88,6 +88,11 @@ do
   esac
 done 
 export LFS=/mnt/lfs 
+if [ -d /mnt/lfs/sources ]
+then
+    sudo rm -Rf /mnt/lfs/sources
+    sudo rm -Rf /mnt/lfs/sources
+fi
 sudo mkdir -pv $LFS 
 sudo mount -v -t ext4 /dev/sda1 $LFS 
 sudo mkdir -v $LFS/sources 

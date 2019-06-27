@@ -28,9 +28,9 @@ echo $MYSH | grep -q bash || echo "ERROR: /bin/sh does not point to bash"
 unset MYSH
 echo -n "Binutils: "; ld --version | head -n1 | cut -d" " -f3-
 bison --version | head -n1
-if [ -h /usr/bin/yacc ]; then
+if [ /usr/bin/yacc -h]; then
 echo "/usr/bin/yacc -> `readlink -f /usr/bin/yacc`";
-elif [ -x /usr/bin/yacc ]; then
+elif [ /usr/bin/yacc  -x]; then
 echo yacc is `/usr/bin/yacc --version | head -n1`
 else
 echo "yacc not found"
@@ -103,4 +103,5 @@ sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
 cd ~/Downloads/lfs-installer-lfs-8.4
+sudo chown -v lfs ../lfs-installer-lfs-8.4
 sudo -u lfs bash build.sh

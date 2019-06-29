@@ -60,6 +60,12 @@ cd gcc-8.2.0
 # mv -v mpc-1.1.0 mpc
 
 ./contrib/download_prerequisites
+case $(uname -m) in
+ x86_64)
+ sed -e '/m64=/s/lib64/lib/' \
+ -i.orig gcc/config/i386/t-linux64
+ ;;
+esac
 cd ..
 mkdir objdir
 cd objdir

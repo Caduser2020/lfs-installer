@@ -33,7 +33,7 @@ export LFS LC_ALL LFS_TGT PATH
 EOF
 
 cd ~
-. ./.bash_profile
+source /.bash_profile
 cd /mnt/lfs/sources
 read -p "Press [Enter] key to resume..."
 tar xvf binutils-2.32.tar.xz
@@ -63,6 +63,19 @@ cd gcc-8.2.0
 # mv -v mpc-1.1.0 mpc
 
 ./contrib/download_prerequisites
+for file in gcc/config/{linux,i386/linux{,64}}.h
+do
+ cp -uv $file{,.orig}
+ sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g' \
+ -e 's@/usr@/tools@g' $file.orig > $file
+ echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
+#define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
+ touch $file.orig
+done
+
 case $(uname -m) in
  x86_64)
  sed -e '/m64=/s/lib64/lib/' \

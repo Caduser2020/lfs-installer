@@ -10,7 +10,7 @@ bash install.sh
 
 ### Prerequisites
 
-This script is validated for Red Hat based distros, such as:
+This script is validated for Red Hat based distributions, such as:
 * CentOS
 * Fedora
 * RHEL

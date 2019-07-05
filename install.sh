@@ -47,7 +47,7 @@ sudo mount -v -t ext4 /dev/sda1 $LFS
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
-sudo wget -i ~/Downloads/lfs-installer-lfs-8.4/wget-list.txt -P $LFS/sources
+sudo wget -i ~/Downloads/lfs-installer-dev/wget-list.txt -P $LFS/sources
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /
 sudo groupadd lfs
@@ -56,6 +56,6 @@ sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
-cd ~/Downloads/lfs-installer-lfs-8.4
-sudo chown -v lfs ../lfs-installer-lfs-8.4
+cd ~/Downloads/lfs-installer-dev
+sudo chown -v lfs ../lfs-installer-dev
 sudo -u lfs bash build.sh

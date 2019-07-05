@@ -32,7 +32,7 @@ PATH=/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TGT PATH 
 EOF
 
-cd ~
+cd ~/
 source /.bash_profile
 cd /mnt/lfs/sources
 read -p "Press [Enter] key to resume..."

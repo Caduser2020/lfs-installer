@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 sudo yum -y update
-sudo yum -y install bison byacc gawk gcc-c++ libmpfr-dev libmpfr-doc libmpfr4 libmpfr4-dbg make  patch texinfo
-bash version-check.sh
+sudo yum -y install bison byacc gcc-c++ patch texinfo
+sudo bash version-check.sh
 while true
 do
   # (1) prompt user, and read command line argument

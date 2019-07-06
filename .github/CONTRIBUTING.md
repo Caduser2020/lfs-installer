@@ -57,16 +57,28 @@ Explain the problem and include additional details to help maintainers reproduce
 * **Use a clear and descriptive title** for the issue to identify the problem.
 * **State the exact line in which the problem occurred and the error** in as many details as possible. For example, start by explaining how you started LFS installer, e.g. which command exactly you used in the terminal, or how you started LFS installer otherwise. When stating the line, do not only state the end error. e.g.
 ```
-checking dynamic linker characteristics... configure: error: Link tests are not allowed after GCC_NO_EXECUTABLES.
-Makefile:9590: recipe for target 'configure-zlib' failed
-make[1]: *** [configure-zlib] Error 1
-make[1]: Leaving directory '/home/usr/scr'
-Makefile:876: recipe for target 'all' failed
-make: *** [all] Error 2
+gcc -DALIASPATH=\"/mnt/lfs/usr/share/locale:.\"
+-DLOCALEDIR=\"/mnt/lfs/usr/share/locale\"
+-DLIBDIR=\"/mnt/lfs/usr/lib\"
+-DINCLUDEDIR=\"/mnt/lfs/usr/include\" -DHAVE_CONFIG_H -I. -I.
+-g -O2 -c getopt1.c
+gcc -g -O2 -static -o make ar.o arscan.o commands.o dir.o
+expand.o file.o function.o getopt.o implicit.o job.o main.o
+misc.o read.o remake.o rule.o signame.o variable.o vpath.o
+default.o remote-stub.o version.o opt1.o
+-lutil job.o: In function `load_too_high':
+/lfs/tmp/make-3.79.1/job.c:1565: undefined reference
+to `getloadavg'
+collect2: ld returned 1 exit status
+make[2]: *** [make] Error 1
+make[2]: Leaving directory `/lfs/tmp/make-3.79.1'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/lfs/tmp/make-3.79.1'
+make: *** [all-recursive-am] Error 2
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instead of 
 ```
-make: *** [all] Error 2
+make [2]: *** [make] Error 1
 ```
 * **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem. If you use the keyboard while following the steps, **record the GIF with** [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.

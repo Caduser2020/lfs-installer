@@ -33,7 +33,7 @@ export LFS LC_ALL LFS_TGT PATH
 EOF
 
 cd ~/
-source /.bash_profile
+source .bash_profile
 cd /mnt/lfs/sources
 read -p "Press [Enter] key to resume..."
 tar xvf binutils-2.32.tar.xz

@@ -16,6 +16,7 @@ The following is a set of guidelines for contributing to LFS-installer and its p
 
 [Style guides](#styleguides)
   * [Git Commit Messages](#git-commit-messages)
+  * [Bash Style Guide](#Bash-Style-Guide)
   * [Documentation Style guide](#documentation-styleguide)
 
 [Additional Notes](#additional-notes)
@@ -177,6 +178,11 @@ While the prerequisites above must be satisfied prior to have your pull request 
     * :arrow_up: `:arrow_up:` when upgrading dependencies
     * :arrow_down: `:arrow_down:` when downgrading dependencies
     * :shirt: `:shirt:` when removing linter warnings
+  
+### Bash Style Guide
+The total length of a line (including comment) must not exceed more than 88 characters.
+
+
   ## Additional Notes
 
 ### Issue and Pull Request Labels

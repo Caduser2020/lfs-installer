@@ -48,6 +48,10 @@ sudo mkdir -v $LFS/sources
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
 sudo wget -i ~/Downloads/lfs-installer-dev/wget-list.txt -P $LFS/sources
+mv ~/Downloads/lfs-installer-dev/md5sums $LFS/sources
+pushd $LFS/sources
+md5sum -c md5sums
+popd
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /
 sudo groupadd lfs

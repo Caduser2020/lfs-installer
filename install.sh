@@ -51,6 +51,7 @@ sudo wget -i ~/Downloads/lfs-installer-dev/wget-list.txt -P $LFS/sources
 mv ~/Downloads/lfs-installer-dev/md5sums $LFS/sources
 pushd $LFS/sources
 md5sum -c md5sums
+read -p "Press [Enter] key to resume..."
 popd
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /

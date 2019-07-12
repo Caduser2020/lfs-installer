@@ -87,7 +87,7 @@ Explain the problem and include additional details to help maintainers reproduce
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
 * **State the exact line in which the problem occurred and the error** in as many details as possible. For example, start by explaining how you started LFS installer, e.g. which command exactly you used in the terminal, or how you started LFS installer otherwise. When stating the line, do not only state the end error. e.g.
-```
+``` command-line
 gcc -DALIASPATH=\"/mnt/lfs/usr/share/locale:.\"
 -DLOCALEDIR=\"/mnt/lfs/usr/share/locale\"
 -DLIBDIR=\"/mnt/lfs/usr/lib\"
@@ -108,7 +108,7 @@ make[1]: Leaving directory `/lfs/tmp/make-3.79.1'
 make: *** [all-recursive-am] Error 2
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instead of 
-```
+``` command-line
 make [2]: *** [make] Error 1
 ```
 * **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).

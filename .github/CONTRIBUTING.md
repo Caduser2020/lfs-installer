@@ -8,7 +8,6 @@ The following is a set of guidelines for contributing to LFS-installer and its p
 
 [I don't want to read this whole thing, I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
 
-
 [What should I know before I get started?](#what-should-i-know-before-i-get-started)
   * [LFS Packages](#linux-from-scratch-packages)
 
@@ -45,7 +44,7 @@ From the [Linux From Scratch website]()
 
 LFS has a list of packages and patches which you should download. Please use the versions which are listed in the book (see the FAQ); these are tested versions which are known to work with each other. There are several ways to download the packages.
 
-Hunt and Peck
+#### Hunt and Peck
 When a package is not available from the location listed in the book, some other places to try are:
 
 * A search for the full package name in google or your favorite search engine
@@ -60,7 +59,7 @@ When a package is not available from the location listed in the book, some other
   * http://ftp.osuosl.org/pub/lfs/ (Corvallis, OR, USA, 100Mbps)
   * http://mirror.jaleco.com/lfs/pub/ (Washington, DC, USA, 1 Gbps)
   * http://mirrors-usa.go-parts.com/lfs (Michigan, USA, 1Gbps)
-  * Also available as ftp or rsync: ftp://mirrors-usa.go-parts.com/lfs and rsync://mirrors-usa.go-parts.com/lfs
+  * Also available as ftp or rsync: ftp://mirrors-usa.go-parts.com/lfs and [rsync://mirrors-usa.go-parts.com/lfs](rsync://mirrors-usa.go-parts.com/lfs) 
 
 
 

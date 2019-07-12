@@ -8,6 +8,10 @@ The following is a set of guidelines for contributing to LFS-installer and its p
 
 [I don't want to read this whole thing, I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
 
+
+[What should I know before I get started?](#what-should-i-know-before-i-get-started)
+  * [LFS Packages](#linux-from-scratch-packages)
+
 [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs)
   * [Suggesting Enhancements](#suggesting-enhancements)
@@ -17,7 +21,7 @@ The following is a set of guidelines for contributing to LFS-installer and its p
 [Style guides](#styleguides)
   * [Git Commit Messages](#git-commit-messages)
   * [Bash Style Guide](#Bash-Style-Guide)
-  * [Documentation Style guide](#documentation-styleguide)
+  * [Documentation Style guide](#documentation-style-guide)
 
 [Additional Notes](#additional-notes)
   * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
@@ -25,6 +29,7 @@ The following is a set of guidelines for contributing to LFS-installer and its p
 ## Code of Conduct
 
 This project and everyone participating in it are governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to the [project manager.](mailto:iposton73@outlook.com)
+
 ## I don't want to read this whole thing, I just have a question!!!
 
 > **Note:** Please don't file an issue to ask a question. You'll get faster results by using the resources below.
@@ -32,6 +37,32 @@ This project and everyone participating in it are governed by the [Contributor C
 We have an official detailed wiki where the community chimes in with helpful advice if you have questions.
 
 * [LFS installer Wiki](https://github.com/Caduser2020/lfs-installer/wiki)
+
+## What should I know before I get started?
+
+### Linux From Scratch Packages
+From the [Linux From Scratch website]()
+
+LFS has a list of packages and patches which you should download. Please use the versions which are listed in the book (see the FAQ); these are tested versions which are known to work with each other. There are several ways to download the packages.
+
+Hunt and Peck
+When a package is not available from the location listed in the book, some other places to try are:
+
+* A search for the full package name in google or your favorite search engine
+* Debian Package Search Page
+* filemirrors.com
+* Sources from your linux distro
+* LFS HTTP/FTP Sites
+* If the above methods are not available to you, the packages are also available in a tarball and individually on the following ftp and http mirrors. HLFS package tarballs and individual packages are also available on these mirrors.
+  * ftp://ftp.lfs-matrix.net/pub/lfs/ (Los Angeles, CA, USA, 200Mbps)
+  * http://ftp.lfs-matrix.net/pub/lfs/ (Los Angeles, CA, USA, 200Mbps)
+  * ftp://ftp.osuosl.org/pub/lfs/ (Corvallis, OR, USA, 100Mbps)
+  * http://ftp.osuosl.org/pub/lfs/ (Corvallis, OR, USA, 100Mbps)
+  * http://mirror.jaleco.com/lfs/pub/ (Washington, DC, USA, 1 Gbps)
+  * http://mirrors-usa.go-parts.com/lfs (Michigan, USA, 1Gbps)
+  * Also available as ftp or rsync: ftp://mirrors-usa.go-parts.com/lfs and rsync://mirrors-usa.go-parts.com/lfs
+
+
 
 ## How Can I Contribute?
 
@@ -172,18 +203,70 @@ While the prerequisites above must be satisfied prior to have your pull request 
     * :memo: `:memo:` when writing docs
     * :bug: `:bug:` when fixing a bug
     * :fire: `:fire:` when removing code or files
-    * :green_heart: `:green_heart:` when fixing the CI build
     * :white_check_mark: `:white_check_mark:` when adding tests
     * :lock: `:lock:` when dealing with security
-    * :arrow_up: `:arrow_up:` when upgrading dependencies
-    * :arrow_down: `:arrow_down:` when downgrading dependencies
+    * :arrow_up: `:arrow_up:` when upgrading packages
+    * :arrow_down: `:arrow_down:` when downgrading packages
     * :shirt: `:shirt:` when removing linter warnings
   
 ### Bash Style Guide
-The total length of a line (including comment) must not exceed more than 88 characters.
+
+* The total length of a line (including comment) must not exceed more than 88 characters.
+* The indentation of program constructions has to agree with the logic nesting depth.
+* Use comments correctly:
+  * Every file must be documented with an introductory comment that provides information on the filename and its contents:
+    > #!/bin/bash <br> # <br># Builds necessary packages for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. <br># Copyright (C) 2019 <br> <br># This program is free software: you can redistribute it and/or modify <br># it under the terms of the GNU Affero General Public License as published <br># by the Free Software Foundation, either version 3 of the License, or <br># (at your option) any later version. <br> <br># This program is distributed in the hope that it will be useful, <br># but WITHOUT ANY WARRANTY; without even the implied warranty of <br># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the <br># GNU Affero General Public License for more details. <br> <br># You should have received a copy of the GNU Affero General Public License <br># along with this program.  If not, see <https://www.gnu.org/licenses/> 
+  * Consecutive line end comments start in the same column. A blank will always follow the introductory
+character of the comment `#` to simplify the detection of the beginning of the word.
+    ```
+    found=0 # count links found
+    deleted=0 # count links deleted
+    ```
+  * If several lines form a section with interlinked instructions, such section must be provided with a section comment.
+  * Each function is described by an introductory comment. This comment contains the function name, a short description and the description of the parameters (if any). The name of the author and the date of issue should be added in case of subsequent amendments.
+  * For the scope and style of the comments the following applies:
+  
+    > Short, concise and sufficiently accurate.
+
+    Comprehensive descriptions are a matter of external documentation. The structure or the trick used is described only in exceptional cases. For instructions the following applies:
+
+    > The comment describes the purpose of the instruction.
+
+    The following comment is not particularly helpful as it repeats only what is indicated at the beginning of the line:
+    ```
+    [ "$logfile" != "" ] && $(> "$logfile") # variable $logfile empty ?
+    ```
+    The comment below, however, states the intention concisely:
+    ```
+    [ "$logfile" != "" ] && $(> "$logfile") # empty an existing logfile
+    ```
+* For variables meaningful, self-documenting names have to be used (such as `inputfile`). In names
+the first 31 characters have to be different. Long names are structured by underscores to improve legibility. <br>
+If a name is not self-documenting, the meaning and use must be described when it first occurs by a comment.
+* No constants must be included
+in the program text ! In particular numeral constants do not have another immediate meaning apart from their value. The meaning of the value will only become clear in the specific text context.
+* If possible, shell built-ins should be preferred to external utilities. Each call of sed, awk, cut etc. generates a new process. Used in a loop this can extend the execution time considerably.
+* <span id="11.1"></span> If a script with Bash call option -n is executed, the script commands are read but not executed:
+  ```
+  bash -n remove_ps.sh
+  ```
+  Such calls can be used for syntax check. However, only severe errors will be detected in this way. A mutilated key word (cho instead of echo), for example, will not be detected, since it might also be the name of a program or a function.
+* Test with Bash options
+  Command line option | set -o option | Meaning
+  -------- | -------- | --------
+  -n | noexec | Commands are not executed, only syntax check (see <a href="#11.1">above</a>.)
+  -v | verbose | Outputs the lines of a script before execution.
+  -x | xtrace | Outputs the lines of a script after replacements.
 
 
-  ## Additional Notes
+See [Bash Style Guide and Coding Standard - Fritz Mehner](https://lug.fh-swf.de/vim/vim-bash/StyleGuideShell.en.pdf) for more information.
+
+
+### Documentation Style Guide
+* Use [Markdown](https://guides.github.com/features/mastering-markdown/).
+* Use [TomDoc Documentation](tomdoc.org) and generate Markdown files using [Tomdoc.sh](https://github.com/tests-always-included/tomdoc.sh).
+
+## Additional Notes
 
 ### Issue and Pull Request Labels
 

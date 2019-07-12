@@ -40,7 +40,7 @@ We have an official detailed wiki where the community chimes in with helpful adv
 ## What should I know before I get started?
 
 ### Linux From Scratch Packages
-From the [Linux From Scratch website]()
+From the [Linux From Scratch website](http://linuxfromscratch.org/lfs/download.html#packages)
 
 LFS has a list of packages and patches which you should download. Please use the versions which are listed in the book (see the FAQ); these are tested versions which are known to work with each other. There are several ways to download the packages.
 

@@ -44,6 +44,7 @@ read -p "Press [Enter] key to resume..."
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 ./config.guess
+read -p "Press [Enter] key to resume..."
 mkdir -v build; cd build
 ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
 case $(uname -m) in

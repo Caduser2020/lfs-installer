@@ -17,6 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+shdir="$(dirname $_script)"
+if [$shdir != "$(dirname $_script)"]
+then
+  exit
+fi
+read -p "Press [Enter] key to resume..."
 sudo bash version-check.sh
 while true
 do
@@ -37,7 +44,7 @@ do
   esac
 done 
 export LFS=/mnt/lfs 
-if test '/mnt/lfs/sources' 
+if test -d '/mnt/lfs/sources' 
 then
     sudo rm -Rf /mnt/lfs/sources
     sudo rm -Rf /mnt/lfs/tools
@@ -47,8 +54,8 @@ sudo mount -v -t ext4 /dev/sda1 $LFS
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
-sudo wget -i ~/Downloads/lfs-installer-dev/wget-list.txt -P $LFS/sources
-mv ~/Downloads/lfs-installer-dev/md5sums $LFS/sources
+sudo wget -i $shdir/wget-list.txt -P $LFS/sources
+mv $shdir/md5sums $LFS/sources
 pushd $LFS/sources
 md5sum -c md5sums
 read -p "Press [Enter] key to resume..."
@@ -61,6 +68,6 @@ sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
-cd ~/Downloads/lfs-installer-dev
-sudo chown -v lfs ../lfs-installer-dev
-sudo -u lfs bash build.sh
+# cd $shdir
+sudo chown -v lfs $shdir
+sudo -u lfs bash $shdir/build.sh

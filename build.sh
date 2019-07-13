@@ -40,6 +40,7 @@ cd /mnt/lfs/sources
 if [$LFS != /mnt/lfs]
 then
   export LFS=/mnt/lfs
+fi
 read -p "Press [Enter] key to resume..."
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
@@ -119,8 +120,7 @@ make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-break
-echo 'Break failed'
+# FOR DEV ONLY
 exit
 cd ..
 pwd

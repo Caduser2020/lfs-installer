@@ -44,6 +44,8 @@ then
   export LFS=/mnt/lfs
 fi
 read -p "Press [Enter] key to resume..."
+
+#Build 
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 target_triplet=`./config.guess`
@@ -62,7 +64,9 @@ make install
 read -p "Press [Enter] key to resume..."
 cd ..
 rm -Rf build
+rm -Rf binutils-2.32
 cd /mnt/lfs/sources
+
 # Install Gcc
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
@@ -124,5 +128,6 @@ make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
+rm -Rf gcc-8.2.0
 # FOR DEV ONLY
 bash $shdir/build2.sh

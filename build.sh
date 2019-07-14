@@ -37,7 +37,7 @@ EOF
 cd ~/
 source .bash_profile
 cd /mnt/lfs/sources
-if [$LFS != /mnt/lfs]
+if [ $LFS != /mnt/lfs ]
 then
   export LFS=/mnt/lfs
 fi

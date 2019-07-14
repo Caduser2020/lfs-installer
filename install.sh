@@ -19,7 +19,7 @@ sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 shdir="$(dirname $_script)"
-if [$shdir != "$(dirname $_script)"]
+if [ $shdir != "$(dirname $_script)" ]
 then
   exit
 fi
@@ -44,10 +44,10 @@ do
   esac
 done 
 export LFS=/mnt/lfs 
-if test -d '/mnt/lfs/sources' 
+if test -d '/mnt/lfs/sources';
 then
-    sudo rm -Rf /mnt/lfs/sources
-    sudo rm -Rf /mnt/lfs/tools
+    sudo rm -Rf /mnt/lfs/sources;
+    sudo rm -Rf /mnt/lfs/tools;
 fi
 sudo mkdir -pv $LFS 
 sudo mount -v -t ext4 /dev/sda1 $LFS 
@@ -70,4 +70,5 @@ sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
 # cd $shdir
 sudo chown -v lfs $shdir
+sudo chmod 777 ./
 sudo -u lfs bash $shdir/build.sh

@@ -1,5 +1,6 @@
 #!/bin/bash
-
+#=================================================================================== 
+# 
 # Installs Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
 # Copyright (C) 2019
 
@@ -15,6 +16,7 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#=================================================================================== 
 sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
 _script="$(readlink -f ${BASH_SOURCE[0]})"

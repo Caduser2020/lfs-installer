@@ -67,10 +67,9 @@ make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd ..
+cd /mnt/lfs/sources
 # PRETTY D@MN IMPORTANT
 rm -Rf gcc-8.2.0
-cd /mnt/lfs/sources
 # Binutils pass 2
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
@@ -94,7 +93,7 @@ make -C ld clean
 read -p "Press [Enter] key to resume..."
 make -C ld LIB_PATH=/usr/lib:/lib
 cp -v ld/ld-new /tools/bin
-cd ..
+cd /mnt/lfs/sources
 rm -Rf binutils-2.32
 read -p "Press [Enter] key to resume..."
 

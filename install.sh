@@ -19,6 +19,7 @@ sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 shdir="$(dirname $_script)"
+export shdir
 if [ $shdir != "$(dirname $_script)" ]
 then
   exit

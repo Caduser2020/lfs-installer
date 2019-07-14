@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License 
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 #===================================================================================
-
-cd $LFS/sources
+cd mnt/lfs/sources
 if [ $LFS != /mnt/lfs ]
 then
     export LFS=/mnt/lfs
@@ -36,10 +35,10 @@ do
 
   # (2) handle the input we were given
   case $answer in
-   [yY]* )  rm -Rf binutils-2.32
-            rm -Rf gcc-8.2.0
-            rm -Rf linux-4.20.12
-            rm -Rf glibc-2.29 
+   [yY]* )  sudo rm -Rf binutils-2.32
+            sudo rm -Rf gcc-8.2.0
+            sudo rm -Rf linux-4.20.12
+            sudo rm -Rf glibc-2.29 
            break;;
 
    [nN]* ) break;;
@@ -71,7 +70,7 @@ read -p "Press [Enter] key to resume..."
 cd ..
 # PRETTY D@MN IMPORTANT
 rm -Rf gcc-8.2.0
-
+cd /mnt/lfs/sources
 # Binutils pass 2
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
@@ -93,7 +92,7 @@ make install
 read -p "Press [Enter] key to resume..."
 make -C ld clean
 read -p "Press [Enter] key to resume..."
-make -c ld LIB_PATH=/usr/lib:/lib
+make -C ld LIB_PATH=/usr/lib:/lib
 cp -v ld/ld-new /tools/bin
 cd ..
 rm -Rf binutils-2.32

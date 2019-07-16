@@ -29,7 +29,6 @@ fi
 if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `$shdir`"; fi
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
-rm -Rf objdir
 cd /mnt/lfs/sources
 
 tar xvf linux-4.20.12.tar.xz

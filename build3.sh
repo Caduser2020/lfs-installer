@@ -101,6 +101,10 @@ read -p "Press [Enter] key to resume..."
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
 
+unset LIBRARY_PATH
+LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+export LIBRARY_PATH
+
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
 `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h
 read -p "Press [Enter] key to resume..."

@@ -28,6 +28,8 @@ if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
+# DEV NOTE: REMOVE THIS IN NEXT UPDATE
+
 while true
 do
   # (1) prompt user, and read command line argument
@@ -48,7 +50,7 @@ do
 done 
 
 # NOTE TO DEV: Move libstdc++ to build2.sh
-
+cd mnt/lfs/sources
 # Unpack the gcc tarball again
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
@@ -157,3 +159,5 @@ cc dummy.c
 readelf -l a.out | grep ': /tools'
 echo $PATH
 rm -v dummy.c a.out
+
+bash build4.sh

@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License 
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 #===================================================================================
-cd mnt/lfs/sources
+cd /mnt/lfs/sources
 if [ $LFS != /mnt/lfs ]
 then
     export LFS=/mnt/lfs
@@ -32,14 +32,14 @@ cd mnt/lfs/sources
 # Tcl-8.6.9 || Contains the Tool Command Language || 0.9 SBUs
 # NOTE: 
 tar xvf tcl8.6.9-src.tar.gz
-cd tcl8.6.9-src
+cd tcl8.6.9
 cd unix
 ./configure --prefix=/tools
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
 # As this test may fail under certain host conditions, this test may be removed in a feature version of LFS-installer.
-TZ=UTC make test
+# TZ=UTC make test
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
@@ -48,7 +48,7 @@ make install-private-headers
 ln -sv tclsh8.6 /tools/bin/tclsh
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
-rm -Rf tcl8.6.9-src
+rm -Rf tcl8.6.9
 
 # Expect5.45.4 || Contains a program for carrying out scripted dialogues with other interactive programs || 0.1 SBUs
 tar xvf expect5.45.4.tar.gz
@@ -84,4 +84,4 @@ read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf dejagnu-1.6.2
 
-# bash build5.sh
+bash build5.sh

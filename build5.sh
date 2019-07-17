@@ -18,8 +18,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 #===================================================================================
 
+cd /mnt/lfs/sources
+if [ $LFS != /mnt/lfs ]
+then
+    export LFS=/mnt/lfs
+else
+    echo '\$LFS is set to /mnt/lfs'
+fi
+if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `$shdir`"; fi
+echo 'PATH is `pwd`'
+read -p "Press [Enter] key to resume..."
+
 # M4-1.4.18 || Contains a macro-processor || 0.2 SBUs
-tar xvf m4-1.4.18.tar.gz
+tar xvf m4-1.4.18.tar.xz
 cd m4-1.4.18
 sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/*.c
 echo "#define _IO_IN_BACKUP 0x100" >> lib/stdio-impl.h
@@ -71,8 +82,6 @@ cd bison-3.3.2
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
-make check
-read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
@@ -94,8 +103,6 @@ cd coreutils-8.30
 ./configure --prefix=/tools --enable-install-program=hostname
 read -p "Press [Enter] key to resume..."
 make -j4
-read -p "Press [Enter] key to resume..."
-make RUN_EXPENSIVE_TESTS=yes check
 read -p "Press [Enter] key to resume..."
 make install 
 read -p "Press [Enter] key to resume..."

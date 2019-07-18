@@ -300,3 +300,5 @@ make install
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf xz-5.2.4
+
+bash build.sh

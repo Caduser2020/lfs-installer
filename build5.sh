@@ -303,4 +303,4 @@ rm -Rf xz-5.2.4
 
 # bash strip.sh
 
-chown -R root:root $LFS/tools
+su - 

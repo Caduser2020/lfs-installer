@@ -250,7 +250,7 @@ SED=sed \
 --disable-libmpx \
 --with-system-zlib
 read -p "Press [Enter] key to resume..."
-make -j4
+make
 read -p "Press [Enter] key to resume..."
 ulimit -s 32768
 rm ../gcc/testsuite/g++.dg/pr83239.C

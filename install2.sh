@@ -26,11 +26,12 @@ then
 else
     echo '\$LFS is set to /mnt/lfs'
 fi
-if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `$shdir`"; fi
+if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $($shdir)"; fi
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
 chown -R root:root $LFS/tools
+mkdir -pv $LFS/{dev,proc,sys,run}
 mknod -m 600 $LFS/dev/console c 5 1
 mknod -m 666 $LFS/dev/null c 1 3
 mount -v --bind /dev $LFS/dev

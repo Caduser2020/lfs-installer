@@ -286,6 +286,8 @@ read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf file-5.36
 
+
+read -p "Press [Enter] key to resume..."
 cd $shdir
 
 bash install3.sh

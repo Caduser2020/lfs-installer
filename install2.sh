@@ -19,6 +19,8 @@
 # 
 #===================================================================================
 
+$shdir=`pwd`
+
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v utmp /var/log/lastlog
 chmod -v 664 /var/log/lastlog
@@ -44,7 +46,6 @@ rm -Rf linux-4.20.12
 tar xvf man-pages-4.16.tar.xz
 cd man-pages-4.16
 make install
-read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf man-pages-4.16
 

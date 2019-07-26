@@ -19,39 +19,6 @@
 # 
 #===================================================================================
 
-cd /mnt/lfs/sources
-if [ $LFS != /mnt/lfs ]
-then
-    export LFS=/mnt/lfs
-else
-    echo '\$LFS is set to /mnt/lfs'
-fi
-if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $($shdir)"; fi
-echo 'PATH is `pwd`'
-read -p "Press [Enter] key to resume..."
-
-chown -R root:root $LFS/tools
-mkdir -pv $LFS/{dev,proc,sys,run}
-mknod -m 600 $LFS/dev/console c 5 1
-mknod -m 666 $LFS/dev/null c 1 3
-mount -v --bind /dev $LFS/dev
-mount -vt devpts devpts $LFS/dev/pts -o gid=5,mode=620
-mount -vt proc proc $LFS/proc
-mount -vt sysfs sysfs $LFS/sys
-mount -vt tmpfs tmpfs $LFS/run
-if [ -h $LFS/dev/shm ]; then
-mkdir -pv $LFS/$(readlink $LFS/dev/shm)
-fi
-
-read -p "Press [Enter] key to resume..."
-chroot "$LFS" /tools/bin/env -i \
-HOME=/root \
-TERM="$TERM" \
-PS1='(lfs chroot) \u:\w\$ ' \
-PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
-/tools/bin/bash --login +h
-read -p "Press [Enter] key to resume..."
-
 mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib/firmware,mnt,opt}
 mkdir -pv /{media/{floppy,cdrom},sbin,srv,var}
 install -dv -m 0750 /root

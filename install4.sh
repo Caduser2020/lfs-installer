@@ -19,7 +19,7 @@
 # 
 #===================================================================================
 
-cd /mnt/lfs/sources
+cd /sources
 if [ $LFS != /mnt/lfs ]
 then
     export LFS=/mnt/lfs
@@ -49,7 +49,7 @@ rm -v /usr/bin/{bunzip2,bzcat,bzip2}
 ln -sv bzip2 /bin/bunzip2
 ln -sv bzip2 /bin/bzcat
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf bzip2-1.0.6
 
 # Pkg-config-0.29.2 || Returns meta information for the specified library or package || 0.3 SBUs
@@ -66,7 +66,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf pkg-config-0.29.2
 
 # Ncurses-6.1 || Contains libraries for terminal-independent handling of character screens || 0.3 SBUs
@@ -98,7 +98,7 @@ ln -sfv libncurses.so /usr/lib/libcurses.so
 mkdir -v /usr/share/doc/ncurses-6.1
 cp -v -R doc/* /usr/share/doc/ncurses-6.1
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf ncurses-6.1
 
 # Attr-2.4.48 || Extends attributes on filesystem objects || 0.3 SBUs
@@ -119,7 +119,7 @@ read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libattr.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libattr.so) /usr/lib/libattr.so
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf attr-2.4.48
 
 # Acl-2.2.53 || contains utilities to administer Access Control Lists || 0.1 SBUs
@@ -138,7 +138,7 @@ read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libacl.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf acl-2.2.53
 
 # Libcap-2.26 || Contains the library functions for manipulating POSIX 1003.1e capabilities || 0.1 SBUs
@@ -154,7 +154,7 @@ read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libcap.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libcap.so) /usr/lib/libcap.so
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf libcap-2.26
 
 # Sed-4.7 || Filters and transforms text files in a single pass || 0.3 SBUs
@@ -174,7 +174,7 @@ read -p "Press [Enter] key to resume..."
 install -d -m755 /usr/share/doc/sed-4.7
 install -m644 doc/sed.html /usr/share/doc/sed-4.7
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf sed-4.7
 
 # Iana-etc-2.30 || Provides data for network services and protocol || 0.1 SBUs
@@ -184,7 +184,7 @@ make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf iana-etc-2.30
 
 # Bison-3.3.2 || Contains a parser generator || 0.3 SBUs
@@ -196,7 +196,7 @@ make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf bison-3.3.2
 
 # flex-2.6.4 || A tool for generating programs that recognize patterns in text || 0.4 SBUs
@@ -213,7 +213,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 ln -sv flex /usr/bin/lex
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf flex-2.6.4
 
 # Grep-3.3 || Contains programs for searching through files || 0.4 SBUs
@@ -227,7 +227,7 @@ make -k check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf grep-3.3
 
 # bash-5.0 || A widely-used command interpreter || 1.7 SBUs
@@ -248,7 +248,7 @@ read -p "Press [Enter] key to resume..."
 mv -vf /usr/bin/bash /bin
 exec /bin/bash --login +h
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf bash-5.0
 
 # Libtool-2.4.6 || Provides generalized library-building support services || 1.5 SBUs
@@ -262,7 +262,7 @@ make check TESTSUITEFLAGS=-j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf libtool-2.4.6
 
 # Gdbm-1.18.1 || Contains functions to manipulate a hashed database || 0.1 SBUs
@@ -278,7 +278,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gdbm-1.18.1
 
 # Gperf-3.1 || Generates a perfect hash from a key set || 0.1 SBUs
@@ -292,7 +292,7 @@ make -j1 check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gperf-3.1
 
 # Expat-2.2.6 || Contains API functions for parsing XML || 0.1 SBUs
@@ -310,7 +310,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 install -v -m644 doc/*.{html,png,css} /usr/share/doc/expat-2.2.6
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf expat-2.2.6
 
 # inetutils-1.9.4 || Contains programs for basic networking || 0.3 SBUs
@@ -334,7 +334,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/bin/{hostname,ping,ping6,traceroute} /bin
 mv -v /usr/bin/ifconfig /sbin
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf inetutils-1.9.4
 
 # Perl-5.28.1 || Contains the Practical Extraction and Report Language || 7.1 SBUs
@@ -358,7 +358,7 @@ read -p "Press [Enter] key to resume..."
 read -p "Press [Enter] key to resume..."
 make install
 unset BUILD_ZLIB BUILD_BZIP2
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf perl-5.28.1
 
 # XML-Parser-2.44 || Provides the Perl Expat interface|| 0.1 SBUs
@@ -371,7 +371,7 @@ read -p "Press [Enter] key to resume..."
 make test
 read -p "Press [Enter] key to resume..."
 make install
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf XML-Parser-2.44
 
 # Intltool-0.51.0 || Internationalization tool used for extracting translatable strings from source files || 0.1 SBUs
@@ -386,7 +386,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 install -v -Dm644 doc/I18N-HOWTO /usr/share/doc/intltool-0.51.0/I18N-HOWTO
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf intltool-0.51.0
 
 # Autoconf-2.69 || Contains programs for producing shell scripts that can automatically configure source code || 0.1 SBUs
@@ -401,7 +401,7 @@ read -p "Press [Enter] key to resume..."
 # make check
 read -p "Press [Enter] key to resume..."
 make install
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf autoconf-2.69
 
 # Automake-1.16.1 || A tool for automatically generating Makefile.in files from Makefile.am files || 0.1 SBUs
@@ -414,7 +414,7 @@ read -p "Press [Enter] key to resume..."
 make -j4 check
 read -p "Press [Enter] key to resume..."
 make install
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf automake-1.16.1
 
 # Xz-5.2.4 || Contains programs for compressing and decompressing files || 0.2 SBUs
@@ -432,7 +432,7 @@ make install
 mv -v /usr/bin/{lzma,unlzma,lzcat,xz,unxz,xzcat} /bin
 mv -v /usr/lib/liblzma.so.* /lib
 ln -svf ../../lib/$(readlink /usr/lib/liblzma.so) /usr/lib/liblzma.so
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf xz-5.2.4
 
 # Kmod-26 || Contains libraries and utilities for loading kernel modules || 0.1 SBUs
@@ -452,7 +452,7 @@ for target in depmod insmod lsmod modinfo modprobe rmmod; do
 ln -sfv ../bin/kmod /sbin/$target
 done
 ln -sfv kmod /bin/lsmod
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf kmod-26
 
 # Gettext-0.19.8.1 || Translates a natural language message into the user's language by looking up the translation in a message catalog || 2.0 SBUs
@@ -472,7 +472,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gettext-0.19.8.1
 
 # Elfutils-0.176 || For handling ELF (Executable and Linkable Format) files || 1.3 SBUs
@@ -486,7 +486,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make -C libelf install
 install -vm644 config/libelf.pc /usr/lib/pkgconfig
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf elfutils-0.176
 
 # Libffi-3.2.1 || Provides a portable, high level programming interface to various calling conventions || 0.3 SBUs
@@ -504,7 +504,7 @@ read -p "Press [Enter] key to resume..."
 make check
 read -p "Press [Enter] key to resume..."
 make install
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf libffi-3.2.1
 
 # Openssl-1.1.1a || Contains management tools and libraries relating to cryptography || 1.7 SBUs
@@ -525,7 +525,7 @@ make MANSUFFIX=ssl install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1a
 cp -vfr doc/* /usr/share/doc/openssl-1.1.1a
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf openssl-1.1.1a
 
 # Python-3.7.2 || Contains the Python development environment || 1.0 SBUs
@@ -550,7 +550,7 @@ tar --strip-components=1 \
 -C /usr/share/doc/python-3.7.2/html \
 -xvf ../python-3.7.2-docs-html.tar.bz2
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf Python-3.7.2
 
 # Ninja-1.9.0 || A small build system with a focus on speed || 0.2 SBUs
@@ -573,7 +573,7 @@ install -vm755 ninja /usr/bin/
 install -vDm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 install -vDm644 misc/zsh-completion /usr/share/zsh/site-functions/_ninja
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf ninja-1.9.0
 
 # Meson-0.49.2 || A small build system with a focus on speed || 0.2 SBUs
@@ -585,7 +585,7 @@ read -p "Press [Enter] key to resume..."
 python3 setup.py install --root=dest
 cp -rv dest/* /
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf meson-0.49.2
 
 # Coreutils-8.30 || Contains utilities for showing and setting the basic system characteristics || 2.6 SBUs
@@ -617,7 +617,7 @@ mv -v /usr/bin/chroot /usr/sbin
 mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 sed -i s/\"1\"/\"8\"/1 /usr/share/man/man8/chroot.8
 mv -v /usr/bin/{head,nice,sleep,touch} /bin
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf coreutils-8.30
 
 # Check-0.12.0 || A unit testing framework for C || 0.1 SBUs
@@ -633,7 +633,7 @@ read -p "Press [Enter] key to resume..."
 make install
 sed -i '1 s/tools/usr/' /usr/bin/checkmk
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf check-0.12.0
 
 # Diffutils-3.7 || Compares two files or directories and reports which lines in the files differ || 0.3 SBUs
@@ -647,7 +647,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf diffutils-3.7
 
 # Gawk-4.2.1 || A program for manipulating text files || 0.3 SBUs
@@ -664,7 +664,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mkdir -v /usr/share/doc/gawk-4.2.1
 cp -v doc/{awkforai.txt,*.{eps,pdf,jpg}} /usr/share/doc/gawk-4.2.1
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gawk-4.2.1
 
 # Findutils-4.6.0 || Contains programs to find files || 0.6 SBUs
@@ -684,7 +684,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/bin/find /bin
 sed -i 's|find:=${BINDIR}|find:=/bin|' /usr/bin/updatedb
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf findutils-4.6.0
 
 # Groff-1.22.4 || Contains programs for processing and formatting text || 0.4 SBUs
@@ -696,7 +696,7 @@ make -j1
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf groff-1.22.4
 
 # GRUB-2.02 || Contains the GRand Unified Bootloader || 0.6 SBUs
@@ -713,7 +713,7 @@ read -p "Press [Enter] key to resume..."
 make install
 mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf grub-2.02
 
 # Less-530 || A file viewer or pager || 0.1 SBUs
@@ -725,7 +725,7 @@ make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf less-530
 
 # Gzip-1.10 || Contains programs for compressing and decompressing files || 0.1 SBUs
@@ -740,7 +740,7 @@ read -p "Press [Enter] key to resume..."
 make install
 mv -v /usr/bin/gzip /bin
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gzip-1.10
 
 # iproute2-4.20.0 || Contains programs for basic and advanced IPV4-based networking || 0.2 SBUs
@@ -754,7 +754,7 @@ make
 read -p "Press [Enter] key to resume..."
 make DOCDIR=/usr/share/doc/iproute2-4.20.0 install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf iproute2-4.20.0
 
 # Kbd-2.0.4 || Contains key-table files, console fonts, and keyboard utilities || 0.1 SBUs
@@ -773,7 +773,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mkdir -v /usr/share/doc/kbd-2.0.4
 cp -R -v docs/doc/* /usr/share/doc/kbd-2.0.4
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf kbd-2.0.4
 
 # Libpipeline-1.5.1 || This library is used to safely construct pipelines between subprocesses || 0.1 SBUs
@@ -787,7 +787,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf libpipeline-1.5.1
 
 # Make-4.2.1 || Contains a program for compiling packages || 0.1 SBUs
@@ -802,7 +802,7 @@ make PERL5LIB=$PWD/tests/ check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf make-4.2.1
 
 # Patch-2.7.6 || Modifies files according to a patch file || 0.2 SBUs
@@ -816,7 +816,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf patch-2.7.6
 
 # Man-DB-2.8.5 || contains programs for finding and viewing man pages || 0.3 SBUs
@@ -839,7 +839,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf man-db-2.8.5
 
 # Tar-1.31 || Creates, extracts files from, and lists the contents of archives || 1.7 SBUs
@@ -857,7 +857,7 @@ read -p "Press [Enter] key to resume..."
 make install
 make -C doc install-html docdir=/usr/share/doc/tar-1.31
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf tar-1.31
 
 # Texinfo-6.5 || Contains programs for reading, writing, and converting info pages || 0.9 SBUs
@@ -880,7 +880,7 @@ do install-info $f dir 2>/dev/null
 done
 popd
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf texinfo-6.5
 
 # Vim-8.1 || Contains a powerful text editor || 1.3 SBUs
@@ -901,7 +901,7 @@ done
 read -p "Press [Enter] key to resume..."
 ln -sv ../vim/vim81/doc /usr/share/doc/vim-8.1
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf vim-8.1
 
 # Procps-ng-3.3.15 || Contains programs for monitoring processes || 0.1 SBUs
@@ -925,7 +925,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libprocps.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libprocps.so) /usr/lib/libprocps.so
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf procps-ng-3.3.15
 
 # Util-linux-2.33.1 || Contains miscellaneous utility programs || 1.5 SBUs
@@ -955,7 +955,7 @@ read -p "Press [Enter] key to resume..."
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf util-linux-2.33.1
 
 # E2fsprogs-1.44.5 || Contains the utilities for handling the ext2 file system || 1.6 SBUs
@@ -990,7 +990,7 @@ makeinfo -o doc/com_err.info ../lib/et/com_err.texinfo
 install -v -m644 doc/com_err.info /usr/share/info
 install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf e2fsprogs-1.44.5
 
 # Sysklogd-1.5.1 || Contains programs for logging system messages || 0.1 SBUs
@@ -1015,7 +1015,7 @@ user.* -/var/log/user.log
 # End /etc/syslog.conf
 EOF
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf sysklogd-1.5.1
 
 # Sysvinit-2.93 || Contains programs for controlling the startup, running, and shutdown of the system || 0.1 SBUs
@@ -1027,7 +1027,7 @@ make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf sysvinit-2.93
 
 # Eudev-3.2.7 || Contains programs for dynamic creation of device nodes || 0.2 SBUs
@@ -1062,5 +1062,5 @@ tar -xvf ../udev-lfs-20171102.tar.bz2
 make -f udev-lfs-20171102/Makefile.lfs install
 read -p "Press [Enter] key to resume..."
 LD_LIBRARY_PATH=/tools/lib udevadm hwdb --update
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf eudev-3.2.7

@@ -25,7 +25,7 @@ chmod -v 664 /var/log/lastlog
 chmod -v 600 /var/log/btmp
 read -p "Press [Enter] key to resume..."
 
-cd /mnt/lfs/sources
+cd /sources
 # Linux-4.20.12 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
 tar xvf linux-4.20.12.tar.xz
 cd linux-3.8.1
@@ -36,7 +36,7 @@ read -p "Press [Enter] key to resume..."
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
 cp -rv dest/include/* /usr/include
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf linux-4.20.12
 
 
@@ -45,7 +45,7 @@ tar xvf man-pages-4.16.tar.xz
 cd man-pages-4.16
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf man-pages-4.16
 
 # Glibc-2.29 || contains main C library || 22 SBUs(lol)
@@ -132,7 +132,7 @@ cat >> /etc/ld.so.conf << "EOF"
 include /etc/ld.so.conf.d/*.conf
 EOF
 mkdir -pv /etc/ld.so.conf.d
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf glibc-2.29
 
 # Adjusting the Toolchain
@@ -172,7 +172,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libz.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libz.so) /usr/lib/libz.so
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf zlib-1.2.11
 
 # File-5.36 || Tries to classify each given file || 0.1 SBUs
@@ -186,7 +186,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf file-5.36
 
 

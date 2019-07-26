@@ -19,7 +19,7 @@
 # 
 #===================================================================================
 
-cd /mnt/lfs/sources
+cd /sources
 if [ $LFS != /mnt/lfs ]
 then
     export LFS=/mnt/lfs
@@ -41,7 +41,7 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libz.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libz.so) /usr/lib/libz.so
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf zlib-1.2.11
 
 # File-5.36 || Tries to classify each given file || 0.1 SBUs
@@ -55,7 +55,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf file-5.36
 
 # Readline-8.0 || A set of libraries that offers command-line editing and history capabilitiese || 0.1 SBUs
@@ -77,7 +77,7 @@ ln -sfv ../../lib/$(readlink /usr/lib/libreadline.so) /usr/lib/libreadline.so
 ln -sfv ../../lib/$(readlink /usr/lib/libhistory.so ) /usr/lib/libhistory.so
 install -v -m644 doc/*.{ps,pdf,html,dvi} /usr/share/doc/readline-8.0
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf readline-8.0
 
 # M4-1.4.18 || Copies the given files while expanding the macros that they contain || 0.4 SBUs
@@ -93,7 +93,7 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf m4-1.4.18
 
 # Bc-1.07.1 || A command line calculator & A reverse-polish command line calculator || 0.1 SBUs
@@ -123,7 +123,7 @@ echo "quit" | ./bc/bc -l Test/checklib.b
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf bc-1.07.1
 
 # Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 6.9 SBUs
@@ -147,7 +147,7 @@ make -k check
 read -p "Press [Enter] key to resume..."
 make tooldir=/usr install
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf binutils-2.32
 
 # Gmp-6.1.2 || Contains precision math functions || 1.3 SBUs
@@ -167,7 +167,7 @@ read -p "Press [Enter] key to resume..."
 make install
 make install-html
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gmp-6.1.2
 
 # Mpfr-4.0.2 || Contains multiple-precision math functions || 1.0 SBUs
@@ -186,7 +186,7 @@ read -p "Press [Enter] key to resume..."
 make install
 make install-html
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf mpfr-4.0.2
 
 # Mpc-1.1.0 || Contains complex math functions || 0.3 SBUs
@@ -204,7 +204,7 @@ read -p "Press [Enter] key to resume..."
 make install
 make install-html
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf mpc-1.1.0
 
 # shadow-4.6 || Contains programs for handling passwords in a secure way || 0.2 SBUs
@@ -224,7 +224,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/bin/passwd /bin
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf shadow-4.6
 pwconv
 grpconv
@@ -265,7 +265,7 @@ ln -sv gcc /usr/bin/cc
 install -v -dm755 /usr/lib/bfd-plugins
 ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/8.2.0/liblto_plugin.so \
 /usr/lib/bfd-plugins/
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gcc-8.2.0
 echo 'int main(){}' > dummy.c
 cc dummy.c -v -Wl,--verbose &> dummy.log
@@ -284,6 +284,6 @@ read -p "Press [Enter] key to resume..."
 rm -v dummy.c a.out dummy.log
 mkdir -pv /usr/share/gdb/auto-load/usr/lib
 mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf gcc-8.2.0
 

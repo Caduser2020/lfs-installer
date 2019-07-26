@@ -19,7 +19,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 # 
 #===================================================================================
-cd /mnt/lfs/sources
+cd /sources
 
 wget http://www.sudo.ws/dist/sudo-1.8.27.tar.gz
 wget https://ftp.gnu.org/gnu/wget/wget-1.20.1.tar.gz
@@ -45,7 +45,7 @@ cat > /etc/sudoers.d/sudo << "EOF"
 Defaults secure_path="/usr/bin:/bin:/usr/sbin:/sbin"
 %wheel ALL=(ALL) ALL
 EOF
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf sudo-1.8.27
 
 # Wget-1.20.1 || Contains a utility for downloading files from the Web || 0.4 SBUs
@@ -59,7 +59,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf sudo-1.8.27
 
 # Sudo-1.8.27 || allows a user to run some (or all) commands as root || 0.4 SBUs
@@ -97,5 +97,5 @@ GPMOPTS="<additional options>"
 # End /etc/sysconfig/mouse
 EOF
 read -p "Press [Enter] key to resume..."
-cd /mnt/lfs/sources
+cd /sources
 rm -Rf sudo-1.8.27

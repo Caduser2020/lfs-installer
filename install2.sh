@@ -28,7 +28,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 # Linux-4.20.12 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
 tar xvf linux-4.20.12.tar.xz
-cd linux-3.8.1
+cd linux-4.20.12
 make mrproper
 read -p "Press [Enter] key to resume..."
 make INSTALL_HDR_PATH=dest headers_install
@@ -48,7 +48,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf man-pages-4.16
 
-# Glibc-2.29 || contains main C library || 22 SBUs(lol)
+# Glibc-2.29 || contains main C library || 22 SBUs
 tar xvf glibc-2.29.tar.xz
 cd glibc-2.29
 patch -Np1 -i ../glibc-2.29-fhs-1.patch

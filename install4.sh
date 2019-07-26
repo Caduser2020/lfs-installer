@@ -928,3 +928,139 @@ ln -sfv ../../lib/$(readlink /usr/lib/libprocps.so) /usr/lib/libprocps.so
 cd /mnt/lfs/sources
 rm -Rf procps-ng-3.3.15
 
+# Util-linux-2.33.1 || Contains miscellaneous utility programs || 1.5 SBUs
+tar xvf util-linux-2.33.1.tar.xz
+cd util-linux-2.33.1
+mkdir -pv /var/lib/hwclock
+rm -vf /usr/include/{blkid,libmount,uuid}
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime \
+--docdir=/usr/share/doc/util-linux-2.33.1 \
+--disable-chfn-chsh \
+--disable-login \
+--disable-nologin \
+--disable-su \
+--disable-setpriv \
+--disable-runuser \
+--disable-pylibmount \
+--disable-static \
+--without-python \
+--without-systemd \
+--without-systemdsystemunitdir
+read -p "Press [Enter] key to resume..."
+make
+read -p "Press [Enter] key to resume..."
+#  RUNNING THE TEST SUITE CAN BE HARMFUL TO YOUR SYSTEM || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# chown -Rv nobody .
+# su nobody -s /bin/bash -c "PATH=$PATH make -k check"
+read -p "Press [Enter] key to resume..."
+make install
+read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources
+rm -Rf util-linux-2.33.1
+
+# E2fsprogs-1.44.5 || Contains the utilities for handling the ext2 file system || 1.6 SBUs
+tar xvf e2fsprogs-1.44.5.tar.gz
+cd e2fsprogs-1.44.5
+mkdir -v build
+cd build
+Prepare E2fsprogs for compilation:
+../configure --prefix=/usr \
+--bindir=/bin \
+--with-root-prefix="" \
+--enable-elf-shlibs \
+--disable-libblkid \
+--disable-libuuid \
+--disable-uuidd \
+--disable-fsck
+read -p "Press [Enter] key to resume..."
+make
+read -p "Press [Enter] key to resume..."
+# One of the E2fsprogs tests will attempt to allocate 256 MB of memory. If you do not have significantly more RAM
+than this, be sure to enable sufficient swap space for the test.
+make check
+read -p "Press [Enter] key to resume..."
+make install
+read -p "Press [Enter] key to resume..."
+make install-libs
+chmod -v u+w /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+read -p "Press [Enter] key to resume..."
+gunzip -v /usr/share/info/libext2fs.info.gz
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
+makeinfo -o doc/com_err.info ../lib/et/com_err.texinfo
+install -v -m644 doc/com_err.info /usr/share/info
+install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
+read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources
+rm -Rf e2fsprogs-1.44.5
+
+# Sysklogd-1.5.1 || Contains programs for logging system messages || 0.1 SBUs
+tar xvf sysklogd-1.5.1.tar.gz
+cd sysklogd-1.5.1
+sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
+sed -i 's/union wait/int/' syslogd.c
+read -p "Press [Enter] key to resume..."
+make
+read -p "Press [Enter] key to resume..."
+make BINDIR=/sbin install
+read -p "Press [Enter] key to resume..."
+cat > /etc/syslog.conf << "EOF"
+# Begin /etc/syslog.conf
+auth,authpriv.* -/var/log/auth.log
+*.*;auth,authpriv.none -/var/log/sys.log
+daemon.* -/var/log/daemon.log
+kern.* -/var/log/kern.log
+mail.* -/var/log/mail.log
+user.* -/var/log/user.log
+*.emerg *
+# End /etc/syslog.conf
+EOF
+read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources
+rm -Rf sysklogd-1.5.1
+
+# Sysvinit-2.93 || Contains programs for controlling the startup, running, and shutdown of the system || 0.1 SBUs
+tar xvf sysvinit-2.93.tar.xz
+cd sysvinit-2.93
+patch -Np1 -i ../sysvinit-2.93-consolidated-1.patch
+read -p "Press [Enter] key to resume..."
+make
+read -p "Press [Enter] key to resume..."
+make install
+read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources
+rm -Rf sysvinit-2.93
+
+# Eudev-3.2.7 || Contains programs for dynamic creation of device nodes || 0.2 SBUs
+tar xvf eudev-3.2.7.tar.gz
+cd eudev-3.2.7
+cat > config.cache << "EOF"
+HAVE_BLKID=1
+BLKID_LIBS="-lblkid"
+BLKID_CFLAGS="-I/tools/include"
+EOF
+./configure --prefix=/usr \
+--bindir=/sbin \
+--sbindir=/sbin \
+--libdir=/usr/lib \
+--sysconfdir=/etc \
+--libexecdir=/lib \
+--with-rootprefix= \
+--with-rootlibdir=/lib \
+--enable-manpages \
+--disable-static \
+--config-cache
+read -p "Press [Enter] key to resume..."
+LIBRARY_PATH=/tools/lib make
+read -p "Press [Enter] key to resume..."
+mkdir -pv /lib/udev/rules.d
+mkdir -pv /etc/udev/rules.d
+make LD_LIBRARY_PATH=/tools/lib check
+read -p "Press [Enter] key to resume..."
+make LD_LIBRARY_PATH=/tools/lib install
+read -p "Press [Enter] key to resume..."
+tar -xvf ../udev-lfs-20171102.tar.bz2
+make -f udev-lfs-20171102/Makefile.lfs install
+read -p "Press [Enter] key to resume..."
+LD_LIBRARY_PATH=/tools/lib udevadm hwdb --update
+cd /mnt/lfs/sources
+rm -Rf eudev-3.2.7

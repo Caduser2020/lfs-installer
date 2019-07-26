@@ -30,33 +30,6 @@ if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
-# Zlib-1.2.11 || Contains compression and decompression functions used by some programs || less than 0.1 SBUs
-tar xvf zlib-1.2.11.tar.xz
-cd zlib-1.2.11
-./configure --prefix=/usr
-read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make install
-read -p "Press [Enter] key to resume..."
-mv -v /usr/lib/libz.so.* /lib
-ln -sfv ../../lib/$(readlink /usr/lib/libz.so) /usr/lib/libz.so
-cd /sources
-rm -Rf zlib-1.2.11
-
-# File-5.36 || Tries to classify each given file || 0.1 SBUs
-tar xvf file-5.36.tar.gz
-cd file-5.36
-./configure --prefix=/usr
-read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make check
-read -p "Press [Enter] key to resume..."
-make install
-read -p "Press [Enter] key to resume..."
-cd /sources
-rm -Rf file-5.36
 
 # Readline-8.0 || A set of libraries that offers command-line editing and history capabilitiese || 0.1 SBUs
 tar xvf readline-8.0.tar.gz

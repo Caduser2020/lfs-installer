@@ -99,7 +99,7 @@ cd /mnt/lfs/sources
 rm -Rf binutils-2.32
 read -p "Press [Enter] key to resume..."
 
-# GCC-8.2.0 - Pass 2 || Dis gonna take a while || 14 SBUs
+# GCC-8.2.0 - Pass 2 || Contains the GNU compiler collection || 14 SBUs
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
 

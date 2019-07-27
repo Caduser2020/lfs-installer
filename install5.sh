@@ -125,7 +125,7 @@ sh Configure -des -Dprefix=/usr \
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING VERY EXPENSIVE TEST || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# WARNING VERY EXPENSIVE TEST (11 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make -k check
 read -p "Press [Enter] key to resume..."
 make install
@@ -183,7 +183,8 @@ cd automake-1.16.1
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-make -j4 check
+# WARNING EXPENSIVE TEST (6.8 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# make -j4 check
 read -p "Press [Enter] key to resume..."
 make install
 cd /sources
@@ -462,7 +463,7 @@ rm -Rf findutils-4.6.0
 # Groff-1.22.4 || Contains programs for processing and formatting text || 0.4 SBUs
 tar xvf groff-1.22.4.tar.gz
 cd groff-1.22.4
-PAGE=<paper_size> ./configure --prefix=/usr
+PAGE=letter ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
 make -j1
 read -p "Press [Enter] key to resume..."
@@ -624,7 +625,8 @@ FORCE_UNSAFE_CONFIGURE=1 \
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-make check
+# WARNING EXPENSIVE TEST (3.0) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# make check
 read -p "Press [Enter] key to resume..."
 make install
 make -C doc install-html docdir=/usr/share/doc/tar-1.31
@@ -657,7 +659,7 @@ rm -Rf texinfo-6.5
 
 # Vim-8.1 || Contains a powerful text editor || 1.3 SBUs
 tar xvf vim-8.1.tar.bz2
-cd vim-8.1
+cd vim81
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
@@ -674,7 +676,7 @@ read -p "Press [Enter] key to resume..."
 ln -sv ../vim/vim81/doc /usr/share/doc/vim-8.1
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf vim-8.1
+rm -Rf vim81
 
 # Procps-ng-3.3.15 || Contains programs for monitoring processes || 0.1 SBUs
 tar xvf procps-ng-3.3.15.tar.xz
@@ -684,7 +686,7 @@ cd procps-ng-3.3.15
 --libdir=/usr/lib \
 --docdir=/usr/share/doc/procps-ng-3.3.15 \
 --disable-static \
---disable-kil
+--disable-kill
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -735,7 +737,6 @@ tar xvf e2fsprogs-1.44.5.tar.gz
 cd e2fsprogs-1.44.5
 mkdir -v build
 cd build
-Prepare E2fsprogs for compilation:
 ../configure --prefix=/usr \
 --bindir=/bin \
 --with-root-prefix="" \
@@ -748,7 +749,7 @@ read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 # One of the E2fsprogs tests will attempt to allocate 256 MB of memory. If you do not have significantly more RAM
-than this, be sure to enable sufficient swap space for the test.
+# than this, be sure to enable sufficient swap space for the test.
 make check
 read -p "Press [Enter] key to resume..."
 make install

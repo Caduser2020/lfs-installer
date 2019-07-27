@@ -27,7 +27,7 @@ wget http://anduin.linuxfromscratch.org/BLFS/gpm/gpm-1.20.7.tar.bz2
 wget http://www.linuxfromscratch.org/patches/blfs/8.4/gpm-1.20.7-glibc_2.26-1.patch
 
 # Sudo-1.8.27 || allows a user to run some (or all) commands as root || 0.4 SBUs
-tar sudo-1.8.27.tar.gz
+tar xvf sudo-1.8.27.tar.gz
 cd sudo-1.8.27
 ./configure --prefix=/usr              \
             --libexecdir=/usr/lib      \
@@ -49,7 +49,7 @@ cd /sources
 rm -Rf sudo-1.8.27
 
 # Wget-1.20.1 || Contains a utility for downloading files from the Web || 0.4 SBUs
-tar wget-1.20.1.tar.gz
+tar xvf wget-1.20.1.tar.gz
 cd wget-1.20.1
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
@@ -63,7 +63,7 @@ cd /sources
 rm -Rf sudo-1.8.27
 
 # Sudo-1.8.27 || allows a user to run some (or all) commands as root || 0.4 SBUs
-tar sudo-1.8.27.tar.gz
+tar xvf sudo-1.8.27.tar.gz
 
 sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c &&
 patch -Np1 -i ../gpm-1.20.7-glibc_2.26-1.patch &&

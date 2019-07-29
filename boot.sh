@@ -32,9 +32,9 @@ cd /sources
 bash /lib/udev/init-net-rules.sh
 cat /etc/udev/rules.d/70-persistent-net.rules
 cd /etc/sysconfig/
-cat > ifconfig.eth0 << "EOF"
+cat > ifconfig.enp0s3 << "EOF"
 ONBOOT=yes
-IFACE=eth0
+IFACE=enp0s3
 SERVICE=ipv4-static
 IP=192.168.1.2
 GATEWAY=192.168.1.1
@@ -222,7 +222,7 @@ echo 8.4 > /etc/lfs-release
 cat > /etc/lsb-release << "EOF"
 DISTRIB_ID="Linux From Scratch"
 DISTRIB_RELEASE="8.4"
-DISTRIB_CODENAME="Isaiah OS"
+DISTRIB_CODENAME="LFS"
 DISTRIB_DESCRIPTION="Linux From Scratch"
 EOF
 

@@ -1,5 +1,6 @@
 #!/bin/bash
-
+#=================================================================================== 
+# 
 # Installs Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
 # Copyright (C) 2019
 
@@ -15,9 +16,18 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#=================================================================================== 
 sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
-bash version-check.sh
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+shdir="$(dirname $_script)"
+export shdir
+if [ $shdir != "$(dirname $_script)" ]
+then
+  exit
+fi
+read -p "Press [Enter] key to resume..."
+sudo bash version-check.sh
 while true
 do
   # (1) prompt user, and read command line argument
@@ -37,7 +47,7 @@ do
   esac
 done 
 export LFS=/mnt/lfs 
-if test '/mnt/lfs/sources' 
+if test -d '/mnt/lfs/sources';
 then
     sudo rm -Rf /mnt/lfs/sources;
     sudo rm -Rf /mnt/lfs/tools;
@@ -47,7 +57,12 @@ sudo mount -v -t ext4 /dev/sda1 $LFS
 sudo mkdir -v $LFS/sources 
 sudo chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
-sudo wget -i ~/Downloads/lfs-installer-lfs-8.4/wget-list.txt -P $LFS/sources
+sudo wget -i $shdir/wget-list.txt -P $LFS/sources
+mv $shdir/md5sums $LFS/sources
+pushd $LFS/sources
+md5sum -c md5sums
+read -p "Press [Enter] key to resume..."
+popd
 sudo mkdir -v $LFS/tools
 sudo ln -sv $LFS/tools /
 sudo groupadd lfs
@@ -56,6 +71,7 @@ sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
-cd ~/Downloads/lfs-installer-lfs-8.4
-sudo chown -v lfs ../lfs-installer-lfs-8.4
-sudo -u lfs bash build.sh
+# cd $shdir
+sudo chown -v lfs $shdir
+sudo chmod 777 ./
+sudo -u lfs bash $shdir/build.sh

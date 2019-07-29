@@ -1,23 +1,27 @@
-#!/bin/bash
-
-# Builds necessary packages for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
-# Copyright (C) 2019
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published
-# by the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>
+#!/bin/bash  
+#=================================================================================== 
+# 
+# Builds first part of first toolchain pass for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
+# Copyright (C) 2019 
+ 
+# This program is free software: you can redistribute it and/or modify 
+# it under the terms of the GNU Affero General Public License as published 
+# by the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version. 
+ 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU Affero General Public License for more details. 
+ 
+# You should have received a copy of the GNU Affero General Public License 
+# along with this program.  If not, see <https://www.gnu.org/licenses/> 
+#===================================================================================
 
 # Enter previous password set
 whoami 
+if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $shdir"; fi
+read -p "Press [Enter] key to resume..."
 cat > ~/.bash_profile << 'EOF' 
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
 EOF
@@ -32,16 +36,26 @@ PATH=/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TGT PATH 
 EOF
 
-cd ~
-source /.bash_profile
+cd ~/
+source .bash_profile
 cd /mnt/lfs/sources
+if [ $LFS != /mnt/lfs ]
+then
+  export LFS=/mnt/lfs
+fi
 read -p "Press [Enter] key to resume..."
+
+#Build 
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
- mkdir -v build; cd build
+target_triplet=`./config.guess`
+export $target_triplet
+echo $target_triplet
+read -p "Press [Enter] key to resume..."
+mkdir -v build; cd build
 ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
 case $(uname -m) in
- x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
+  x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
 time make -j4
 read -p "Press [Enter] key to resume..."
@@ -50,7 +64,9 @@ make install
 read -p "Press [Enter] key to resume..."
 cd ..
 rm -Rf build
+rm -Rf binutils-2.32
 cd /mnt/lfs/sources
+
 # Install Gcc
 tar xvf gcc-8.2.0.tar.xz
 cd gcc-8.2.0
@@ -112,39 +128,6 @@ make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-break
-echo 'Break failed'
-exit
-cd ..
-pwd
-rm -Rf objdir
-cd /mnt/lfs/sources
-tar xvf linux-4.20.12.tar.xz
-cd linux-4.20.12
-make mrproper
-read -p "Press [Enter] key to resume..."
-make INSTALL_HDR_PATH=dest headers_install
-read -p "Press [Enter] key to resume..."
-cp -rv dest/include/* /tools/include
-cd ..
-cd /mnt/lfs/sources
-tar xvf glibc-2.29.tar.xz
-cd glibc-2.29
-mkdir -v build
-cd build
-../configure \
- --prefix=/tools \
- --host=$LFS_TGT \
- --build=$(../scripts/config.guess) \
- --enable-kernel=3.2 \
- --with-headers=/tools/include
- read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make install
-read -p "Press [Enter] key to resume..."
-echo 'int main(){}' > dummy.c
-$LFS_TGT-gcc dummy.c
-readelf -l a.out | grep ': /tools'
-# should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'
-rm -v dummy.c a.out
+rm -Rf gcc-8.2.0
+# FOR DEV ONLY
+bash $shdir/build2.sh

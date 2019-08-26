@@ -31,19 +31,19 @@ echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 
-tar xvf linux-4.20.12.tar.xz
-cd linux-4.20.12
+tar xvf linux-5.2.8.tar.xz
+cd linux-5.2.8
 make mrproper
 read -p "Press [Enter] key to resume..."
 make INSTALL_HDR_PATH=dest headers_install
 read -p "Press [Enter] key to resume..."
 cp -rv dest/include/* /tools/include
 cd ..
-rm -Rf linux-4.20.12
+rm -Rf linux-5.2.8
 cd /mnt/lfs/sources
 
-tar xvf glibc-2.29.tar.xz
-cd glibc-2.29
+tar xvf glibc-2.30.tar.xz
+cd glibc-2.30
 mkdir -v build
 cd build
 ../configure \
@@ -63,5 +63,5 @@ $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'
 # should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'
 rm -v dummy.c a.out
-rm -Rf glibc-2.29
+rm -Rf glibc-2.30
 bash build3.sh

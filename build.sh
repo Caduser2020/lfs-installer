@@ -58,6 +58,7 @@ case $(uname -m) in
   x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
 time make -j4
+read -p "Real Time is 1 SBU"
 read -p "Press [Enter] key to resume..."
 # real is 1 SBU
 make install
@@ -68,8 +69,8 @@ rm -Rf binutils-2.32
 cd /mnt/lfs/sources
 
 # Install Gcc
-tar xvf gcc-8.2.0.tar.xz
-cd gcc-8.2.0
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
 
 # tar -xf ../mpfr-4.0.2.tar.xz
 # mv -v mpfr-4.0.2 mpfr
@@ -99,30 +100,29 @@ case $(uname -m) in
  ;;
 esac
 cd ..
-mkdir objdir
+mkdir -v objdir
 cd objdir
-$PWD/../gcc-8.2.0/configure \
- --target=$LFS_TGT \
- --prefix=/tools \
- --with-glibc-version=2.11 \
- --with-sysroot=$LFS \
- --with-newlib \
- --without-headers \
- --with-local-prefix=/tools \
- --with-native-system-header-dir=/tools/include \
- --disable-nls \
- --disable-shared \
- --disable-multilib \
- --disable-decimal-float \
- --disable-threads \
- --disable-libatomic \
- --disable-libgomp \
- --disable-libmpx \
- --disable-libquadmath \
- --disable-libssp \
- --disable-libvtv \
- --disable-libstdcxx \
- --enable-languages=c,c++
+../configure                                       \
+    --target=$LFS_TGT                              \
+    --prefix=/tools                                \
+    --with-glibc-version=2.11                      \
+    --with-sysroot=$LFS                            \
+    --with-newlib                                  \
+    --without-headers                              \
+    --with-local-prefix=/tools                     \
+    --with-native-system-header-dir=/tools/include \
+    --disable-nls                                  \
+    --disable-shared                               \
+    --disable-multilib                             \
+    --disable-decimal-float                        \
+    --disable-threads                              \
+    --disable-libatomic                            \
+    --disable-libgomp                              \
+    --disable-libquadmath                          \
+    --disable-libssp                               \
+    --disable-libvtv                               \
+    --disable-libstdcxx                            \
+    --enable-languages=c,c++
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."

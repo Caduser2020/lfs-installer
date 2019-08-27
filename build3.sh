@@ -138,5 +138,5 @@ cc dummy.c
 readelf -l a.out | grep ': /tools'
 echo $PATH
 rm -v dummy.c a.out
-
+cd $shdir
 bash build4.sh

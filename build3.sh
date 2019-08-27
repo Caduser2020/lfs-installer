@@ -28,32 +28,11 @@ if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
-# DEV NOTE: REMOVE THIS IN NEXT UPDATE
-
-while true
-do
-  # (1) prompt user, and read command line argument
-  read -p "Are you stupid? (plz answer n) " answer
-
-  # (2) handle the input we were given
-  case $answer in
-   [yY]* )  sudo rm -Rf binutils-2.32
-            sudo rm -Rf gcc-8.2.0
-            sudo rm -Rf linux-4.20.12
-            sudo rm -Rf glibc-2.29 
-           break;;
-
-   [nN]* ) break;;
-
-   * )     echo "Dude, just enter Y or N, please.";;
-  esac
-done 
-
 # NOTE TO DEV: Move libstdc++ to build2.sh
 cd mnt/lfs/sources
 # Unpack the gcc tarball again
-tar xvf gcc-8.2.0.tar.xz
-cd gcc-8.2.0
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
 mkdir -v build
 cd build
 ../libstdc++-v3/configure \
@@ -63,15 +42,15 @@ cd build
     --disable-nls \
     --disable-libstdcxx-threads \
     --disable-libstdcxx-pch \
-    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/8.2.0
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/9.2.0
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
-# PRETTY D@MN IMPORTANT
-rm -Rf gcc-8.2.0
+rm -Rf gcc-9.2.0
+
 # Binutils pass 2
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
@@ -99,9 +78,9 @@ cd /mnt/lfs/sources
 rm -Rf binutils-2.32
 read -p "Press [Enter] key to resume..."
 
-# GCC-8.2.0 - Pass 2 || Contains the GNU compiler collection || 14 SBUs
-tar xvf gcc-8.2.0.tar.xz
-cd gcc-8.2.0
+# GCC-9.2.0 - Pass 2 || Contains the GNU compiler collection || 15 SBUs
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
 
 unset LIBRARY_PATH
 LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
@@ -153,7 +132,7 @@ read -p "Press [Enter] key to resume..."
 ln -sv gcc /tools/bin/cc
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
-rm -Rf gcc-8.2.0
+rm -Rf gcc-9.2.0
 echo 'int main(){}' > dummy.c
 cc dummy.c
 readelf -l a.out | grep ': /tools'

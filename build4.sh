@@ -38,7 +38,7 @@ cd unix
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
-# As this test may fail under certain host conditions, this test may be removed in a feature version of LFS-installer.
+# As this test may fail under certain host conditions, this test may be removed in a future version of LFS-installer.
 # TZ=UTC make test
 read -p "Press [Enter] key to resume..."
 make install
@@ -83,5 +83,5 @@ make check
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf dejagnu-1.6.2
-
+cd $shdir
 bash build5.sh

@@ -128,6 +128,6 @@ make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-rm -Rf gcc-8.2.0
-# FOR DEV ONLY
-bash $shdir/build2.sh
+rm -Rf gcc-9.2.0
+cd $shdir
+bash build2.sh

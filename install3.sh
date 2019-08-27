@@ -69,40 +69,25 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf m4-1.4.18
 
-# Bc-1.07.1 || A command line calculator & A reverse-polish command line calculator || 0.1 SBUs
-tar xvf bc-1.07.1.tar.gz
-cd bc-1.07.1
-cat > bc/fix-libmath_h << "EOF"
-#! /bin/bash
-sed -e '1 s/^/{"/' \
--e 's/$/",/' \
--e '2,$ s/^/"/' \
--e '$ d' \
--i libmath.h
-sed -e '$ s/$/0}/' \
--i libmath.h
-EOF
-ln -sv /tools/lib/libncursesw.so.6 /usr/lib/libncursesw.so.6
-ln -sfv libncursesw.so.6 /usr/lib/libncurses.so
-sed -i -e '/flex/s/as_fn_error/: ;; # &/' configure
-./configure --prefix=/usr \
---with-readline \
---mandir=/usr/share/man \
---infodir=/usr/share/info
+# Bc-2.1.3 || A command line calculator & A reverse-polish command line calculator || 0.1 SBUs
+tar xvf bc-2.1.3.tar.gz
+cd bc-2.1.3
+PREFIX=/usr CC=gcc CFLAGS="-std=c99" ./configure.sh -G -O3
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-echo "quit" | ./bc/bc -l Test/checklib.b
+make test
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf bc-1.07.1
+rm -Rf bc-2.1.3
 
-# Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 6.9 SBUs
+# Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 7.4 SBUs
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 expect -c "spawn ls"
+sed -i '/@\tincremental_copy/d' gold/testsuite/Makefile.in
 mkdir -v build
 cd build
 ../configure --prefix=/usr \
@@ -123,7 +108,8 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf binutils-2.32
 
-# Gmp-6.1.2 || Contains precision math functions || 1.3 SBUs
+# NOTE TO DEV: CHANGE THIS!!
+# Gmp-6.1.2 || Contains precision math functions || 1.2 SBUs
 tar xvf gmp-6.1.2.tar.xz
 cd gmp-6.1.2
 ./configure --prefix=/usr \

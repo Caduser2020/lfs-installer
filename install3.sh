@@ -108,7 +108,6 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf binutils-2.32
 
-# NOTE TO DEV: CHANGE THIS!!
 # Gmp-6.1.2 || Contains precision math functions || 1.2 SBUs
 tar xvf gmp-6.1.2.tar.xz
 cd gmp-6.1.2
@@ -166,15 +165,15 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf mpc-1.1.0
 
-# shadow-4.6 || Contains programs for handling passwords in a secure way || 0.2 SBUs
-tar xvf shadow-4.6.tar.xz
-cd shadow-4.6
+# shadow-4.7 || Contains programs for handling passwords in a secure way || 0.2 SBUs
+tar xvf shadow-4.7.tar.xz
+cd shadow-4.7
 sed -i 's/groups$(EXEEXT) //' src/Makefile.in
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
 find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/passwd\.5 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;
 sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
--e 's@/var/spool/mail@/var/mail@' etc/login.defs
+       -e 's@/var/spool/mail@/var/mail@' etc/login.defs
 sed -i 's/1000/999/' etc/useradd
 ./configure --sysconfdir=/etc --with-group-name-max-length=32
 read -p "Press [Enter] key to resume..."
@@ -184,48 +183,48 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/bin/passwd /bin
 cd /sources
-rm -Rf shadow-4.6
+rm -Rf shadow-4.7
 pwconv
 grpconv
 passwd root
 
-# Gcc-8.2.0 || Contains the GNU compiler collection || 92 SBUs || Basically just go to sleep
-tar xvf gcc-8.2.0.tar.xz
-cd gcc-8.2.0
+# Gcc-9.2.0 || Contains the GNU compiler collection || 95 SBUs
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
 case $(uname -m) in
-x86_64)
-sed -e '/m64=/s/lib64/lib/' \
--i.orig gcc/config/i386/t-linux64
-;;
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+  ;;
 esac
-rm -f /usr/lib/gcc
 mkdir -v build
 cd build
-SED=sed \
-../configure --prefix=/usr \
---enable-languages=c,c++ \
---disable-multilib \
---disable-bootstrap \
---disable-libmpx \
---with-system-zlib
+SED=sed                               \
+../configure --prefix=/usr            \
+             --enable-languages=c,c++ \
+             --disable-multilib       \
+             --disable-bootstrap      \
+             --with-system-zlib
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 ulimit -s 32768
-rm ../gcc/testsuite/g++.dg/pr83239.C
 chown -Rv nobody .
 su nobody -s /bin/bash -c "PATH=$PATH make -k check"
 ../contrib/test_summary | grep -A7 Summ
 read -p "Press [Enter] key to resume..."
 make install
+rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/9.1.0/include-fixed/bits/
 read -p "Press [Enter] key to resume..."
+cd /sources
+rm -Rf gcc-9.2.0
+chown -v -R root:root \
+    /usr/lib/gcc/*linux-gnu/9.2.0/include{,-fixed}
 ln -sv ../usr/bin/cpp /lib
 ln -sv gcc /usr/bin/cc
 install -v -dm755 /usr/lib/bfd-plugins
-ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/8.2.0/liblto_plugin.so \
-/usr/lib/bfd-plugins/
-cd /sources
-rm -Rf gcc-8.2.0
+ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/9.2.0/liblto_plugin.so \
+        /usr/lib/bfd-plugins/
 echo 'int main(){}' > dummy.c
 cc dummy.c -v -Wl,--verbose &> dummy.log
 readelf -l a.out | grep ': /lib'
@@ -246,3 +245,4 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 cd /sources
 rm -Rf gcc-8.2.0
 
+bash install4.sh

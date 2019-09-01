@@ -67,23 +67,23 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf gperf-3.1
 
-# Expat-2.2.6 || Contains API functions for parsing XML || 0.1 SBUs
-tar xvf expat-2.2.6.tar.bz2
-cd expat-2.2.6
+# Expat-2.2.7 || Contains a stream oriented C library for parsing XML || 0.1 SBUs
+tar xvf expat-2.2.7.tar.bz2
+cd expat-2.2.7
 sed -i 's|usr/bin/env |bin/|' run.sh.in
 ./configure --prefix=/usr \
 --disable-static \
---docdir=/usr/share/doc/expat-2.2.6
+--docdir=/usr/share/doc/expat-2.2.7
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-make -j1 check
+make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-install -v -m644 doc/*.{html,png,css} /usr/share/doc/expat-2.2.6
+install -v -m644 doc/*.{html,png,css} /usr/share/doc/expat-2.2.7
 cd /sources
-rm -Rf expat-2.2.6
+rm -Rf expat-2.2.7
 
 # inetutils-1.9.4 || Contains programs for basic networking || 0.3 SBUs
 tar xvf inetutils-1.9.4.tar.xz
@@ -109,29 +109,29 @@ mv -v /usr/bin/ifconfig /sbin
 cd /sources
 rm -Rf inetutils-1.9.4
 
-# Perl-5.28.1 || Contains the Practical Extraction and Report Language || 7.1 SBUs
-tar xvf perl-5.28.1.tar.xz
-cd perl-5.28.1
+# Perl-5.30.1 || Contains the Practical Extraction and Report Language || 9.9 SBUs
+tar xvf perl-5.30.0.tar.xz
+cd perl-5.30.0
 echo "127.0.0.1 localhost $(hostname)" > /etc/hosts
 export BUILD_ZLIB=False
 export BUILD_BZIP2=0
 sh Configure -des -Dprefix=/usr \
--Dvendorprefix=/usr \
--Dman1dir=/usr/share/man/man1 \
--Dman3dir=/usr/share/man/man3 \
--Dpager="/usr/bin/less -isR" \
--Duseshrplib \
--Dusethreads
+ -Dvendorprefix=/usr \
+ -Dman1dir=/usr/share/man/man1 \
+ -Dman3dir=/usr/share/man/man3 \
+ -Dpager="/usr/bin/less -isR" \
+ -Duseshrplib \
+ -Dusethreads
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 # WARNING VERY EXPENSIVE TEST (11 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
-# make -k check
+# make -k test
 read -p "Press [Enter] key to resume..."
 make install
 unset BUILD_ZLIB BUILD_BZIP2
 cd /sources
-rm -Rf perl-5.28.1
+rm -Rf perl-5.30.0
 
 # XML-Parser-2.44 || Provides the Perl Expat interface|| 0.1 SBUs
 tar xvf XML-Parser-2.44.tar.gz
@@ -183,7 +183,7 @@ cd automake-1.16.1
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING EXPENSIVE TEST (6.8 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# WARNING EXPENSIVE TEST (8.6 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make -j4 check
 read -p "Press [Enter] key to resume..."
 make install
@@ -228,16 +228,12 @@ ln -sfv kmod /bin/lsmod
 cd /sources
 rm -Rf kmod-26
 
-# Gettext-0.19.8.1 || Translates a natural language message into the user's language by looking up the translation in a message catalog || 2.0 SBUs
-tar xvf gettext-0.19.8.1.tar.xz
-cd gettext-0.19.8.1
-sed -i '/^TESTS =/d' gettext-runtime/tests/Makefile.in &&
-sed -i 's/test-lock..EXEEXT.//' gettext-tools/gnulib-tests/Makefile.in
-sed -e '/AppData/{N;N;p;s/\.appdata\./.metainfo./}' \
--i gettext-tools/its/appdata.loc
+# Gettext-0.20.1 || Translates a natural language message into the user's language by looking up the translation in a message catalog || 2.0 SBUs
+tar xvf gettext-0.20.1.tar.xz
+cd gettext-0.20.1
 ./configure --prefix=/usr \
 --disable-static \
---docdir=/usr/share/doc/gettext-0.19.8.1
+--docdir=/usr/share/doc/gettext-0.20.1
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -246,11 +242,11 @@ read -p "Press [Enter] key to resume..."
 make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 cd /sources
-rm -Rf gettext-0.19.8.1
+rm -Rf gettext-0.20.1
 
-# Elfutils-0.176 || For handling ELF (Executable and Linkable Format) files || 1.3 SBUs
-tar xvf elfutils-0.176.tar.bz2
-cd elfutils-0.176
+# Libelf from Elfutils-0.177 || Library for handling ELF (Executable and Linkable Format) files || 1.1 SBUs
+tar xvf elfutils-0.177.tar.bz2
+cd elfutils-0.177
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
 make
@@ -260,9 +256,9 @@ read -p "Press [Enter] key to resume..."
 make -C libelf install
 install -vm644 config/libelf.pc /usr/lib/pkgconfig
 cd /sources
-rm -Rf elfutils-0.176
+rm -Rf elfutils-0.177
 
-# Libffi-3.2.1 || Provides a portable, high level programming interface to various calling conventions || 0.3 SBUs
+# Libffi-3.2.1 || Provides a portable, high level programming interface to various calling conventions || 0.4 SBUs
 tar xvf libffi-3.2.1.tar.gz
 cd libffi-3.2.1
 sed -e '/^includesdir/ s/$(libdir).*$/$(includedir)/' \
@@ -280,14 +276,16 @@ make install
 cd /sources
 rm -Rf libffi-3.2.1
 
-# Openssl-1.1.1a || Contains management tools and libraries relating to cryptography || 1.7 SBUs
-tar xvf openssl-1.1.1a.tar.gz
-cd openssl-1.1.1a
+# Openssl-1.1.1c || Contains management tools and libraries relating to cryptography || 2.3 SBUs
+tar xvf openssl-1.1.1c.tar.gz
+cd openssl-1.1.1c
+sed -i '/\} data/s/ =.*$/;\n memset(\&data, 0, sizeof(data));/' \
+ crypto/rand/rand_lib.c
 ./config --prefix=/usr \
---openssldir=/etc/ssl \
---libdir=lib \
-shared \
-zlib-dynamic
+ --openssldir=/etc/ssl \
+ --libdir=lib \
+ shared \
+ zlib-dynamic
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -296,14 +294,14 @@ read -p "Press [Enter] key to resume..."
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 read -p "Press [Enter] key to resume..."
-mv -v /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1a
-cp -vfr doc/* /usr/share/doc/openssl-1.1.1a
+mv -v /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1c
+cp -vfr doc/* /usr/share/doc/openssl-1.1.1c
 cd /sources
-rm -Rf openssl-1.1.1a
+rm -Rf openssl-1.1.1c
 
-# Python-3.7.2 || Contains the Python development environment || 1.0 SBUs
-tar xvf Python-3.7.2.tar.xz
-cd Python-3.7.2
+# Python-3.7.4 || Contains the Python development environment || 1.3 SBUs
+tar xvf Python-3.7.4.tar.xz
+cd Python-3.7.4
 ./configure --prefix=/usr \
 --enable-shared \
 --with-system-expat \
@@ -315,16 +313,16 @@ read -p "Press [Enter] key to resume..."
 make install
 chmod -v 755 /usr/lib/libpython3.7m.so
 chmod -v 755 /usr/lib/libpython3.so
-read -p "Press [Enter] key to resume..."
-install -v -dm755 /usr/share/doc/python-3.7.2/html
+ln -sfv pip3.7 /usr/bin/pip3"
+install -v -dm755 /usr/share/doc/python-3.7.4/html
 tar --strip-components=1 \
---no-same-owner \
---no-same-permissions \
--C /usr/share/doc/python-3.7.2/html \
--xvf ../python-3.7.2-docs-html.tar.bz2
+ --no-same-owner \
+ --no-same-permissions \
+ -C /usr/share/doc/python-3.7.4/html \
+ -xvf ../python-3.7.4-docs-html.tar.bz2
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf Python-3.7.2
+rm -Rf Python-3.7.4
 
 # Ninja-1.9.0 || A small build system with a focus on speed || 0.2 SBUs
 tar xvf ninja-1.9.0.tar.gz
@@ -349,9 +347,9 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf ninja-1.9.0
 
-# Meson-0.49.2 || A small build system with a focus on speed || 0.2 SBUs
-tar xvf meson-0.49.2.tar.gz
-cd meson-0.49.2
+# Meson-0.51.1 || open source build system meant to be both extremely fast and user friendly || less than 0.1 SBUs
+tar xvf meson-0.51.1.tar.gz
+cd meson-0.51.1
 read -p "Press [Enter] key to resume..."
 python3 setup.py build
 read -p "Press [Enter] key to resume..."
@@ -359,19 +357,19 @@ python3 setup.py install --root=dest
 cp -rv dest/* /
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf meson-0.49.2
+rm -Rf meson-0.51.1
 
-# Coreutils-8.30 || Contains utilities for showing and setting the basic system characteristics || 2.6 SBUs
-tar xvf coreutils-8.30.tar.xz
-cd coreutils-8.30
-patch -Np1 -i ../coreutils-8.30-i18n-1.patch
+# Coreutils-8.31 || Contains utilities for showing and setting the basic system characteristics || 2.5 SBUs
+tar xvf coreutils-8.31.tar.xz
+cd coreutils-8.31
+patch -Np1 -i ../coreutils-8.31-i18n-1.patch
 sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 autoreconf -fiv
 FORCE_UNSAFE_CONFIGURE=1 ./configure \
---prefix=/usr \
---enable-no-install-program=kill,uptime
+ --prefix=/usr \
+ --enable-no-install-program=kill,uptime
 read -p "Press [Enter] key to resume..."
-FORCE_UNSAFE_CONFIGURE=1 make
+make
 read -p "Press [Enter] key to resume..."
 make NON_ROOT_USERNAME=nobody check-root
 read -p "Press [Enter] key to resume..."
@@ -391,7 +389,7 @@ mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 sed -i s/\"1\"/\"8\"/1 /usr/share/man/man8/chroot.8
 mv -v /usr/bin/{head,nice,sleep,touch} /bin
 cd /sources
-rm -Rf coreutils-8.30
+rm -Rf coreutils-8.31
 
 # Check-0.12.0 || A unit testing framework for C || 0.1 SBUs
 tar xvf check-0.12.0.tar.gz
@@ -403,13 +401,13 @@ read -p "Press [Enter] key to resume..."
 # WARNING VERY EXPENSIVE TEST || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
 read -p "Press [Enter] key to resume..."
-make install
+make docdir=/usr/share/doc/check-0.12.0 install
 sed -i '1 s/tools/usr/' /usr/bin/checkmk
 read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf check-0.12.0
 
-# Diffutils-3.7 || Compares two files or directories and reports which lines in the files differ || 0.3 SBUs
+# Diffutils-3.7 || Compares two files or directories and reports which lines in the files differ || 0.4 SBUs
 tar xvf diffutils-3.7.tar.xz
 cd diffutils-3.7
 ./configure --prefix=/usr
@@ -423,9 +421,9 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf diffutils-3.7
 
-# Gawk-4.2.1 || A program for manipulating text files || 0.3 SBUs
-tar xvf gawk-4.2.1.tar.xz
-cd gawk-4.2.1
+# Gawk-5.0.1 || A program for manipulating text files || 0.4 SBUs
+tar xvf gawk-5.0.1.tar.xz
+cd gawk-5.0.1
 sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
@@ -435,15 +433,14 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-mkdir -v /usr/share/doc/gawk-4.2.1
-cp -v doc/{awkforai.txt,*.{eps,pdf,jpg}} /usr/share/doc/gawk-4.2.1
+mkdir -v /usr/share/doc/gawk-5.0.1
+cp -v doc/{awkforai.txt,*.{eps,pdf,jpg}} /usr/share/doc/gawk-5.0.1
 cd /sources
-rm -Rf gawk-4.2.1
+rm -Rf gawk-5.0.1
 
-# Findutils-4.6.0 || Contains programs to find files || 0.6 SBUs
+# Findutils-4.6.0 || Contains programs to find files || 0.7 SBUs
 tar xvf findutils-4.6.0.tar.gz
 cd findutils-4.6.0
-sed -i 's/test-lock..EXEEXT.//' tests/Makefile.in
 sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' gl/lib/*.c
 sed -i '/unistd/a #include <sys/sysmacros.h>' gl/lib/mountlist.c
 echo "#define _IO_IN_BACKUP 0x100" >> gl/lib/stdio-impl.h
@@ -472,9 +469,9 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf groff-1.22.4
 
-# GRUB-2.02 || Contains the GRand Unified Bootloader || 0.6 SBUs
-tar xvf grub-2.02.tar.xz
-cd grub-2.02
+# GRUB-2.04 || Contains the GRand Unified Bootloader || 0.8 SBUs
+tar xvf grub-2.04.tar.xz
+cd grub-2.04
 ./configure --prefix=/usr \
 --sbindir=/sbin \
 --sysconfdir=/etc \
@@ -487,11 +484,11 @@ make install
 mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf grub-2.02
+rm -Rf grub-2.04
 
-# Less-530 || A file viewer or pager || 0.1 SBUs
-tar xvf less-530.tar.gz
-cd less-530
+# Less-551 || A file viewer or pager || 0.1 SBUs
+tar xvf less-551.tar.gz
+cd less-551
 ./configure --prefix=/usr --sysconfdir=/etc
 read -p "Press [Enter] key to resume..."
 make
@@ -499,7 +496,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf less-530
+rm -Rf less-541
 
 # Gzip-1.10 || Contains programs for compressing and decompressing files || 0.1 SBUs
 tar xvf gzip-1.10.tar.xz
@@ -516,24 +513,24 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf gzip-1.10
 
-# iproute2-4.20.0 || Contains programs for basic and advanced IPV4-based networking || 0.2 SBUs
-tar xvf iproute2-4.20.0.tar.xz
-cd iproute2-4.20.0
+# iproute2-5.2.0 || Contains programs for basic and advanced IPV4-based networking || 0.2 SBUs
+tar xvf iproute2-5.2.0.tar.xz
+cd iproute2-5.2.0
 sed -i /ARPD/d Makefile
 rm -fv man/man8/arpd.8
 sed -i 's/.m_ipt.o//' tc/Makefile
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-make DOCDIR=/usr/share/doc/iproute2-4.20.0 install
+make DOCDIR=/usr/share/doc/iproute2-5.2.0 install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf iproute2-4.20.0
+rm -Rf iproute2-5.2.0
 
-# Kbd-2.0.4 || Contains key-table files, console fonts, and keyboard utilities || 0.1 SBUs
-tar xvf kbd-2.0.4.tar.xz
-cd kbd-2.0.4
-patch -Np1 -i ../kbd-2.0.4-backspace-1.patch
+# Kbd-2.2.0 || Contains key-table files, console fonts, and keyboard utilities || 0.1 SBUs
+tar xvf kbd-2.2.0.tar.xz
+cd kbd-2.2.0
+patch -Np1 -i ../kbd-2.2.0-backspace-1.patch
 sed -i 's/\(RESIZECONS_PROGS=\)yes/\1no/g' configure
 sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr --disable-vlock
@@ -544,10 +541,10 @@ make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-mkdir -v /usr/share/doc/kbd-2.0.4
-cp -R -v docs/doc/* /usr/share/doc/kbd-2.0.4
+mkdir -v /usr/share/doc/kbd-2.2.0
+cp -R -v docs/doc/* /usr/share/doc/kbd-2.2.0
 cd /sources
-rm -Rf kbd-2.0.4
+rm -Rf kbd-2.2.0
 
 # Libpipeline-1.5.1 || This library is used to safely construct pipelines between subprocesses || 0.1 SBUs
 tar xvf libpipeline-1.5.1.tar.gz
@@ -592,19 +589,19 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf patch-2.7.6
 
-# Man-DB-2.8.5 || contains programs for finding and viewing man pages || 0.3 SBUs
-tar xvf man-db-2.8.5.tar.xz
-cd man-db-2.8.5
+# Man-DB-2.8.6.1 || contains programs for finding and viewing man pages || 0.3 SBUs
+tar xvf man-db-2.8.6.1.tar.xz
+cd man-db-2.8.6.1
 ./configure --prefix=/usr \
---docdir=/usr/share/doc/man-db-2.8.5 \
---sysconfdir=/etc \
---disable-setuid \
---enable-cache-owner=bin \
---with-browser=/usr/bin/lynx \
---with-vgrind=/usr/bin/vgrind \
---with-grap=/usr/bin/grap \
---with-systemdtmpfilesdir= \
---with-systemdsystemunitdir=
+ --docdir=/usr/share/doc/man-db-2.8.6.1 \
+ --sysconfdir=/etc \
+ --disable-setuid \
+ --enable-cache-owner=bin \
+ --with-browser=/usr/bin/lynx \
+ --with-vgrind=/usr/bin/vgrind \
+ --with-grap=/usr/bin/grap \
+ --with-systemdtmpfilesdir= \
+ --with-systemdsystemunitdir=
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -613,31 +610,29 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf man-db-2.8.5
+rm -Rf man-db-2.8.6.1
 
-# Tar-1.31 || Creates, extracts files from, and lists the contents of archives || 1.7 SBUs
-tar xvf tar-1.31.tar.xz
-cd tar-1.31
-sed -i 's/abort.*/FALLTHROUGH;/' src/extract.c
+# Tar-1.32 || Creates, extracts files from, and lists the contents of archives || 2.2 SBUs
+tar xvf tar-1.32.tar.xz
+cd tar-1.32
 FORCE_UNSAFE_CONFIGURE=1 \
 ./configure --prefix=/usr \
 --bindir=/bin
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING EXPENSIVE TEST (3.0) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# WARNING EXPENSIVE TEST (3.0 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
 read -p "Press [Enter] key to resume..."
 make install
-make -C doc install-html docdir=/usr/share/doc/tar-1.31
+make -C doc install-html docdir=/usr/share/doc/tar-1.32
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf tar-1.31
+rm -Rf tar-1.32
 
-# Texinfo-6.5 || Contains programs for reading, writing, and converting info pages || 0.9 SBUs
-tar xvf texinfo-6.5.tar.xz
-cd texinfo-6.5
-sed -i '5481,5485 s/({/(\\{/' tp/Texinfo/Parser.pm
+# Texinfo-6.6 || Contains programs for reading, writing, and converting info pages || 0.8 SBUs
+tar xvf texinfo-6.6.tar.xz
+cd texinfo-6.6
 ./configure --prefix=/usr --disable-static
 read -p "Press [Enter] key to resume..."
 make
@@ -655,26 +650,42 @@ done
 popd
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf texinfo-6.5
+rm -Rf texinfo-6.6
 
-# Vim-8.1 || Contains a powerful text editor || 1.3 SBUs
-tar xvf vim-8.1.tar.bz2
+# Vim-8.1.1846 || Contains a powerful text editor || 2.2 SBUs
+tar xvf vim-8.1.1846.tar.gz
 cd vim81
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-LANG=en_US.UTF-8 make -j1 test &> vim-test.log
+chown -Rv nobody .
+su nobody -s /bin/bash -c "LANG=en_US.UTF-8 make -j1 test" &> vim-test.log
 read -p "Press [Enter] key to resume..."
 make install
 ln -sv vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do
-ln -sv vim.1 $(dirname $L)/vi.1
+ ln -sv vim.1 $(dirname $L)/vi.1
 done
 read -p "Press [Enter] key to resume..."
-ln -sv ../vim/vim81/doc /usr/share/doc/vim-8.1
+ln -sv ../vim/vim81/doc /usr/share/doc/vim-8.1.1846
 read -p "Press [Enter] key to resume..."
+cat > /etc/vimrc << "EOF"
+" Begin /etc/vimrc
+" Ensure defaults are set before customizing settings, not after
+source $VIMRUNTIME/defaults.vim
+let skip_defaults_vim=1
+set nocompatible
+set backspace=2
+set mouse=
+syntax on
+if (&term == "xterm") || (&term == "putty")
+ set background=dark
+endif
+" End /etc/vimrc
+EOF
+
 cd /sources
 rm -Rf vim81
 
@@ -682,11 +693,11 @@ rm -Rf vim81
 tar xvf procps-ng-3.3.15.tar.xz
 cd procps-ng-3.3.15
 ./configure --prefix=/usr \
---exec-prefix= \
---libdir=/usr/lib \
---docdir=/usr/share/doc/procps-ng-3.3.15 \
---disable-static \
---disable-kill
+ --exec-prefix= \
+ --libdir=/usr/lib \
+ --docdir=/usr/share/doc/procps-ng-3.3.15 \
+ --disable-static \
+ --disable-kill
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -702,24 +713,23 @@ ln -sfv ../../lib/$(readlink /usr/lib/libprocps.so) /usr/lib/libprocps.so
 cd /sources
 rm -Rf procps-ng-3.3.15
 
-# Util-linux-2.33.1 || Contains miscellaneous utility programs || 1.5 SBUs
-tar xvf util-linux-2.33.1.tar.xz
-cd util-linux-2.33.1
+# Util-linux-2.34 || Contains miscellaneous utility programs || 1.2 SBUs
+tar xvf util-linux-2.34.tar.xz
+cd util-linux-2.34
 mkdir -pv /var/lib/hwclock
-rm -vf /usr/include/{blkid,libmount,uuid}
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime \
---docdir=/usr/share/doc/util-linux-2.33.1 \
---disable-chfn-chsh \
---disable-login \
---disable-nologin \
---disable-su \
---disable-setpriv \
---disable-runuser \
---disable-pylibmount \
---disable-static \
---without-python \
---without-systemd \
---without-systemdsystemunitdir
+ --docdir=/usr/share/doc/util-linux-2.34 \
+ --disable-chfn-chsh \
+ --disable-login \
+ --disable-nologin \
+ --disable-su \
+ --disable-setpriv \
+ --disable-runuser \
+ --disable-pylibmount \
+ --disable-static \
+ --without-python \
+ --without-systemd \
+ --without-systemdsystemunitdir
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -730,11 +740,11 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf util-linux-2.33.1
+rm -Rf util-linux-2.34
 
-# E2fsprogs-1.44.5 || Contains the utilities for handling the ext2 file system || 1.6 SBUs
-tar xvf e2fsprogs-1.44.5.tar.gz
-cd e2fsprogs-1.44.5
+# E2fsprogs-1.45.3 || Contains the utilities for handling the ext2 file system || 1.6 SBUs
+tar xvf e2fsprogs-1.45.3.tar.gz
+cd e2fsprogs-1.45.3
 mkdir -v build
 cd build
 ../configure --prefix=/usr \
@@ -748,8 +758,8 @@ cd build
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# One of the E2fsprogs tests will attempt to allocate 256 MB of memory. If you do not have significantly more RAM
-# than this, be sure to enable sufficient swap space for the test.
+echo "One of the E2fsprogs tests will attempt to allocate 256 MB of memory. If you do not have significantly more RAM\n"
+echo "than this, be sure to enable sufficient swap space for the test."
 make check
 read -p "Press [Enter] key to resume..."
 make install
@@ -764,7 +774,7 @@ install -v -m644 doc/com_err.info /usr/share/info
 install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf e2fsprogs-1.44.5
+rm -Rf e2fsprogs-1.45.3
 
 # Sysklogd-1.5.1 || Contains programs for logging system messages || 0.1 SBUs
 tar xvf sysklogd-1.5.1.tar.gz
@@ -791,49 +801,45 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf sysklogd-1.5.1
 
-# Sysvinit-2.93 || Contains programs for controlling the startup, running, and shutdown of the system || 0.1 SBUs
-tar xvf sysvinit-2.93.tar.xz
-cd sysvinit-2.93
-patch -Np1 -i ../sysvinit-2.93-consolidated-1.patch
+# Sysvinit-2.95 || Contains programs for controlling the startup, running, and shutdown of the system || 0.1 SBUs
+tar xvf sysvinit-2.95.tar.xz
+cd sysvinit-2.95
+patch -Np1 -i ../sysvinit-2.95-consolidated-1.patch
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf sysvinit-2.93
+rm -Rf sysvinit-2.95
 
-# Eudev-3.2.7 || Contains programs for dynamic creation of device nodes || 0.2 SBUs
-tar xvf eudev-3.2.7.tar.gz
-cd eudev-3.2.7
-cat > config.cache << "EOF"
-HAVE_BLKID=1
-BLKID_LIBS="-lblkid"
-BLKID_CFLAGS="-I/tools/include"
-EOF
+# Eudev-3.2.8 || Contains programs for dynamic creation of device nodes || 0.2 SBUs
+tar xvf eudev-3.2.8.tar.gz
+cd eudev-3.2.8
 ./configure --prefix=/usr \
---bindir=/sbin \
---sbindir=/sbin \
---libdir=/usr/lib \
---sysconfdir=/etc \
---libexecdir=/lib \
---with-rootprefix= \
---with-rootlibdir=/lib \
---enable-manpages \
---disable-static \
---config-cache
+ --bindir=/sbin \
+ --sbindir=/sbin \
+ --libdir=/usr/lib \
+ --sysconfdir=/etc \
+ --libexecdir=/lib \
+ --with-rootprefix= \
+ --with-rootlibdir=/lib \
+ --enable-manpages \
+ --disable-static
 read -p "Press [Enter] key to resume..."
-LIBRARY_PATH=/tools/lib make
+make
 read -p "Press [Enter] key to resume..."
 mkdir -pv /lib/udev/rules.d
 mkdir -pv /etc/udev/rules.d
-make LD_LIBRARY_PATH=/tools/lib check
+make check
 read -p "Press [Enter] key to resume..."
-make LD_LIBRARY_PATH=/tools/lib install
+make install
 read -p "Press [Enter] key to resume..."
-tar -xvf ../udev-lfs-20171102.tar.bz2
+tar -xvf ../udev-lfs-20171102.tar.xz
 make -f udev-lfs-20171102/Makefile.lfs install
 read -p "Press [Enter] key to resume..."
-LD_LIBRARY_PATH=/tools/lib udevadm hwdb --update
+udevadm hwdb --update
 cd /sources
-rm -Rf eudev-3.2.7
+rm -Rf eudev-3.2.8
+
+bash install6.sh

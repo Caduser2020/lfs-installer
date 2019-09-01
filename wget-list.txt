@@ -26,6 +26,7 @@ http://ftp.gnu.org/gnu/gdbm/gdbm-1.18.1.tar.gz
 http://ftp.gnu.org/gnu/gettext/gettext-0.20.1.tar.xz
 http://ftp.gnu.org/gnu/glibc/glibc-2.30.tar.xz
 http://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz
+http://anduin.linuxfromscratch.org/BLFS/gpm/gpm-1.20.7.tar.bz2
 http://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz
 http://ftp.gnu.org/gnu/grep/grep-3.3.tar.xz
 http://ftp.gnu.org/gnu/groff/groff-1.22.4.tar.gz
@@ -64,6 +65,7 @@ https://docs.python.org/ftp/python/doc/3.7.4/python-3.7.4-docs-html.tar.bz2
 http://ftp.gnu.org/gnu/readline/readline-8.0.tar.gz
 http://ftp.gnu.org/gnu/sed/sed-4.7.tar.xz
 https://github.com/shadow-maint/shadow/releases/download/4.7/shadow-4.7.tar.xz
+http://www.sudo.ws/dist/sudo-1.8.27.tar.gz
 http://www.infodrom.org/projects/sysklogd/download/sysklogd-1.5.1.tar.gz
 https://github.com/systemd/systemd/archive/v241/systemd-241.tar.gz
 http://anduin.linuxfromscratch.org/LFS/systemd-man-pages-241.tar.xz
@@ -75,12 +77,14 @@ https://www.iana.org/time-zones/repository/releases/tzdata2019b.tar.gz
 http://anduin.linuxfromscratch.org/LFS/udev-lfs-20171102.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.34/util-linux-2.34.tar.xz
 https://github.com/vim/vim/archive/v8.1.1846/vim-8.1.1846.tar.gz
+https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
 https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-2.44.tar.gz
 https://tukaani.org/xz/xz-5.2.4.tar.xz
 https://zlib.net/zlib-1.2.11.tar.xz
 http://www.linuxfromscratch.org/patches/lfs/9.0-rc1/bzip2-1.0.8-install_docs-1.patch
 http://www.linuxfromscratch.org/patches/lfs/9.0-rc1/coreutils-8.31-i18n-1.patch
 http://www.linuxfromscratch.org/patches/lfs/9.0-rc1/glibc-2.30-fhs-1.patch
+http://www.linuxfromscratch.org/patches/blfs/8.4/gpm-1.20.7-glibc_2.26-1.patch
 http://www.linuxfromscratch.org/patches/lfs/9.0-rc1/kbd-2.2.0-backspace-1.patch
 http://www.linuxfromscratch.org/patches/lfs/9.0-rc1/sysvinit-2.95-consolidated-1.patch
 http://www.linuxfromscratch.org/patches/lfs/9.0-rc1/systemd-241-networkd_and_rdrand_fixes-1.patch

@@ -229,11 +229,11 @@ read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
 cp -v perl cpan/podlators/scripts/pod2man /tools/bin
-mkdir -pv /tools/lib/perl5/5.30.1
-cp -Rv lib/* /tools/lib/perl5/5.30.1
+mkdir -pv /tools/lib/perl5/5.30.0
+cp -Rv lib/* /tools/lib/perl5/5.30.0
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
-rm -Rf perl-5.30.1
+rm -Rf perl-5.30.0
 
 # Python-3.7.4 || Contains the Python development environment  || 1.4 SBUs
 tar xvf Python-3.7.4.tar.xz
@@ -275,7 +275,7 @@ rm -Rf tar-1.32
 # texinfo-6.6 || programs for reading, writing, and converting info pages || 0.2 SBUs
 tar xvf texinfo-6.6.tar.xz
 cd texinfo-6.6
-# One can safely ignore the error for TestXS_la-TestXS.lo. This is not relevant for LFS and should be ignored.
+read -p "One can safely ignore the error for TestXS_la-TestXS.lo. This is not relevant for LFS and should be ignored."
 ./configure --prefix=/tools
 read -p "Press [Enter] key to resume..."
 make -j4
@@ -299,4 +299,4 @@ rm -Rf xz-5.2.4
 
 # bash strip.sh
 
-su - 
+su - chroot.sh

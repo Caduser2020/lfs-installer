@@ -19,7 +19,7 @@
 # 
 #===================================================================================
 
-$shdir=`pwd`
+shdir=`pwd`
 
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v utmp /var/log/lastlog

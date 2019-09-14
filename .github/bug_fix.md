@@ -1,11 +1,11 @@
-### Requirements for Contributing a Bug Fix
+# Requirements for Contributing a Bug Fix
 
 * Fill out the template below. Any pull request that does not include enough information to be reviewed in a timely manner may be closed at the maintainers' discretion.
 * The pull request must only fix an existing bug. To contribute other changes, you must use a different template. You can see all templates at <https://github.com/Caduser2020/lfs-installer/blob/master/.github/PULL_REQUEST_TEMPLATE.md>.
-* The pull request must update the test suite to demonstrate the changed functionality. 
+* The pull request must update the test suite to demonstrate the changed functionality.
 * After you create the pull request, all status checks must be a pass before a maintainer reviews your contribution. For more details, please see <https://github.com/Caduser2020/lfs-installer/blob/master/.github/CONTRIBUTING.md#pull-requests>.
 
-### Identify the Bug
+## Identify the Bug
 
 <!--
 
@@ -16,7 +16,7 @@ Note: In some cases, one person's "bug" is another person's "feature." If the pu
 
 -->
 
-### Description of the Change
+## Description of the Change
 
 <!--
 
@@ -24,15 +24,15 @@ We must be able to understand the design of your change from this description. I
 
 -->
 
-### Alternate Designs
+## Alternate Designs
 
 <!-- Explain what other alternates were considered and why the proposed version was selected -->
 
-### Possible Drawbacks
+## Possible Drawbacks
 
 <!-- What are the possible side-effects or negative impacts of the code change? -->
 
-### Verification Process
+## Verification Process
 
 <!--
 

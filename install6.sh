@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Installs Optional software for Linux From Scratch 8.4 on a Red Hat based distribution of 
+# Installs Optional software for Linux From Scratch 9.0 on a Red Hat based distribution of 
 # linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  

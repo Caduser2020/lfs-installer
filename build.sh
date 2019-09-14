@@ -30,7 +30,7 @@ read -p "Press [Enter] key to resume..."
 
 #Build 
 
-# Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 7.4 SBUs
+# Binutils-2.32 - Pass 1 || Contains a linker, an assembler, and other tools for handling object files || 1 SBUs
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 target_triplet=`./config.guess`
@@ -43,7 +43,7 @@ case $(uname -m) in
   x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
 time make -j4
-read -p "Real Time is 1 SBU"
+echo "Real Time is 1 SBU"
 read -p "Press [Enter] key to resume..."
 # real is 1 SBU
 make install
@@ -53,7 +53,7 @@ rm -Rf build
 rm -Rf binutils-2.32
 cd /mnt/lfs/sources
 
-# Gcc-9.2.0 || Contains the GNU compiler collection ||
+# Gcc-9.2.0 - Pass 1 || Contains the GNU compiler collection || 12 SBUs
 tar xvf gcc-9.2.0.tar.xz
 cd gcc-9.2.0
 

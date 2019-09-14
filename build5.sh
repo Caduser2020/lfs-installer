@@ -167,7 +167,7 @@ cd gettext-0.20.1
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
-cp -v src/{msgfmt,msgmerge,xgettext} /tools/bin
+cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /tools/bin
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf gettext-0.20.1
@@ -197,7 +197,7 @@ cd /mnt/lfs/sources
 rm -Rf gzip-1.10
 
 # Make-4.2.1 || Contains a program for compiling packages || 0.1 SBUs
-tar xvf make-4.2.1.tar.bz2
+tar xvf make-4.2.1.tar.gz
 cd make-4.2.1
 sed -i '211,217 d; 219,229 d; 232 d' glob/glob.c
 ./configure --prefix=/tools --without-guile
@@ -229,11 +229,11 @@ read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
 cp -v perl cpan/podlators/scripts/pod2man /tools/bin
-mkdir -pv /tools/lib/perl5/5.28.1
-cp -Rv lib/* /tools/lib/perl5/5.28.1
+mkdir -pv /tools/lib/perl5/5.30.1
+cp -Rv lib/* /tools/lib/perl5/5.30.1
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
-rm -Rf perl-5.28.1
+rm -Rf perl-5.30.1
 
 # Python-3.7.4 || Contains the Python development environment  || 1.4 SBUs
 tar xvf Python-3.7.4.tar.xz

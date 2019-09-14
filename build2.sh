@@ -54,7 +54,7 @@ cd build
  --enable-kernel=3.2 \
  --with-headers=/tools/include
 read -p "Press [Enter] key to resume..."
-make
+make -j1
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
@@ -65,4 +65,26 @@ readelf -l a.out | grep ': /tools'
 read -p "should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'"
 rm -v dummy.c a.out
 rm -Rf glibc-2.30
-bash build3.sh
+
+# Libstdc++ from GCC-9.2.0 || Contains standard C++ library || 0.5 SBUs
+# Unpack the gcc tarball again
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
+mkdir -v build
+cd build
+../libstdc++-v3/configure \
+    --host=$LFS_TGT \
+    --prefix=/tools \
+    --disable-multilib \
+    --disable-nls \
+    --disable-libstdcxx-threads \
+    --disable-libstdcxx-pch \
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/9.2.0
+read -p "Press [Enter] key to resume..."
+make -j4
+read -p "Press [Enter] key to resume..."
+make install
+read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources
+rm -Rf gcc-9.2.0
+bash $shdir/build3.sh

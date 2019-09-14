@@ -19,6 +19,7 @@
 #=================================================================================== 
 sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
+shdir="$(pwd)"
 export shdir
 if [ $shdir != "$(pwd)" ]
 then

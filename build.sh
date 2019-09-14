@@ -53,7 +53,7 @@ rm -Rf build
 rm -Rf binutils-2.32
 cd /mnt/lfs/sources
 
-# Install Gcc
+# Gcc-9.2.0 || Contains the GNU compiler collection ||
 tar xvf gcc-9.2.0.tar.xz
 cd gcc-9.2.0
 

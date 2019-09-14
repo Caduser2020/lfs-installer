@@ -19,6 +19,8 @@
 #===================================================================================
 
 # Enter previous password set
+
+cd /mnt/lfs/sources
 whoami 
 if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $shdir"; fi
 

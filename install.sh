@@ -73,7 +73,6 @@ sudo chown -v lfs $LFS/sources
 # cd $shdir
 sudo chown -R lfs $shdir
 sudo chmod 777 ./
-sudo -u lfs bash $shdir/build.sh
 
 read -p "Press [Enter] key to resume..."
 cat > ~/.bash_profile << 'EOF' 
@@ -92,4 +91,3 @@ EOF
 
 cd ~/
 source .bash_profile
-cd /mnt/lfs/sources

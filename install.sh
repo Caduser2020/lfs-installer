@@ -19,10 +19,8 @@
 #=================================================================================== 
 sudo yum -y update
 sudo yum -y install bison byacc gcc-c++ patch texinfo
-_script="$(readlink -f ${BASH_SOURCE[0]})"
-shdir="$(dirname $_script)"
 export shdir
-if [ $shdir != "$(dirname $_script)" ]
+if [ $shdir != "$(pwd)" ]
 then
   exit
 fi
@@ -72,6 +70,25 @@ sudo passwd lfs
 sudo chown -v lfs $LFS/tools
 sudo chown -v lfs $LFS/sources
 # cd $shdir
-sudo chown -v lfs $shdir
+sudo chown -R lfs $shdir
 sudo chmod 777 ./
 sudo -u lfs bash $shdir/build.sh
+
+read -p "Press [Enter] key to resume..."
+cat > ~/.bash_profile << 'EOF' 
+exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
+EOF
+
+cat > ~/.bashrc << 'EOF' 
+set +h 
+umask 022 
+LFS=/mnt/lfs 
+LC_ALL=POSIX 
+LFS_TGT=$(uname -m)-lfs-linux-gnu 
+PATH=/tools/bin:/bin:/usr/bin 
+export LFS LC_ALL LFS_TGT PATH 
+EOF
+
+cd ~/
+source .bash_profile
+cd /mnt/lfs/sources

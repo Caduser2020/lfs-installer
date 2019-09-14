@@ -21,24 +21,7 @@
 # Enter previous password set
 whoami 
 if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $shdir"; fi
-read -p "Press [Enter] key to resume..."
-cat > ~/.bash_profile << 'EOF' 
-exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
-EOF
 
-cat > ~/.bashrc << 'EOF' 
-set +h 
-umask 022 
-LFS=/mnt/lfs 
-LC_ALL=POSIX 
-LFS_TGT=$(uname -m)-lfs-linux-gnu 
-PATH=/tools/bin:/bin:/usr/bin 
-export LFS LC_ALL LFS_TGT PATH 
-EOF
-
-cd ~/
-source .bash_profile
-cd /mnt/lfs/sources
 if [ $LFS != /mnt/lfs ]
 then
   export LFS=/mnt/lfs
@@ -46,10 +29,12 @@ fi
 read -p "Press [Enter] key to resume..."
 
 #Build 
+
+# Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 7.4 SBUs
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 target_triplet=`./config.guess`
-export $target_triplet
+export target_triplet
 echo $target_triplet
 read -p "Press [Enter] key to resume..."
 mkdir -v build; cd build

@@ -86,7 +86,7 @@ case $(uname -m) in
  -i.orig gcc/config/i386/t-linux64
  ;;
 esac
-cd ..
+
 mkdir -v objdir
 cd objdir
 ../configure                                       \

@@ -1,4 +1,3 @@
-
 #!/bin/bash  
 #=================================================================================== 
 # 
@@ -31,6 +30,7 @@ echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 
+# Linux-5.2.8 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
 tar xvf linux-5.2.8.tar.xz
 cd linux-5.2.8
 make mrproper
@@ -42,6 +42,7 @@ cd ..
 rm -Rf linux-5.2.8
 cd /mnt/lfs/sources
 
+# Glibc-2.30 || contains main C library || 4.8 SBUs
 tar xvf glibc-2.30.tar.xz
 cd glibc-2.30
 mkdir -v build
@@ -52,7 +53,7 @@ cd build
  --build=$(../scripts/config.guess) \
  --enable-kernel=3.2 \
  --with-headers=/tools/include
- read -p "Press [Enter] key to resume..."
+read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 make install
@@ -61,7 +62,7 @@ cd ..
 echo 'int main(){}' > dummy.c
 $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'
-# should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'
+read -p "should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'"
 rm -v dummy.c a.out
 rm -Rf glibc-2.30
 bash build3.sh

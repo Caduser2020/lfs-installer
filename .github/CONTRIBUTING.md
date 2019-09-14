@@ -56,13 +56,13 @@ When a package is not available from the location listed in the book, some other
 * A search for the full package name in google or your favorite search engine
 * Debian Package Search Page
 * filemirrors.com
-* Sources from your linux distro
+* Sources from your linux distribution
 * LFS HTTP/FTP Sites
 * If the above methods are not available to you, the packages are also available in a tarball and individually on the following ftp and http mirrors. HLFS package tarballs and individual packages are also available on these mirrors.
-  * <ftp://ftp.lfs-matrix.net/pub/lfs/> (Los Angeles, CA, USA, 200Mbps)
-  * <http://ftp.lfs-matrix.net/pub/lfs/> (Los Angeles, CA, USA, 200Mbps)
-  * <ftp://ftp.osuosl.org/pub/lfs/> (Corvallis, OR, USA, 100Mbps)
-  * <http://ftp.osuosl.org/pub/lfs/> (Corvallis, OR, USA, 100Mbps)
+  * <ftp://ftp.lfs-matrix.net/pub/lfs/> (Los Angeles, CA, USA, 200 Mbps)
+  * <http://ftp.lfs-matrix.net/pub/lfs/> (Los Angeles, CA, USA, 200 Mbps)
+  * <ftp://ftp.osuosl.org/pub/lfs/> (Corvallis, OR, USA, 100 Mbps)
+  * <http://ftp.osuosl.org/pub/lfs/> (Corvallis, OR, USA, 100 Mbps)
   * <http://mirror.jaleco.com/lfs/pub/> (Washington, DC, USA, 1 Gbps)
   * <http://mirrors-usa.go-parts.com/lfs> (Michigan, USA, 1Gbps)
   * Also available as ftp or rsync: <ftp://mirrors-usa.go-parts.com/lfs> and [rsync://mirrors-usa.go-parts.com/lfs](rsync://mirrors-usa.go-parts.com/lfs)

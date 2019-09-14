@@ -80,7 +80,7 @@ tar xvf bison-3.4.1.tar.xz
 cd bison-3.4.1
 ./configure --prefix=/tools
 read -p "Press [Enter] key to resume..."
-make -j4
+make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."

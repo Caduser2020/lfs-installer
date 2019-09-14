@@ -24,7 +24,7 @@ then
 else
     echo '\$LFS is set to /mnt/lfs'
 fi
-if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `$shdir`"; fi
+if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $shdir"; fi
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
@@ -64,8 +64,8 @@ read -p "Press [Enter] key to resume..."
 
 make -j4
 read -p "Press [Enter] key to resume..."
-make test
-read -p "Press [Enter] key to resume..."
+# make test
+# read -p "Press [Enter] key to resume..."
 make SCRIPTS="" install
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
@@ -73,7 +73,7 @@ rm -Rf expect5.45.4
 
 # Dejagnu-1.6.2 || Contains a framework for testing other programs || less than 0.1 SBUs
 tar xvf dejagnu-1.6.2.tar.gz
-
+cd dejagnu-1.6.2
 ./configure --prefix=/tools
 read -p "Press [Enter] key to resume..."
 make install
@@ -83,5 +83,4 @@ make check
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf dejagnu-1.6.2
-cd $shdir
-bash build5.sh
+bash $shdir/build5.sh

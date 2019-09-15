@@ -185,7 +185,7 @@ make
 read -p "Press [Enter] key to resume..."
 # WARNING EXPENSIVE TEST (8.6 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make -j4 check
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make install
 cd /sources
 rm -Rf automake-1.16.1

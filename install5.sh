@@ -398,7 +398,7 @@ cd check-0.12.0
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING EXPENSIVE TEST (3.6 to 4 SBUs) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# ! WARNING EXPENSIVE TEST (3.6 to 4 SBUs) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
 # read -p "Press [Enter] key to resume..."
 make docdir=/usr/share/doc/check-0.12.0 install
@@ -561,7 +561,7 @@ cd /sources
 rm -Rf libpipeline-1.5.1
 
 # Make-4.2.1 || Contains a program for compiling packages || 0.1 SBUs
-tar xvf make-4.2.1.tar.bz2
+tar xvf make-4.2.1.tar.gz
 cd make-4.2.1
 sed -i '211,217 d; 219,229 d; 232 d' glob/glob.c
 ./configure --prefix=/usr

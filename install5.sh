@@ -398,9 +398,9 @@ cd check-0.12.0
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING VERY EXPENSIVE TEST || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# WARNING EXPENSIVE TEST (3.6 to 4 SBUs) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make docdir=/usr/share/doc/check-0.12.0 install
 sed -i '1 s/tools/usr/' /usr/bin/checkmk
 read -p "Press [Enter] key to resume..."

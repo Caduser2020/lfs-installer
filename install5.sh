@@ -171,7 +171,7 @@ make
 read -p "Press [Enter] key to resume..."
 # WARNING BROKEN TEST || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make install
 cd /sources
 rm -Rf autoconf-2.69

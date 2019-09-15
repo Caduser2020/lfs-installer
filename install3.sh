@@ -207,14 +207,15 @@ SED=sed                               \
              --with-system-zlib
 read -p "Press [Enter] key to resume..."
 make
-read -p "Press [Enter] key to resume..."
+# Commented out because the tests take almost as long as the compile
+# read -p "Press [Enter] key to resume..."
 ulimit -s 32768
 chown -Rv nobody .
 su nobody -s /bin/bash -c "PATH=$PATH make -k check"
 ../contrib/test_summary | grep -A7 Summ
 read -p "Press [Enter] key to resume..."
 make install
-rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/9.1.0/include-fixed/bits/
+rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/9.2.0/include-fixed/bits/
 read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf gcc-9.2.0
@@ -228,16 +229,41 @@ ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/9.2.0/liblto_plugin.so \
 echo 'int main(){}' > dummy.c
 cc dummy.c -v -Wl,--verbose &> dummy.log
 readelf -l a.out | grep ': /lib'
+echo "Output of last command should be: [Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]"
 read -p "Press [Enter] key to resume..."
 grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log
+echo "Output of last command should be: "
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../lib/crt1.o succeeded"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../lib/crti.o succeeded"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../lib/crtn.o succeeded"
 read -p "Press [Enter] key to resume..."
-grep -B4 '^ /usr/include' dummy.log
+grep -B4 '^ /usr/include' dummy.log 
+echo "Output of last command should be: "
+echo "#include <...> search starts here:"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include"
+echo "/usr/local/include"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include-fixed"
+echo "/usr/include"
 read -p "Press [Enter] key to resume..."
 grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
+echo "References to paths that have components with '-linux-gnu' should \
+be ignored, but otherwise the output of last command should be: "
+echo 'SEARCH_DIR("/usr/x86_64-pc-linux-gnu/lib64")'
+echo 'SEARCH_DIR("/usr/local/lib64")'
+echo 'SEARCH_DIR("/lib64")'
+echo 'SEARCH_DIR("/usr/lib64")'
+echo 'SEARCH_DIR("/usr/x86_64-pc-linux-gnu/lib")'
+echo 'SEARCH_DIR("/usr/local/lib")'
+echo 'SEARCH_DIR("/lib")'
+echo 'SEARCH_DIR("/usr/lib");'
 read -p "Press [Enter] key to resume..."
 grep "/lib.*/libc.so.6 " dummy.log
+echo "Output of last command should be: "
+echo "attempt to open /lib/libc.so.6 succeeded"
 read -p "Press [Enter] key to resume..."
 grep found dummy.log
+echo "Output of last command should be: "
+echo "found ld-linux-x86-64.so.2 at /lib/ld-linux-x86-64.so.2"
 read -p "Press [Enter] key to resume..."
 rm -v dummy.c a.out dummy.log
 mkdir -pv /usr/share/gdb/auto-load/usr/lib
@@ -245,4 +271,4 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 cd /sources
 rm -Rf gcc-8.2.0
 
-bash install4.sh
+bash $shdir/install4.sh

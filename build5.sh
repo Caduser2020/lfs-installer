@@ -298,5 +298,6 @@ cd /mnt/lfs/sources
 rm -Rf xz-5.2.4
 
 # bash strip.sh
-
+cd $shdir
+cp -Rv . $LFS/shdir
 su - chroot.sh

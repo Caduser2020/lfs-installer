@@ -68,7 +68,7 @@ cd /sources
 rm -Rf gperf-3.1
 
 # Expat-2.2.7 || Contains a stream oriented C library for parsing XML || 0.1 SBUs
-tar xvf expat-2.2.7.tar.bz2
+tar xvf expat-2.2.7.tar.xz
 cd expat-2.2.7
 sed -i 's|usr/bin/env |bin/|' run.sh.in
 ./configure --prefix=/usr \
@@ -842,4 +842,4 @@ udevadm hwdb --update
 cd /sources
 rm -Rf eudev-3.2.8
 
-bash install6.sh
+bash $shdir/install6.sh

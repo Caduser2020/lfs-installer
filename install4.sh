@@ -170,7 +170,6 @@ read -p "Press [Enter] key to resume..."
 make check
 read -p "Press [Enter] key to resume..."
 make install
-read -p "Press [Enter] key to resume..."
 install -d -m755 /usr/share/doc/sed-4.7
 install -m644 doc/sed.html /usr/share/doc/sed-4.7
 read -p "Press [Enter] key to resume..."
@@ -260,5 +259,6 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 mv -vf /usr/bin/bash /bin
+echo "Please type in the command: bash $shdir/install5.sh"
 exec /bin/bash --login +h
 read -p "Press [Enter] key to resume..."

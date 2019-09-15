@@ -623,7 +623,7 @@ make
 read -p "Press [Enter] key to resume..."
 # ! WARNING EXPENSIVE TEST (3.0 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make install
 make -C doc install-html docdir=/usr/share/doc/tar-1.32
 read -p "Press [Enter] key to resume..."
@@ -634,6 +634,9 @@ rm -Rf tar-1.32
 tar xvf texinfo-6.6.tar.xz
 cd texinfo-6.6
 ./configure --prefix=/usr --disable-static
+echo "In this case, the top-level configure script will complain that this is an unrecognized option, but the configure \
+script for XSParagraph recognizes it and uses it to disable installing a static XSParagraph.a to /usr/lib/\
+texinfo."
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."

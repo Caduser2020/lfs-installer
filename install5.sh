@@ -313,7 +313,7 @@ read -p "Press [Enter] key to resume..."
 make install
 chmod -v 755 /usr/lib/libpython3.7m.so
 chmod -v 755 /usr/lib/libpython3.so
-ln -sfv pip3.7 /usr/bin/pip3"
+ln -sfv pip3.7 /usr/bin/pip3
 install -v -dm755 /usr/share/doc/python-3.7.4/html
 tar --strip-components=1 \
  --no-same-owner \

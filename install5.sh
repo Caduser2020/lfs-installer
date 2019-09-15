@@ -657,7 +657,7 @@ rm -Rf texinfo-6.6
 
 # Vim-8.1.1846 || Contains a powerful text editor || 2.2 SBUs
 tar xvf vim-8.1.1846.tar.gz
-cd vim81
+cd vim-8.1.1846
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
@@ -671,7 +671,6 @@ ln -sv vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do
  ln -sv vim.1 $(dirname $L)/vi.1
 done
-read -p "Press [Enter] key to resume..."
 ln -sv ../vim/vim81/doc /usr/share/doc/vim-8.1.1846
 read -p "Press [Enter] key to resume..."
 cat > /etc/vimrc << "EOF"
@@ -690,7 +689,7 @@ endif
 EOF
 
 cd /sources
-rm -Rf vim81
+rm -Rf vim-8.1.1846
 
 # Procps-ng-3.3.15 || Contains programs for monitoring processes || 0.1 SBUs
 tar xvf procps-ng-3.3.15.tar.xz
@@ -736,10 +735,10 @@ mkdir -pv /var/lib/hwclock
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-#  RUNNING THE TEST SUITE CAN BE HARMFUL TO YOUR SYSTEM || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# ! RUNNING THE TEST SUITE CAN BE HARMFUL TO YOUR SYSTEM || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # chown -Rv nobody .
 # su nobody -s /bin/bash -c "PATH=$PATH make -k check"
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources

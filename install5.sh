@@ -127,7 +127,7 @@ make
 read -p "Press [Enter] key to resume..."
 # WARNING VERY EXPENSIVE TEST (11 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make -k test
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make install
 unset BUILD_ZLIB BUILD_BZIP2
 cd /sources

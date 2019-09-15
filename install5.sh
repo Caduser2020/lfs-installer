@@ -125,7 +125,7 @@ sh Configure -des -Dprefix=/usr \
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING VERY EXPENSIVE TEST (11 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# ! WARNING VERY EXPENSIVE TEST (11 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make -k test
 # read -p "Press [Enter] key to resume..."
 make install
@@ -169,7 +169,7 @@ sed '361 s/{/\\{/' -i bin/autoscan.in
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING BROKEN TEST || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# ! WARNING BROKEN TEST || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
 # read -p "Press [Enter] key to resume..."
 make install
@@ -183,7 +183,7 @@ cd automake-1.16.1
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING EXPENSIVE TEST (8.6 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# ! WARNING EXPENSIVE TEST (8.6 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make -j4 check
 # read -p "Press [Enter] key to resume..."
 make install
@@ -560,7 +560,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf libpipeline-1.5.1
 
-# Make-4.2.1 || Contains a program for compiling packages || 0.1 SBUs
+# Make-4.2.1 || Contains a program for compiling packages || 0.6 SBUs
 tar xvf make-4.2.1.tar.gz
 cd make-4.2.1
 sed -i '211,217 d; 219,229 d; 232 d' glob/glob.c
@@ -589,7 +589,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf patch-2.7.6
 
-# Man-DB-2.8.6.1 || contains programs for finding and viewing man pages || 0.3 SBUs
+# Man-DB-2.8.6.1 || contains programs for finding and viewing man pages || 0.4 SBUs
 tar xvf man-db-2.8.6.1.tar.xz
 cd man-db-2.8.6.1
 ./configure --prefix=/usr \
@@ -621,7 +621,7 @@ FORCE_UNSAFE_CONFIGURE=1 \
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-# WARNING EXPENSIVE TEST (3.0 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
+# ! WARNING EXPENSIVE TEST (3.0 SBU) || DO NOT RUN UNLESS YOU KNOW WHAT YOU ARE DOING
 # make check
 read -p "Press [Enter] key to resume..."
 make install

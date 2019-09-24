@@ -42,9 +42,9 @@ EOF
 cd /sources
 rm -Rf sudo-1.8.27
 
-# Wget-1.20.1 || Contains a utility for downloading files from the Web || 0.4 SBUs
-tar xvf wget-1.20.1.tar.gz
-cd wget-1.20.1
+# wget-1.20.3 || Contains a utility for downloading files from the Web || 0.4 SBUs
+tar xvf wget-1.20.3.tar.gz
+cd wget-1.20.3
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
             --with-ssl=openssl &&
@@ -54,7 +54,7 @@ make install
 read -p "Press [Enter] key to resume..."
 
 cd /sources
-rm -Rf sudo-1.8.27
+rm -Rf wget-1.20.3
 
 # GPM-1.20.7 || contains a mouse server for the console and xterm || 0.1 SBUs
 tar xvf gpm-1.20.7.tar.bz2

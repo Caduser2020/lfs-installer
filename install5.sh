@@ -744,7 +744,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf util-linux-2.34
 
-# E2fsprogs-1.45.3 || Contains the utilities for handling the ext2 file system || 1.6 SBUs
+# E2fsprogs-1.45.3 || Contains the utilities for handling the ext2 file system || 3.1 SBUs
 tar xvf e2fsprogs-1.45.3.tar.gz
 cd e2fsprogs-1.45.3
 mkdir -v build
@@ -759,9 +759,9 @@ cd build
 --disable-fsck
 read -p "Press [Enter] key to resume..."
 make
-read -p "Press [Enter] key to resume..."
 echo "One of the E2fsprogs tests will attempt to allocate 256 MB of memory. If you do not have significantly more RAM\n"
 echo "than this, be sure to enable sufficient swap space for the test."
+read -p "Press [Enter] key to resume..."
 make check
 read -p "Press [Enter] key to resume..."
 make install
@@ -787,7 +787,6 @@ read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 make BINDIR=/sbin install
-read -p "Press [Enter] key to resume..."
 cat > /etc/syslog.conf << "EOF"
 # Begin /etc/syslog.conf
 auth,authpriv.* -/var/log/auth.log

@@ -86,26 +86,16 @@ UTC=1
 # Set this to any options you might need to give to hwclock,
 # such as machine hardware clock type for Alphas.
 CLOCKPARAMS=
+
 # End /etc/sysconfig/clock
 EOF
 
-locale = "$(locale -a)"
+locale -a
 
-echo locale
+# (1) prompt user, and read command line argument
+read -p "Enter Preferred Locale: " answer
+$pref_locale = $answer;
 
-$pref_locale
-
-while true
-do
-  # (1) prompt user, and read command line argument
-  read -p "Enter Preferred Locale: " answer
-
-  # (2) handle the input we were given
-  
-  $pref_locale = $answer;
-
-  esac
-done 
 
 LC_ALL=$pref_locale locale charmap
 LC_ALL=$pref_locale locale language
@@ -119,6 +109,7 @@ export LANG=en_US.utf8
 # End /etc/profile
 EOF
 
+cat > /etc/inputrc << "EOF"
 cat > /etc/inputrc << "EOF"
 # Begin /etc/inputrc
 # Modified by Chris Lynn <roryo@roryo.dynup.net>
@@ -162,15 +153,15 @@ EOF
 
 cat > /etc/fstab << "EOF"
 # Begin /etc/fstab
-# file system mount-point type options dump fsck
+# file system   mount-point type    options             dump fsck
 # order
-/dev/sda1 / ext4 defaults 1 1
-/dev/sda2 swap swap pri=1 0 0
-proc /proc proc nosuid,noexec,nodev 0 0
-sysfs /sys sysfs nosuid,noexec,nodev 0 0
-devpts /dev/pts devpts gid=5,mode=620 0 0
-tmpfs /run tmpfs defaults 0 0
-devtmpfs /dev devtmpfs mode=0755,nosuid 0 0
+/dev/sda1       /           ext4    defaults            1   1
+/dev/sda2       swap        swap    pri=1               0   0
+proc            /proc       proc    nosuid,noexec,nodev 0   0
+sysfs           /sys        sysfs   nosuid,noexec,nodev 0   0
+devpts          /dev/pts    devpts  gid=5,mode=620      0   0
+tmpfs           /run        tmpfs   defaults            0   0
+devtmpfs        /dev        devtmpfs mode=0755,nosuid   0   0
 # End /etc/fstab
 EOF
 
@@ -180,7 +171,7 @@ tar xvf linux-5.2.8.tar.xz
 cd linux-5.2.8
 make mrproper
 read -p "Press [Enter] key to resume..."
-make menuconfig
+make defconfig
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -200,9 +191,10 @@ install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
 EOF
 cd /sources
 
-cd /tmp
-grub-mkrescue --output=grub-img.iso
-xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
+# Currently broken on account of xorriso not included in LFS
+#cd /tmp
+#grub-mkrescue --output=grub-img.iso
+#xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
 grub-install /dev/sda
 
 cat > /boot/grub/grub.cfg << "EOF"
@@ -212,7 +204,7 @@ set timeout=5
 insmod ext2
 set root=(hd0,2)
 menuentry "GNU/Linux, Linux 5.2.8-lfs-9.0" {
- linux /boot/vmlinuz-5.2.8-lfs-9.0 root=/dev/sda2 ro
+ linux /boot/vmlinuz-5.2.8-lfs-9.0 root=/dev/sda1 ro
 }
 EOF
 
@@ -227,3 +219,4 @@ EOF
 
 
 logout
+exit

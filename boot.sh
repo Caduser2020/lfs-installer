@@ -217,6 +217,5 @@ DISTRIB_CODENAME="LFS"
 DISTRIB_DESCRIPTION="Linux From Scratch"
 EOF
 
-
 logout
 exit

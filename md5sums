@@ -11,7 +11,7 @@ bc1e5cb5c96d99b24886f1f527d3bb3d  attr-2.4.48.tar.gz
 0009a224d8e288e8ec406ef0161f9293  coreutils-8.31.tar.xz
 e1b07516533f351b3aba3423fafeffd6  dejagnu-1.6.2.tar.gz
 4824adc0e95dbbf11dfbdfaad6a1e461  diffutils-3.7.tar.xz
-447a225c05f0a81121f6ddffbf55b06c  e2fsprogs-1.45.3.tar.gz
+447a225c05f0a81121f6ddffbf55b06c  e2fsprogs-1.45.3.tar.gz*
 0b583722f911e1632544718d502aab87  elfutils-0.177.tar.bz2
 ce166b3fdd910c2a4a840378f48fedaf  eudev-3.2.8.tar.gz
 3659bc0938db78815b5f5a9c24d732aa  expat-2.2.7.tar.xz

@@ -745,7 +745,7 @@ cd /sources
 rm -Rf util-linux-2.34
 
 # E2fsprogs-1.45.3 || Contains the utilities for handling the ext2 file system || 3.1 SBUs
-tar xvf e2fsprogs-1.45.3.tar.gz
+tar xvf e2fsprogs-1.45.3.tar.gz*
 cd e2fsprogs-1.45.3
 mkdir -v build
 cd build

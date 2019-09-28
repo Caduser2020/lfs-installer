@@ -4,7 +4,7 @@ Installs Linux from Scratch onto a Red Hat based distribution of Linux.
 
 ## Getting Started
 
-Download the 'install.sh' & 'wget-list.txt' files onto the Downloads folder of the machine that you are installing Linux from scratch on. Then, run the command below to start the install.
+Download the 'install.sh' & 'wget-list.txt' files onto the Downloads folder of the machine that you are installing Linux from scratch on. Then, run the command below **as root** to start the install.
 
 ```sh
 

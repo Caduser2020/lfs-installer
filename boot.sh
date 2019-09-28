@@ -202,7 +202,7 @@ cat > /boot/grub/grub.cfg << "EOF"
 set default=0
 set timeout=5
 insmod ext2
-set root=(hd0,2)
+set root=(hd0,1)
 menuentry "GNU/Linux, Linux 5.2.8-lfs-9.0" {
  linux /boot/vmlinuz-5.2.8-lfs-9.0 root=/dev/sda1 ro
 }

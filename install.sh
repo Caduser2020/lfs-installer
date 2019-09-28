@@ -55,7 +55,8 @@ mount -v -t ext4 /dev/sda1 $LFS
 mkdir -v $LFS/sources 
 chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
-wget -i $shdir/wget-list.txt -P $LFS/sources
+wget -i $shdir/wget-list.txt --continue --directory-prefix=$LFS/sources
+mv $LFS/e2fsprogs* $LFS/e2fsprogs-1.45.3.tar.gz
 mv $shdir/md5sums $LFS/sources
 pushd $LFS/sources
 md5sum -c md5sums

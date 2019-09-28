@@ -25,8 +25,8 @@
 #===================================================================================
 
 cd /sources
-tar xvf lfs-bootscripts-20180820.tar.bz2
-cd lfs-bootscripts-20180820
+tar xvf lfs-bootscripts-20190524.tar.xz
+cd lfs-bootscripts-20190524
 make install
 cd /sources
 bash /lib/udev/init-net-rules.sh
@@ -43,18 +43,15 @@ BROADCAST=192.168.1.255
 EOF
 cat > /etc/resolv.conf << "EOF"
 # Begin /etc/resolv.conf
-
 nameserver 1.1.1.1
 nameserver 1.0.0.1
 # End /etc/resolv.conf
 EOF
 
-echo "IsaiahOS" > /etc/hostname
+echo "lfs-9.0" > /etc/hostname
 cat > /etc/hosts << "EOF"
 # Begin /etc/hosts
 127.0.0.1 localhost
-127.0.1.1 test.example.org test1
-192.168.58.1 test2.example.org test2 
 ::1 localhost ip6-localhost ip6-loopback
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
@@ -89,26 +86,16 @@ UTC=1
 # Set this to any options you might need to give to hwclock,
 # such as machine hardware clock type for Alphas.
 CLOCKPARAMS=
+
 # End /etc/sysconfig/clock
 EOF
 
-locale = "$(locale -a)"
+locale -a
 
-echo locale
+# (1) prompt user, and read command line argument
+read -p "Enter Preferred Locale: " answer
+$pref_locale = $answer;
 
-$pref_locale
-
-while true
-do
-  # (1) prompt user, and read command line argument
-  read -p "Enter Preferred Locale: " answer
-
-  # (2) handle the input we were given
-  
-  $pref_locale = $answer;
-
-  esac
-done 
 
 LC_ALL=$pref_locale locale charmap
 LC_ALL=$pref_locale locale language
@@ -122,6 +109,7 @@ export LANG=en_US.utf8
 # End /etc/profile
 EOF
 
+cat > /etc/inputrc << "EOF"
 cat > /etc/inputrc << "EOF"
 # Begin /etc/inputrc
 # Modified by Chris Lynn <roryo@roryo.dynup.net>
@@ -165,36 +153,35 @@ EOF
 
 cat > /etc/fstab << "EOF"
 # Begin /etc/fstab
-# file system mount-point type options dump fsck
+# file system   mount-point type    options             dump fsck
 # order
-/dev/sda1 / ext4 defaults 1 1
-/dev/sda2 swap swap pri=1 0 0
-proc /proc proc nosuid,noexec,nodev 0 0
-sysfs /sys sysfs nosuid,noexec,nodev 0 0
-devpts /dev/pts devpts gid=5,mode=620 0 0
-tmpfs /run tmpfs defaults 0 0
-devtmpfs /dev devtmpfs mode=0755,nosuid 0 0
+/dev/sda1       /           ext4    defaults            1   1
+/dev/sda2       swap        swap    pri=1               0   0
+proc            /proc       proc    nosuid,noexec,nodev 0   0
+sysfs           /sys        sysfs   nosuid,noexec,nodev 0   0
+devpts          /dev/pts    devpts  gid=5,mode=620      0   0
+tmpfs           /run        tmpfs   defaults            0   0
+devtmpfs        /dev        devtmpfs mode=0755,nosuid   0   0
 # End /etc/fstab
 EOF
 
-# Linux-4.20.12 || Contains the Linux kernel || 4.4 - 66.0 SBUs
+# Linux-5.2.8 || Contains the Linux kernel || 4.4 - 66.0 SBUs
 cd /sources
-tar xvf linux-4.20.12.tar.xz
-cd linux-4.20.12
+tar xvf linux-5.2.8.tar.xz
+cd linux-5.2.8
 make mrproper
 read -p "Press [Enter] key to resume..."
 make defconfig
-make menuconfig
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 make modules_install
 read -p "Press [Enter] key to resume..."
-cp -iv arch/x86/boot/bzImage /boot/vmlinuz-4.20.12-lfs-8.4
-cp -iv System.map /boot/System.map-4.20.12
-cp -iv .config /boot/config-4.20.12
-install -d /usr/share/doc/linux-4.20.12
-cp -r Documentation/* /usr/share/doc/linux-4.20.12
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.2.8-lfs-9.0
+cp -iv System.map /boot/System.map-5.2.8
+cp -iv .config /boot/config-5.2.8
+install -d /usr/share/doc/linux-5.2.8
+cp -r Documentation/* /usr/share/doc/linux-5.2.8
 install -v -m755 -d /etc/modprobe.d
 cat > /etc/modprobe.d/usb.conf << "EOF"
 # Begin /etc/modprobe.d/usb.conf
@@ -204,6 +191,10 @@ install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
 EOF
 cd /sources
 
+# Currently broken on account of xorriso not included in LFS
+#cd /tmp
+#grub-mkrescue --output=grub-img.iso
+#xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
 grub-install /dev/sda
 
 cat > /boot/grub/grub.cfg << "EOF"
@@ -212,18 +203,19 @@ set default=0
 set timeout=5
 insmod ext2
 set root=(hd0,1)
-menuentry "GNU/Linux, Linux 4.20.12-lfs-8.4" {
-linux /boot/vmlinuz-4.20.12-lfs-8.4 root=/dev/sda1 ro
+menuentry "GNU/Linux, Linux 5.2.8-lfs-9.0" {
+ linux /boot/vmlinuz-5.2.8-lfs-9.0 root=/dev/sda1 ro
 }
 EOF
 
-echo 8.4 > /etc/lfs-release
+echo 9.0 > /etc/lfs-release
 
 cat > /etc/lsb-release << "EOF"
 DISTRIB_ID="Linux From Scratch"
-DISTRIB_RELEASE="8.4"
+DISTRIB_RELEASE="9.0"
 DISTRIB_CODENAME="LFS"
 DISTRIB_DESCRIPTION="Linux From Scratch"
 EOF
 
 logout
+exit

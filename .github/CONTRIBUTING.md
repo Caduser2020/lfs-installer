@@ -2,34 +2,38 @@
 
 The following is a set of guidelines for contributing to LFS-installer and its packages, which are hosted at [LFS-installer](https://github.com/caduser2020/lfs-installer) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
-#### Table Of Contents
+## Table Of Contents
 
 [Code of Conduct](#code-of-conduct)
 
 [I don't want to read this whole thing, I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
 
 [What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  * [LFS Packages](#linux-from-scratch-packages)
+
+* [LFS Packages](#linux-from-scratch-packages)
 
 [How Can I Contribute?](#how-can-i-contribute)
-  * [Reporting Bugs](#reporting-bugs)
-  * [Suggesting Enhancements](#suggesting-enhancements)
-  * [Your First Code Contribution](#your-first-code-contribution)
-  * [Pull Requests](#pull-requests)
+
+* [Reporting Bugs](#reporting-bugs)
+* [Suggesting Enhancements](#suggesting-enhancements)
+* [Your First Code Contribution](#your-first-code-contribution)
+* [Pull Requests](#pull-requests)
 
 [Style guides](#styleguides)
-  * [Git Commit Messages](#git-commit-messages)
-  * [Bash Style Guide](#Bash-Style-Guide)
-  * [Documentation Style guide](#documentation-style-guide)
+
+* [Git Commit Messages](#git-commit-messages)
+* [Bash Style Guide](#Bash-Style-Guide)
+* [Documentation Style guide](#documentation-style-guide)
 
 [Additional Notes](#additional-notes)
-  * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
+
+* [Issue and Pull Request Labels](#issue-and-pull-request-labels)
 
 ## Code of Conduct
 
 This project and everyone participating in it are governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to the [project manager.](mailto:iposton73@outlook.com)
 
-## I don't want to read this whole thing, I just have a question!!!
+## I don't want to read this whole thing, I just have a question!
 
 > **Note:** Please don't file an issue to ask a question. You'll get faster results by using the resources below.
 
@@ -40,28 +44,28 @@ We have an official detailed wiki where the community chimes in with helpful adv
 ## What should I know before I get started?
 
 ### Linux From Scratch Packages
+
 From the [Linux From Scratch website](http://linuxfromscratch.org/lfs/download.html#packages)
 
 LFS has a list of packages and patches which you should download. Please use the versions which are listed in the book (see the FAQ); these are tested versions which are known to work with each other. There are several ways to download the packages.
 
 #### Hunt and Peck
+
 When a package is not available from the location listed in the book, some other places to try are:
 
 * A search for the full package name in google or your favorite search engine
 * Debian Package Search Page
 * filemirrors.com
-* Sources from your linux distro
+* Sources from your linux distribution
 * LFS HTTP/FTP Sites
 * If the above methods are not available to you, the packages are also available in a tarball and individually on the following ftp and http mirrors. HLFS package tarballs and individual packages are also available on these mirrors.
-  * ftp://ftp.lfs-matrix.net/pub/lfs/ (Los Angeles, CA, USA, 200Mbps)
-  * http://ftp.lfs-matrix.net/pub/lfs/ (Los Angeles, CA, USA, 200Mbps)
-  * ftp://ftp.osuosl.org/pub/lfs/ (Corvallis, OR, USA, 100Mbps)
-  * http://ftp.osuosl.org/pub/lfs/ (Corvallis, OR, USA, 100Mbps)
-  * http://mirror.jaleco.com/lfs/pub/ (Washington, DC, USA, 1 Gbps)
-  * http://mirrors-usa.go-parts.com/lfs (Michigan, USA, 1Gbps)
-  * Also available as ftp or rsync: ftp://mirrors-usa.go-parts.com/lfs and [rsync://mirrors-usa.go-parts.com/lfs](rsync://mirrors-usa.go-parts.com/lfs) 
-
-
+  * <ftp://ftp.lfs-matrix.net/pub/lfs/> (Los Angeles, CA, USA, 200 Mbps)
+  * <http://ftp.lfs-matrix.net/pub/lfs/> (Los Angeles, CA, USA, 200 Mbps)
+  * <ftp://ftp.osuosl.org/pub/lfs/> (Corvallis, OR, USA, 100 Mbps)
+  * <http://ftp.osuosl.org/pub/lfs/> (Corvallis, OR, USA, 100 Mbps)
+  * <http://mirror.jaleco.com/lfs/pub/> (Washington, DC, USA, 1 Gbps)
+  * <http://mirrors-usa.go-parts.com/lfs> (Michigan, USA, 1Gbps)
+  * Also available as ftp or rsync: <ftp://mirrors-usa.go-parts.com/lfs> and [rsync://mirrors-usa.go-parts.com/lfs](rsync://mirrors-usa.go-parts.com/lfs)
 
 ## How Can I Contribute?
 
@@ -69,7 +73,7 @@ When a package is not available from the location listed in the book, some other
 
 This section guides you through submitting a bug report for LFS installer. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behavior :computer: :computer:, and find related reports :mag_right:.
 
-Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template]https://github.com/Caduser2020/lfs-installer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template]<https://github.com/Caduser2020/lfs-installer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md),> the information it asks for helps us resolve issues faster.
 
 > **Note:** If you find a **Closed** issue that seems like it is the same thing that you're experiencing, open a new issue and include a link to the original issue in the body of your new one.
 
@@ -85,9 +89,10 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/).
 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
+* **Use a clear and descriptive title** for the issue to identify the problem
 * **State the exact line in which the problem occurred and the error** in as many details as possible. For example, start by explaining how you started LFS installer, e.g. which command exactly you used in the terminal, or how you started LFS installer otherwise. When stating the line, do not only state the end error. e.g.
-``` command-line
+
+```command-line
 gcc -DALIASPATH=\"/mnt/lfs/usr/share/locale:.\"
 -DLOCALEDIR=\"/mnt/lfs/usr/share/locale\"
 -DLIBDIR=\"/mnt/lfs/usr/lib\"
@@ -107,10 +112,13 @@ make[1]: *** [all-recursive] Error 1
 make[1]: Leaving directory `/lfs/tmp/make-3.79.1'
 make: *** [all-recursive-am] Error 2
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instead of 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instead of
+
 ``` command-line
 make [2]: *** [make] Error 1
 ```
+
 * **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem. If you use the keyboard while following the steps, **record the GIF with** [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.
 * **If you're reporting that LFS installer crashed**, include a crash report with a stack trace from the operating system. Include the crash report in the issue in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines), a [file attachment](https://help.github.com/articles/file-attachments-on-issues-and-pull-requests/), or put it in a [gist](https://gist.github.com/) and provide a link to that gist.
@@ -139,7 +147,7 @@ Before creating enhancement suggestions, please check [this list](#before-submit
 
 #### Before Submitting An Enhancement Suggestion
 
-* **Check the [debugging guide](https://github.com/Caduser2020/lfs-installer/wiki)** for tips — you might discover that the enhancement is already available. Most importantly, check if you're using [the latest version of LFS installer]().
+* **Check the [debugging guide](https://github.com/Caduser2020/lfs-installer/wiki)** for tips — you might discover that the enhancement is already available. Most importantly, check if you're using [the latest version of LFS installer](https://github.com/Caduser2020/lfs-installer/releases/latest).
 * **Perform an [advanced search](https://github.com/search/advanced?q=)** to see if the enhancement has already been suggested. If the enhancement has already been suggested, add a comment to the existing enhancement instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
@@ -167,16 +175,16 @@ Both issue lists are sorted by the total number of comments. While not perfect, 
 
 LFS installer Core and all packages can be developed locally. For instructions on how to do this, see the following sections in the [LFS installer Wiki]():
 
-* 
+* Local Development
 
 ### Pull Requests
 
 The process described here has several goals:
 
-- Maintain the quality of LFS installer
-- Fix problems that are important to users
-- Engage the community in working toward the best possible LFS installer
-- Enable a sustainable system for LFS installer's maintainers to review contributions
+* Maintain the quality of LFS installer
+* Fix problems that are important to users
+* Engage the community in working toward the best possible LFS installer
+* Enable a sustainable system for LFS installer's maintainers to review contributions
 
 Please follow these steps to have your contribution considered by the maintainers:
 
@@ -196,17 +204,17 @@ While the prerequisites above must be satisfied prior to have your pull request 
 * Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit title
 * Consider starting the commit message with an applicable emoji:
-    * :art: `:art:` when improving the format/structure of the code
-    * :racehorse: `:racehorse:` when improving performance
-    * :non-potable_water: `:non-potable_water:` when plugging memory leaks
-    * :memo: `:memo:` when writing docs
-    * :bug: `:bug:` when fixing a bug
-    * :fire: `:fire:` when removing code or files
-    * :white_check_mark: `:white_check_mark:` when adding tests
-    * :lock: `:lock:` when dealing with security
-    * :arrow_up: `:arrow_up:` when upgrading packages
-    * :arrow_down: `:arrow_down:` when downgrading packages
-    * :shirt: `:shirt:` when removing linter warnings
+  * :art: `:art:` when improving the format/structure of the code
+  * :racehorse: `:racehorse:` when improving performance
+  * :non-potable_water: `:non-potable_water:` when plugging memory leaks
+  * :memo: `:memo:` when writing docs
+  * :bug: `:bug:` when fixing a bug
+  * :fire: `:fire:` when removing code or files
+  * :white_check_mark: `:white_check_mark:` when adding tests
+  * :lock: `:lock:` when dealing with security
+  * :arrow_up: `:arrow_up:` when upgrading packages
+  * :arrow_down: `:arrow_down:` when downgrading packages
+  * :shirt: `:shirt:` when removing linter warnings
   
 ### Bash Style Guide
 
@@ -214,13 +222,15 @@ While the prerequisites above must be satisfied prior to have your pull request 
 * The indentation of program constructions has to agree with the logic nesting depth.
 * Use comments correctly:
   * Every file must be documented with an introductory comment that provides information on the filename and its contents:
-    > #!/bin/bash <br> # <br># Builds necessary packages for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. <br># Copyright (C) 2019 <br> <br># This program is free software: you can redistribute it and/or modify <br># it under the terms of the GNU Affero General Public License as published <br># by the Free Software Foundation, either version 3 of the License, or <br># (at your option) any later version. <br> <br># This program is distributed in the hope that it will be useful, <br># but WITHOUT ANY WARRANTY; without even the implied warranty of <br># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the <br># GNU Affero General Public License for more details. <br> <br># You should have received a copy of the GNU Affero General Public License <br># along with this program.  If not, see <https://www.gnu.org/licenses/> 
+    > #!/bin/bash <br> # <br># Builds necessary packages for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. <br># Copyright (C) 2019 <br> <br># This program is free software: you can redistribute it and/or modify <br># it under the terms of the GNU Affero General Public License as published <br># by the Free Software Foundation, either version 3 of the License, or <br># (at your option) any later version. <br> <br># This program is distributed in the hope that it will be useful, <br># but WITHOUT ANY WARRANTY; without even the implied warranty of <br># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the <br># GNU Affero General Public License for more details. <br> <br># You should have received a copy of the GNU Affero General Public License <br># along with this program.  If not, see <https://www.gnu.org/licenses/>
   * Consecutive line end comments start in the same column. A blank will always follow the introductory
 character of the comment `#` to simplify the detection of the beginning of the word.
-    ```
+
+    ```sh
     found=0 # count links found
     deleted=0 # count links deleted
     ```
+
   * If several lines form a section with interlinked instructions, such section must be provided with a section comment.
   * Each function is described by an introductory comment. This comment contains the function name, a short description and the description of the parameters (if any). The name of the author and the date of issue should be added in case of subsequent amendments.
   * For the scope and style of the comments the following applies:
@@ -232,13 +242,17 @@ character of the comment `#` to simplify the detection of the beginning of the w
     > The comment describes the purpose of the instruction.
 
     The following comment is not particularly helpful as it repeats only what is indicated at the beginning of the line:
-    ```
+
+    ```sh
     [ "$logfile" != "" ] && $(> "$logfile") # variable $logfile empty ?
     ```
+
     The comment below, however, states the intention concisely:
-    ```
+
+    ```sh
     [ "$logfile" != "" ] && $(> "$logfile") # empty an existing logfile
     ```
+
 * For variables meaningful, self-documenting names have to be used (such as `inputfile`). In names
 the first 31 characters have to be different. Long names are structured by underscores to improve legibility. <br>
 If a name is not self-documenting, the meaning and use must be described when it first occurs by a comment.
@@ -246,22 +260,23 @@ If a name is not self-documenting, the meaning and use must be described when it
 in the program text ! In particular numeral constants do not have another immediate meaning apart from their value. The meaning of the value will only become clear in the specific text context.
 * If possible, shell built-ins should be preferred to external utilities. Each call of sed, awk, cut etc. generates a new process. Used in a loop this can extend the execution time considerably.
 * <span id="11.1"></span> If a script with Bash call option -n is executed, the script commands are read but not executed:
-  ```
+
+  ```sh
   bash -n remove_ps.sh
   ```
+
   Such calls can be used for syntax check. However, only severe errors will be detected in this way. A mutilated key word (cho instead of echo), for example, will not be detected, since it might also be the name of a program or a function.
 * Test with Bash options
   Command line option | set -o option | Meaning
   -------- | -------- | --------
-  -n | noexec | Commands are not executed, only syntax check (see <a href="#11.1">above</a>.)
+  -n | noexec | Commands are not executed, only syntax check (see [above](#11.1)).)
   -v | verbose | Outputs the lines of a script before execution.
   -x | xtrace | Outputs the lines of a script after replacements.
 
-
 See [Bash Style Guide and Coding Standard - Fritz Mehner](https://lug.fh-swf.de/vim/vim-bash/StyleGuideShell.en.pdf) for more information.
 
-
 ### Documentation Style Guide
+
 * Use [Markdown](https://guides.github.com/features/mastering-markdown/).
 * Use [TomDoc Documentation](tomdoc.org) and generate Markdown files using [Tomdoc.sh](https://github.com/tests-always-included/tomdoc.sh).
 
@@ -306,8 +321,7 @@ Please open an issue on [LFS-installer/issues](https://github.com/Caduser2020/lf
 | `performance` | Related to performance. |
 | `security` | Related to security. |
 | `ui` | Related to visual design. |
-| `uncaught-exception` | Issues about uncaught exceptions, normally created from the [Notifications package](https://github.com/LFS installer/notifications). |
-| `crash` | Reports of LFS installer completely crashing. |
+| `crash` | Reports of LFS installer completely crashing or an command hanging. |
 | `network` | Related to network problems or working with remote systems (e.g. on network drives). |
 | `build-error` | Related to problems with building packages from the source. |
 

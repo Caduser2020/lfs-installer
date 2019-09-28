@@ -19,26 +19,11 @@
 #===================================================================================
 
 # Enter previous password set
+
+cd /mnt/lfs/sources
 whoami 
 if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $shdir"; fi
-read -p "Press [Enter] key to resume..."
-cat > ~/.bash_profile << 'EOF' 
-exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
-EOF
 
-cat > ~/.bashrc << 'EOF' 
-set +h 
-umask 022 
-LFS=/mnt/lfs 
-LC_ALL=POSIX 
-LFS_TGT=$(uname -m)-lfs-linux-gnu 
-PATH=/tools/bin:/bin:/usr/bin 
-export LFS LC_ALL LFS_TGT PATH 
-EOF
-
-cd ~/
-source .bash_profile
-cd /mnt/lfs/sources
 if [ $LFS != /mnt/lfs ]
 then
   export LFS=/mnt/lfs
@@ -46,10 +31,12 @@ fi
 read -p "Press [Enter] key to resume..."
 
 #Build 
+
+# Binutils-2.32 - Pass 1 || Contains a linker, an assembler, and other tools for handling object files || 1 SBUs
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 target_triplet=`./config.guess`
-export $target_triplet
+export target_triplet
 echo $target_triplet
 read -p "Press [Enter] key to resume..."
 mkdir -v build; cd build
@@ -58,6 +45,7 @@ case $(uname -m) in
   x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
 time make -j4
+echo "Real Time is 1 SBU"
 read -p "Press [Enter] key to resume..."
 # real is 1 SBU
 make install
@@ -67,9 +55,9 @@ rm -Rf build
 rm -Rf binutils-2.32
 cd /mnt/lfs/sources
 
-# Install Gcc
-tar xvf gcc-8.2.0.tar.xz
-cd gcc-8.2.0
+# Gcc-9.2.0 - Pass 1 || Contains the GNU compiler collection || 12 SBUs
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
 
 # tar -xf ../mpfr-4.0.2.tar.xz
 # mv -v mpfr-4.0.2 mpfr
@@ -98,36 +86,35 @@ case $(uname -m) in
  -i.orig gcc/config/i386/t-linux64
  ;;
 esac
-cd ..
-mkdir objdir
+
+mkdir -v objdir
 cd objdir
-$PWD/../gcc-8.2.0/configure \
- --target=$LFS_TGT \
- --prefix=/tools \
- --with-glibc-version=2.11 \
- --with-sysroot=$LFS \
- --with-newlib \
- --without-headers \
- --with-local-prefix=/tools \
- --with-native-system-header-dir=/tools/include \
- --disable-nls \
- --disable-shared \
- --disable-multilib \
- --disable-decimal-float \
- --disable-threads \
- --disable-libatomic \
- --disable-libgomp \
- --disable-libmpx \
- --disable-libquadmath \
- --disable-libssp \
- --disable-libvtv \
- --disable-libstdcxx \
- --enable-languages=c,c++
+../configure                                       \
+    --target=$LFS_TGT                              \
+    --prefix=/tools                                \
+    --with-glibc-version=2.11                      \
+    --with-sysroot=$LFS                            \
+    --with-newlib                                  \
+    --without-headers                              \
+    --with-local-prefix=/tools                     \
+    --with-native-system-header-dir=/tools/include \
+    --disable-nls                                  \
+    --disable-shared                               \
+    --disable-multilib                             \
+    --disable-decimal-float                        \
+    --disable-threads                              \
+    --disable-libatomic                            \
+    --disable-libgomp                              \
+    --disable-libquadmath                          \
+    --disable-libssp                               \
+    --disable-libvtv                               \
+    --disable-libstdcxx                            \
+    --enable-languages=c,c++
 read -p "Press [Enter] key to resume..."
 make -j4
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
-rm -Rf gcc-8.2.0
-# FOR DEV ONLY
-bash $shdir/build2.sh
+rm -Rf gcc-9.2.0
+cd $shdir
+bash build2.sh

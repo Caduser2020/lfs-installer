@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Installs Optional software for Linux From Scratch 8.4 on a Red Hat based distribution of 
+# Installs Optional software for Linux From Scratch 9.0 on a Red Hat based distribution of 
 # linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  
@@ -19,12 +19,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 # 
 #===================================================================================
-cd /sources
-
-wget http://www.sudo.ws/dist/sudo-1.8.27.tar.gz
-wget https://ftp.gnu.org/gnu/wget/wget-1.20.1.tar.gz
-wget http://anduin.linuxfromscratch.org/BLFS/gpm/gpm-1.20.7.tar.bz2
-wget http://www.linuxfromscratch.org/patches/blfs/8.4/gpm-1.20.7-glibc_2.26-1.patch
 
 # Sudo-1.8.27 || allows a user to run some (or all) commands as root || 0.4 SBUs
 tar xvf sudo-1.8.27.tar.gz
@@ -48,9 +42,9 @@ EOF
 cd /sources
 rm -Rf sudo-1.8.27
 
-# Wget-1.20.1 || Contains a utility for downloading files from the Web || 0.4 SBUs
-tar xvf wget-1.20.1.tar.gz
-cd wget-1.20.1
+# wget-1.20.3 || Contains a utility for downloading files from the Web || 0.4 SBUs
+tar xvf wget-1.20.3.tar.gz
+cd wget-1.20.3
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
             --with-ssl=openssl &&
@@ -60,11 +54,11 @@ make install
 read -p "Press [Enter] key to resume..."
 
 cd /sources
-rm -Rf sudo-1.8.27
+rm -Rf wget-1.20.3
 
-# Sudo-1.8.27 || allows a user to run some (or all) commands as root || 0.4 SBUs
-tar xvf sudo-1.8.27.tar.gz
-
+# GPM-1.20.7 || contains a mouse server for the console and xterm || 0.1 SBUs
+tar xvf gpm-1.20.7.tar.bz2
+cd gpm-1.20.7
 sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c &&
 patch -Np1 -i ../gpm-1.20.7-glibc_2.26-1.patch &&
 ./autogen.sh                                &&
@@ -90,12 +84,12 @@ read -p "Press [Enter] key to resume..."
 cat > /etc/sysconfig/mouse << "EOF"
 # Begin /etc/sysconfig/mouse
 
-MDEVICE="<yourdevice>"
-PROTOCOL="<yourprotocol>"
-GPMOPTS="<additional options>"
+MDEVICE="/dev/input/mice"
+PROTOCOL="imps2"
+GPMOPTS=""
 
 # End /etc/sysconfig/mouse
 EOF
 read -p "Press [Enter] key to resume..."
-cd /sources
-rm -Rf sudo-1.8.27
+cd ..
+rm -Rf gpm-1.20.7

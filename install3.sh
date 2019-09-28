@@ -69,40 +69,25 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf m4-1.4.18
 
-# Bc-1.07.1 || A command line calculator & A reverse-polish command line calculator || 0.1 SBUs
-tar xvf bc-1.07.1.tar.gz
-cd bc-1.07.1
-cat > bc/fix-libmath_h << "EOF"
-#! /bin/bash
-sed -e '1 s/^/{"/' \
--e 's/$/",/' \
--e '2,$ s/^/"/' \
--e '$ d' \
--i libmath.h
-sed -e '$ s/$/0}/' \
--i libmath.h
-EOF
-ln -sv /tools/lib/libncursesw.so.6 /usr/lib/libncursesw.so.6
-ln -sfv libncursesw.so.6 /usr/lib/libncurses.so
-sed -i -e '/flex/s/as_fn_error/: ;; # &/' configure
-./configure --prefix=/usr \
---with-readline \
---mandir=/usr/share/man \
---infodir=/usr/share/info
+# Bc-2.1.3 || A command line calculator & A reverse-polish command line calculator || 0.1 SBUs
+tar xvf bc-2.1.3.tar.gz
+cd bc-2.1.3
+PREFIX=/usr CC=gcc CFLAGS="-std=c99" ./configure.sh -G -O3
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-echo "quit" | ./bc/bc -l Test/checklib.b
+make test
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf bc-1.07.1
+rm -Rf bc-2.1.3
 
-# Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 6.9 SBUs
+# Binutils-2.32 || Contains a linker, an assembler, and other tools for handling object files || 7.4 SBUs
 tar xvf binutils-2.32.tar.xz
 cd binutils-2.32
 expect -c "spawn ls"
+sed -i '/@\tincremental_copy/d' gold/testsuite/Makefile.in
 mkdir -v build
 cd build
 ../configure --prefix=/usr \
@@ -123,7 +108,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf binutils-2.32
 
-# Gmp-6.1.2 || Contains precision math functions || 1.3 SBUs
+# Gmp-6.1.2 || Contains precision math functions || 1.2 SBUs
 tar xvf gmp-6.1.2.tar.xz
 cd gmp-6.1.2
 ./configure --prefix=/usr \
@@ -180,15 +165,15 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf mpc-1.1.0
 
-# shadow-4.6 || Contains programs for handling passwords in a secure way || 0.2 SBUs
-tar xvf shadow-4.6.tar.xz
-cd shadow-4.6
+# shadow-4.7 || Contains programs for handling passwords in a secure way || 0.2 SBUs
+tar xvf shadow-4.7.tar.xz
+cd shadow-4.7
 sed -i 's/groups$(EXEEXT) //' src/Makefile.in
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
 find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/passwd\.5 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;
 sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
--e 's@/var/spool/mail@/var/mail@' etc/login.defs
+       -e 's@/var/spool/mail@/var/mail@' etc/login.defs
 sed -i 's/1000/999/' etc/useradd
 ./configure --sysconfdir=/etc --with-group-name-max-length=32
 read -p "Press [Enter] key to resume..."
@@ -198,61 +183,87 @@ make install
 read -p "Press [Enter] key to resume..."
 mv -v /usr/bin/passwd /bin
 cd /sources
-rm -Rf shadow-4.6
+rm -Rf shadow-4.7
 pwconv
 grpconv
 passwd root
 
-# Gcc-8.2.0 || Contains the GNU compiler collection || 92 SBUs || Basically just go to sleep
-tar xvf gcc-8.2.0.tar.xz
-cd gcc-8.2.0
+# Gcc-9.2.0 || Contains the GNU compiler collection || 95 SBUs
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
 case $(uname -m) in
-x86_64)
-sed -e '/m64=/s/lib64/lib/' \
--i.orig gcc/config/i386/t-linux64
-;;
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+  ;;
 esac
-rm -f /usr/lib/gcc
 mkdir -v build
 cd build
-SED=sed \
-../configure --prefix=/usr \
---enable-languages=c,c++ \
---disable-multilib \
---disable-bootstrap \
---disable-libmpx \
---with-system-zlib
+SED=sed                               \
+../configure --prefix=/usr            \
+             --enable-languages=c,c++ \
+             --disable-multilib       \
+             --disable-bootstrap      \
+             --with-system-zlib
 read -p "Press [Enter] key to resume..."
 make
-read -p "Press [Enter] key to resume..."
+# Commented out because the tests take almost as long as the compile
+# read -p "Press [Enter] key to resume..."
 ulimit -s 32768
-rm ../gcc/testsuite/g++.dg/pr83239.C
 chown -Rv nobody .
 su nobody -s /bin/bash -c "PATH=$PATH make -k check"
 ../contrib/test_summary | grep -A7 Summ
 read -p "Press [Enter] key to resume..."
 make install
+rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/9.2.0/include-fixed/bits/
 read -p "Press [Enter] key to resume..."
+cd /sources
+rm -Rf gcc-9.2.0
+chown -v -R root:root \
+    /usr/lib/gcc/*linux-gnu/9.2.0/include{,-fixed}
 ln -sv ../usr/bin/cpp /lib
 ln -sv gcc /usr/bin/cc
 install -v -dm755 /usr/lib/bfd-plugins
-ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/8.2.0/liblto_plugin.so \
-/usr/lib/bfd-plugins/
-cd /sources
-rm -Rf gcc-8.2.0
+ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/9.2.0/liblto_plugin.so \
+        /usr/lib/bfd-plugins/
 echo 'int main(){}' > dummy.c
 cc dummy.c -v -Wl,--verbose &> dummy.log
 readelf -l a.out | grep ': /lib'
+echo "Output of last command should be: [Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]"
 read -p "Press [Enter] key to resume..."
 grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log
+echo "Output of last command should be: "
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../lib/crt1.o succeeded"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../lib/crti.o succeeded"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../lib/crtn.o succeeded"
 read -p "Press [Enter] key to resume..."
-grep -B4 '^ /usr/include' dummy.log
+grep -B4 '^ /usr/include' dummy.log 
+echo "Output of last command should be: "
+echo "#include <...> search starts here:"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include"
+echo "/usr/local/include"
+echo "/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include-fixed"
+echo "/usr/include"
 read -p "Press [Enter] key to resume..."
 grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
+echo "References to paths that have components with '-linux-gnu' should \
+be ignored, but otherwise the output of last command should be: "
+echo 'SEARCH_DIR("/usr/x86_64-pc-linux-gnu/lib64")'
+echo 'SEARCH_DIR("/usr/local/lib64")'
+echo 'SEARCH_DIR("/lib64")'
+echo 'SEARCH_DIR("/usr/lib64")'
+echo 'SEARCH_DIR("/usr/x86_64-pc-linux-gnu/lib")'
+echo 'SEARCH_DIR("/usr/local/lib")'
+echo 'SEARCH_DIR("/lib")'
+echo 'SEARCH_DIR("/usr/lib");'
 read -p "Press [Enter] key to resume..."
 grep "/lib.*/libc.so.6 " dummy.log
+echo "Output of last command should be: "
+echo "attempt to open /lib/libc.so.6 succeeded"
 read -p "Press [Enter] key to resume..."
 grep found dummy.log
+echo "Output of last command should be: "
+echo "found ld-linux-x86-64.so.2 at /lib/ld-linux-x86-64.so.2"
 read -p "Press [Enter] key to resume..."
 rm -v dummy.c a.out dummy.log
 mkdir -pv /usr/share/gdb/auto-load/usr/lib
@@ -260,3 +271,4 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 cd /sources
 rm -Rf gcc-8.2.0
 
+bash $shdir/install4.sh

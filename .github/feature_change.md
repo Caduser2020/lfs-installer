@@ -1,11 +1,11 @@
-### Requirements for Adding, Changing, or Removing a Feature
+# Requirements for Adding, Changing, or Removing a Feature
 
 * Fill out the template below. Any pull request that does not include enough information to be reviewed in a timely manner may be closed at the maintainers' discretion.
 * The pull request must contribute a change that has been endorsed by the maintainer team. See details in the template below.
 * The pull request must update the test suite to exercise the updated functionality.
 * After you create the pull request, all status checks must be pass before a maintainer reviews your contribution. For more details, please see <https://github.com/Caduser2020/lfs-installer/blob/master/.github/CONTRIBUTING.md#pull-requests>.
 
-### Issue or RFC Endorsed by LFS installer's Maintainers
+## Issue or RFC Endorsed by LFS installer's Maintainers
 
 <!--
 
@@ -20,7 +20,7 @@ To contribute other changes, you must use a different template. You can see all 
 
 -->
 
-### Description of the Change
+## Description of the Change
 
 <!--
 
@@ -28,15 +28,15 @@ We must be able to understand the design of your change from this description. I
 
 -->
 
-### Alternate Designs
+## Alternate Designs
 
 <!-- Explain what other alternates were considered and why the proposed version was selected -->
 
-### Possible Drawbacks
+## Possible Drawbacks
 
 <!-- What are the possible side-effects or negative impacts of the code change? -->
 
-### Verification Process
+## Verification Process
 
 <!--
 
@@ -50,7 +50,7 @@ Describe the actions you performed (including buttons you clicked, text you type
 
 -->
 
-### Release Notes
+## Release Notes
 
 <!--
 

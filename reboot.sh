@@ -18,13 +18,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 # 
 #===================================================================================
-export $LFS = /mnt/lfs
+LFS=/mnt/lfs
+export LFS
 
-umount -v $LFS/dev/pts
-umount -v $LFS/dev
-umount -v $LFS/run
-umount -v $LFS/proc
-umount -v $LFS/sys
-umount -v $LFS
+umount -lv $LFS/dev/pts
+umount -lv $LFS/dev
+umount -lv $LFS/run
+umount -lv $LFS/proc
+umount -lv $LFS/sys
+umount -lv $LFS
 read -p "Press [Enter] key to resume..."
 shutdown -r now

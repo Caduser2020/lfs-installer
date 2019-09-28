@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Installs Basic System Software for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
+# Installs Basic System Software for Linux From Scratch 9.0 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  
 # This program is free software: you can redistribute it and/or modify 
@@ -19,7 +19,7 @@
 # 
 #===================================================================================
 
-$shdir=`pwd`
+shdir=`pwd`
 
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v utmp /var/log/lastlog
@@ -28,9 +28,9 @@ chmod -v 600 /var/log/btmp
 read -p "Press [Enter] key to resume..."
 
 cd /sources
-# Linux-4.20.12 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
-tar xvf linux-4.20.12.tar.xz
-cd linux-4.20.12
+# Linux-5.2.8 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
+tar xvf linux-5.2.8.tar.xz
+cd linux-5.2.8
 make mrproper
 read -p "Press [Enter] key to resume..."
 make INSTALL_HDR_PATH=dest headers_install
@@ -39,44 +39,41 @@ find dest/include \( -name .install -o -name ..install.cmd \) -delete
 cp -rv dest/include/* /usr/include
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf linux-4.20.12
+rm -Rf linux-5.2.8
 
 
-# Man-pages-4.16 || contains over 2,200 man pages || less than 0.1 SBUs
-tar xvf man-pages-4.16.tar.xz
-cd man-pages-4.16
+# Man-pages-5.02 || contains over 2,200 man pages || less than 0.1 SBUs
+tar xvf man-pages-5.02.tar.xz
+cd man-pages-5.02
 make install
 cd /sources
-rm -Rf man-pages-4.16
+rm -Rf man-pages-5.02
 
-# Glibc-2.29 || contains main C library || 22 SBUs
-tar xvf glibc-2.29.tar.xz
-cd glibc-2.29
-patch -Np1 -i ../glibc-2.29-fhs-1.patch
-ln -sfv /tools/lib/gcc /usr/lib
+# Glibc-2.30 || contains main C library || 21 SBUs
+tar xvf glibc-2.30.tar.xz
+cd glibc-2.30
+patch -Np1 -i ../glibc-2.30-fhs-1.patch
+sed -i '/asm.socket.h/a# include <linux/sockios.h>' \
+   sysdeps/unix/sysv/linux/bits/socket.h
 case $(uname -m) in
-i?86) GCC_INCDIR=/usr/lib/gcc/$(uname -m)-pc-linux-gnu/8.2.0/include
-ln -sfv ld-linux.so.2 /lib/ld-lsb.so.3
-;;
-x86_64) GCC_INCDIR=/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.0/include
-ln -sfv ../lib/ld-linux-x86-64.so.2 /lib64
-ln -sfv ../lib/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
-;;
+    i?86)   ln -sfv ld-linux.so.2 /lib/ld-lsb.so.3
+    ;;
+    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 /lib64
+            ln -sfv ../lib/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
+    ;;
 esac
 read -p "Press [Enter] key to resume..."
-
-rm -f /usr/include/limits.h
 mkdir -v build
 cd build
-CC="gcc -isystem $GCC_INCDIR -isystem /usr/include" \
-../configure --prefix=/usr \
---disable-werror \
---enable-kernel=3.2 \
---enable-stack-protector=strong \
-libc_cv_slibdir=/lib
-unset GCC_INCDIR
+CC="gcc -ffile-prefix-map=/tools=/usr" \
+../configure --prefix=/usr                          \
+             --disable-werror                       \
+             --enable-kernel=3.2                    \
+             --enable-stack-protector=strong        \
+             --with-headers=/usr/include            \
+             libc_cv_slibdir=/lib
 read -p "Press [Enter] key to resume..."
-make
+make -j4
 read -p "Press [Enter] key to resume..."
 case $(uname -m) in
 i?86) ln -sfnv $PWD/elf/ld-linux.so.2 /lib ;;
@@ -91,35 +88,70 @@ make install
 read -p "Press [Enter] key to resume..."
 cp -v ../nscd/nscd.conf /etc/nscd.conf
 mkdir -pv /var/cache/nscd
+mkdir -pv /usr/lib/locale
+localedef -i POSIX -f UTF-8 C.UTF-8 2> /dev/null || true
+localedef -i cs_CZ -f UTF-8 cs_CZ.UTF-8
+localedef -i de_DE -f ISO-8859-1 de_DE
+localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro
+localedef -i de_DE -f UTF-8 de_DE.UTF-8
+localedef -i el_GR -f ISO-8859-7 el_GR
+localedef -i en_GB -f UTF-8 en_GB.UTF-8
+localedef -i en_HK -f ISO-8859-1 en_HK
+localedef -i en_PH -f ISO-8859-1 en_PH
+localedef -i en_US -f ISO-8859-1 en_US
+localedef -i en_US -f UTF-8 en_US.UTF-8
+localedef -i es_MX -f ISO-8859-1 es_MX
+localedef -i fa_IR -f UTF-8 fa_IR
+localedef -i fr_FR -f ISO-8859-1 fr_FR
+localedef -i fr_FR@euro -f ISO-8859-15 fr_FR@euro
+localedef -i fr_FR -f UTF-8 fr_FR.UTF-8
+localedef -i it_IT -f ISO-8859-1 it_IT
+localedef -i it_IT -f UTF-8 it_IT.UTF-8
+localedef -i ja_JP -f EUC-JP ja_JP
+localedef -i ja_JP -f SHIFT_JIS ja_JP.SIJS 2> /dev/null || true
+localedef -i ja_JP -f UTF-8 ja_JP.UTF-8
+localedef -i ru_RU -f KOI8-R ru_RU.KOI8-R
+localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
+localedef -i tr_TR -f UTF-8 tr_TR.UTF-8
+localedef -i zh_CN -f GB18030 zh_CN.GB18030
+localedef -i zh_HK -f BIG5-HKSCS zh_HK.BIG5-HKSCS
 make localedata/install-locales
 read -p "Press [Enter] key to resume..."
 cat > /etc/nsswitch.conf << "EOF"
 # Begin /etc/nsswitch.conf
+
 passwd: files
 group: files
 shadow: files
+
 hosts: files dns
 networks: files
+
 protocols: files
 services: files
 ethers: files
 rpc: files
+
 # End /etc/nsswitch.conf
 EOF
-tar -xf ../../tzdata2018i.tar.gz
+tar -xf ../../tzdata2019b.tar.gz
+
 ZONEINFO=/usr/share/zoneinfo
 mkdir -pv $ZONEINFO/{posix,right}
-for tz in etcetera southamerica northamerica europe africa antarctica \
-asia australasia backward pacificnew systemv; do
-zic -L /dev/null -d $ZONEINFO ${tz}
-zic -L /dev/null -d $ZONEINFO/posix ${tz}
-zic -L leapseconds -d $ZONEINFO/right ${tz}
+
+for tz in etcetera southamerica northamerica europe africa antarctica  \
+          asia australasia backward pacificnew systemv; do
+    zic -L /dev/null   -d $ZONEINFO       ${tz}
+    zic -L /dev/null   -d $ZONEINFO/posix ${tz}
+    zic -L leapseconds -d $ZONEINFO/right ${tz}
 done
+
 cp -v zone.tab zone1970.tab iso3166.tab $ZONEINFO
 zic -d $ZONEINFO -p America/New_York
 unset ZONEINFO
 read -p "Press [Enter] key to resume..."
 CTIME=$(tzselect)
+echo "Your local time zone was detected to be"
 echo $CTIME
 read -p "Press [Enter] key to resume..."
 cp -v /usr/share/zoneinfo/$CTIME /etc/localtime
@@ -134,17 +166,17 @@ include /etc/ld.so.conf.d/*.conf
 EOF
 mkdir -pv /etc/ld.so.conf.d
 cd /sources
-rm -Rf glibc-2.29
+rm -Rf glibc-2.30
 
 # Adjusting the Toolchain
 mv -v /tools/bin/{ld,ld-old}
 mv -v /tools/$(uname -m)-pc-linux-gnu/bin/{ld,ld-old}
 mv -v /tools/bin/{ld-new,ld}
 ln -sv /tools/bin/ld /tools/$(uname -m)-pc-linux-gnu/bin/ld
-gcc -dumpspecs | sed -e 's@/tools@@g' \
--e '/\*startfile_prefix_spec:/{n;s@.*@/usr/lib/ @}' \
--e '/\*cpp:/{n;s@$@ -isystem /usr/include@}' > \
-`dirname $(gcc --print-libgcc-file-name)`/specs
+gcc -dumpspecs | sed -e 's@/tools@@g'                   \
+    -e '/\*startfile_prefix_spec:/{n;s@.*@/usr/lib/ @}' \
+    -e '/\*cpp:/{n;s@$@ -isystem /usr/include@}' >      \
+    `dirname $(gcc --print-libgcc-file-name)`/specs
 read -p "Press [Enter] key to resume..."
 echo 'int main(){}' > dummy.c
 cc dummy.c -v -Wl,--verbose &> dummy.log
@@ -176,9 +208,9 @@ ln -sfv ../../lib/$(readlink /usr/lib/libz.so) /usr/lib/libz.so
 cd /sources
 rm -Rf zlib-1.2.11
 
-# File-5.36 || Tries to classify each given file || 0.1 SBUs
-tar xvf file-5.36.tar.gz
-cd file-5.36
+# File-5.37 || Tries to classify each given file || 0.1 SBUs
+tar xvf file-5.37.tar.gz
+cd file-5.37
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
 make
@@ -188,7 +220,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf file-5.36
+rm -Rf file-5.37
 
 
 read -p "Press [Enter] key to resume..."

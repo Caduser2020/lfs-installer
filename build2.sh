@@ -1,4 +1,3 @@
-
 #!/bin/bash  
 #=================================================================================== 
 # 
@@ -31,19 +30,21 @@ echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 
-tar xvf linux-4.20.12.tar.xz
-cd linux-4.20.12
+# Linux-5.2.8 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
+tar xvf linux-5.2.8.tar.xz
+cd linux-5.2.8
 make mrproper
 read -p "Press [Enter] key to resume..."
 make INSTALL_HDR_PATH=dest headers_install
 read -p "Press [Enter] key to resume..."
 cp -rv dest/include/* /tools/include
 cd ..
-rm -Rf linux-4.20.12
+rm -Rf linux-5.2.8
 cd /mnt/lfs/sources
 
-tar xvf glibc-2.29.tar.xz
-cd glibc-2.29
+# Glibc-2.30 || contains main C library || 4.8 SBUs
+tar xvf glibc-2.30.tar.xz
+cd glibc-2.30
 mkdir -v build
 cd build
 ../configure \
@@ -52,8 +53,8 @@ cd build
  --build=$(../scripts/config.guess) \
  --enable-kernel=3.2 \
  --with-headers=/tools/include
- read -p "Press [Enter] key to resume..."
-make
+read -p "Press [Enter] key to resume..."
+make -j1
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
@@ -61,7 +62,29 @@ cd ..
 echo 'int main(){}' > dummy.c
 $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'
-# should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'
+read -p "should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'"
 rm -v dummy.c a.out
-rm -Rf glibc-2.29
-bash build3.sh
+rm -Rf glibc-2.30
+
+# Libstdc++ from GCC-9.2.0 || Contains standard C++ library || 0.5 SBUs
+# Unpack the gcc tarball again
+tar xvf gcc-9.2.0.tar.xz
+cd gcc-9.2.0
+mkdir -v build
+cd build
+../libstdc++-v3/configure \
+    --host=$LFS_TGT \
+    --prefix=/tools \
+    --disable-multilib \
+    --disable-nls \
+    --disable-libstdcxx-threads \
+    --disable-libstdcxx-pch \
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/9.2.0
+read -p "Press [Enter] key to resume..."
+make -j4
+read -p "Press [Enter] key to resume..."
+make install
+read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources
+rm -Rf gcc-9.2.0
+bash $shdir/build3.sh

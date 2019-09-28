@@ -1,10 +1,10 @@
-### Requirements for Contributing a Performance Improvement
+# Requirements for Contributing a Performance Improvement
 
 * Fill out the template below. Any pull request that does not include enough information to be reviewed in a timely manner may be closed at the maintainers' discretion.
 * The pull request must only affect performance of existing functionality. To contribute other changes, you must use a different template. You can see all templates at <https://github.com/Caduser2020/lfs-installer/blob/master/.github/PULL_REQUEST_TEMPLATE.md>.
 * After you create the pull request, all status checks must be pass before a maintainer reviews your contribution. For more details, please see <https://github.com/Caduser2020/lfs-installer/blob/master/.github/CONTRIBUTING.md#pull-requests>.
 
-### Description of the Change
+## Description of the Change
 
 <!--
 
@@ -12,7 +12,7 @@ We must be able to understand the design of your change from this description. I
 
 -->
 
-### Quantitative Performance Benefits
+## Quantitative Performance Benefits
 
 <!--
 
@@ -20,11 +20,11 @@ Describe the exact performance improvement observed (for example, reduced time t
 
 -->
 
-### Possible Drawbacks
+## Possible Drawbacks
 
 <!-- What are the possible side-effects or negative impacts of the code change? -->
 
-### Verification Process
+## Verification Process
 
 <!--
 
@@ -32,11 +32,11 @@ What process did you follow to verify that the change has not introduced any reg
 
 -->
 
-### Applicable Issues
+## Applicable Issues
 
 <!-- Enter any applicable Issues here -->
 
-### Release Notes
+## Release Notes
 
 <!--
 

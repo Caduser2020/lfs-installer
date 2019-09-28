@@ -30,10 +30,10 @@ if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
-# Bzip2-1.0.6 || Contains programs for compressing and decompressing files|| 0.1 SBUs
-tar xvf bzip2-1.0.6.tar.gz
-cd bzip2-1.0.6
-patch -Np1 -i ../bzip2-1.0.6-install_docs-1.patch
+# Bzip2-1.0.8 || Contains programs for compressing and decompressing files|| 0.1 SBUs
+tar xvf bzip2-1.0.8.tar.gz
+cd bzip2-1.0.8
+patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
 sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
 make -f Makefile-libbz2_so
@@ -50,7 +50,7 @@ ln -sv bzip2 /bin/bunzip2
 ln -sv bzip2 /bin/bzcat
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf bzip2-1.0.6
+rm -Rf bzip2-1.0.8
 
 # Pkg-config-0.29.2 || Returns meta information for the specified library or package || 0.3 SBUs
 tar xvf pkg-config-0.29.2.tar.gz
@@ -69,7 +69,7 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf pkg-config-0.29.2
 
-# Ncurses-6.1 || Contains libraries for terminal-independent handling of character screens || 0.3 SBUs
+# Ncurses-6.1 || Contains libraries for terminal-independent handling of character screens || 0.4 SBUs
 tar xvf ncurses-6.1.tar.gz
 cd ncurses-6.1
 sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
@@ -141,21 +141,21 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf acl-2.2.53
 
-# Libcap-2.26 || Contains the library functions for manipulating POSIX 1003.1e capabilities || 0.1 SBUs
-tar xvf libcap-2.26.tar.xz
-cd libcap-2.26
+# Libcap-2.27 || Contains the library functions for manipulating POSIX 1003.1e capabilities || 0.1 SBUs
+tar xvf libcap-2.27.tar.xz
+cd libcap-2.27
 sed -i '/install.*STALIBNAME/d' libcap/Makefile
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
 make RAISE_SETFCAP=no lib=lib prefix=/usr install
-chmod -v 755 /usr/lib/libcap.so.2.26
+chmod -v 755 /usr/lib/libcap.so.2.27
 read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libcap.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libcap.so) /usr/lib/libcap.so
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf libcap-2.26
+rm -Rf libcap-2.27
 
 # Sed-4.7 || Filters and transforms text files in a single pass || 0.3 SBUs
 tar xvf sed-4.7.tar.xz
@@ -170,12 +170,24 @@ read -p "Press [Enter] key to resume..."
 make check
 read -p "Press [Enter] key to resume..."
 make install
-read -p "Press [Enter] key to resume..."
 install -d -m755 /usr/share/doc/sed-4.7
 install -m644 doc/sed.html /usr/share/doc/sed-4.7
 read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf sed-4.7
+
+# Psmisc-23.2 || Contains programs for displaying information about running processes || less than 0.1 SBUs
+tar xvf psmisc-23.2.tar.xz
+cd psmisc-23.2
+./configure --prefix=/usr
+make
+read -p "Press [Enter] key to resume..."
+make install
+read -p "Press [Enter] key to resume..."
+mv -v /usr/bin/fuser   /bin
+mv -v /usr/bin/killall /bin
+cd /sources
+rm -Rf psmisc-23.2
 
 # Iana-etc-2.30 || Provides data for network services and protocol || 0.1 SBUs
 tar xvf iana-etc-2.30.tar.bz2
@@ -187,17 +199,18 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf iana-etc-2.30
 
-# Bison-3.3.2 || Contains a parser generator || 0.3 SBUs
-tar xvf bison-3.3.2.tar.xz
-cd bison-3.3.2
-./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.3.2
+# Bison-3.4.1 || Contains a parser generator || 0.3 SBUs
+tar xvf bison-3.4.1.tar.xz
+cd bison-3.4.1
+sed -i '6855 s/mv/cp/' Makefile.in
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.4.1
 read -p "Press [Enter] key to resume..."
-make
+make -j1
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf bison-3.3.2
+rm -Rf bison-3.4.1
 
 # flex-2.6.4 || A tool for generating programs that recognize patterns in text || 0.4 SBUs
 tar xvf flex-2.6.4.tar.gz
@@ -230,13 +243,13 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf grep-3.3
 
-# bash-5.0 || A widely-used command interpreter || 1.7 SBUs
+# bash-5.0 || A widely-used command interpreter || 2.1 SBUs
 tar xvf bash-5.0.tar.gz
 cd bash-5.0
-./configure --prefix=/usr \
---docdir=/usr/share/doc/bash-5.0 \
---without-bash-malloc \
---with-installed-readline
+./configure --prefix=/usr                    \
+            --docdir=/usr/share/doc/bash-5.0 \
+            --without-bash-malloc            \
+            --with-installed-readline
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
@@ -246,5 +259,6 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 mv -vf /usr/bin/bash /bin
+echo "Please type in the command: bash $shdir/install5.sh"
 exec /bin/bash --login +h
 read -p "Press [Enter] key to resume..."

@@ -1,7 +1,7 @@
 #!/bin/bash
 #=================================================================================== 
 # 
-# Installs Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
+# Installs Linux From Scratch 9.0 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
 # Copyright (C) 2019
 
 # This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,15 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #=================================================================================== 
-sudo yum -y update
-sudo yum -y install bison byacc gcc-c++ patch texinfo
-_script="$(readlink -f ${BASH_SOURCE[0]})"
-shdir="$(dirname $_script)"
+yum -y install bison byacc gcc-c++ patch texinfo
+shdir="$(pwd)"
 export shdir
-if [ $shdir != "$(dirname $_script)" ]
+if [ $shdir != "$(pwd)" ]
 then
   exit
 fi
 read -p "Press [Enter] key to resume..."
-sudo bash version-check.sh
+bash version-check.sh
 while true
 do
   # (1) prompt user, and read command line argument
@@ -35,43 +33,61 @@ do
 
   # (2) handle the input we were given
   case $answer in
-   [yY]* ) sudo fdisk /dev/sda
-           sudo mke2fs -jv /dev/sda1 
-           sudo mkswap /dev/sda2
-           sudo /sbin/swapon -v /dev/sda2 
+   [yY]* ) fdisk /dev/sda
+           mke2fs -jv /dev/sda1 
+           mkswap /dev/sda2
+           /sbin/swapon -v /dev/sda2 
            break;;
 
    [nN]* ) break;;
 
-   * )     echo "Dude, just enter Y or N, please.";;
+   * )     echo "Please enter Y or N.";;
   esac
 done 
 export LFS=/mnt/lfs 
 if test -d '/mnt/lfs/sources';
 then
-    sudo rm -Rf /mnt/lfs/sources;
-    sudo rm -Rf /mnt/lfs/tools;
+    rm -Rf /mnt/lfs/sources;
+    rm -Rf /mnt/lfs/tools;
 fi
-sudo mkdir -pv $LFS 
-sudo mount -v -t ext4 /dev/sda1 $LFS 
-sudo mkdir -v $LFS/sources 
-sudo chmod -v a+wt $LFS/sources 
+mkdir -pv $LFS 
+mount -v -t ext4 /dev/sda1 $LFS 
+mkdir -v $LFS/sources 
+chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
-sudo wget -i $shdir/wget-list.txt -P $LFS/sources
+wget -i $shdir/wget-list.txt --continue --directory-prefix=$LFS/sources
+mv $LFS/e2fsprogs* $LFS/e2fsprogs-1.45.3.tar.gz
 mv $shdir/md5sums $LFS/sources
 pushd $LFS/sources
 md5sum -c md5sums
 read -p "Press [Enter] key to resume..."
 popd
-sudo mkdir -v $LFS/tools
-sudo ln -sv $LFS/tools /
-sudo groupadd lfs
-sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+mkdir -v $LFS/tools
+ln -sv $LFS/tools /
+groupadd lfs
+useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 # Enter a password for user lfs ?
-sudo passwd lfs
-sudo chown -v lfs $LFS/tools
-sudo chown -v lfs $LFS/sources
+passwd lfs
+chown -v lfs $LFS/tools
+chown -v lfs $LFS/sources
 # cd $shdir
-sudo chown -v lfs $shdir
-sudo chmod 777 ./
-sudo -u lfs bash $shdir/build.sh
+chown -R lfs $shdir
+chmod 777 ./
+
+read -p "Press [Enter] key to resume..."
+cat > ~/.bash_profile << 'EOF' 
+exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
+EOF
+
+cat > ~/.bashrc << 'EOF' 
+set +h 
+umask 022 
+LFS=/mnt/lfs 
+LC_ALL=POSIX 
+LFS_TGT=$(uname -m)-lfs-linux-gnu 
+PATH=/tools/bin:/bin:/usr/bin 
+export LFS LC_ALL LFS_TGT PATH 
+EOF
+
+cd ~/
+source .bash_profile

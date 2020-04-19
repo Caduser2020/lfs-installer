@@ -55,8 +55,8 @@ mount -v -t ext4 /dev/sda1 $LFS
 mkdir -v $LFS/sources 
 chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
-wget -i $shdir/wget-list.txt --continue --directory-prefix=$LFS/sources
-mv $LFS/e2fsprogs* $LFS/e2fsprogs-1.45.3.tar.gz
+wget --input-file=$shdir/wget-list.txt --continue --directory-prefix=$LFS/sources
+mv $LFS/e2fsprogs* $LFS/e2fsprogs-1.45.5.tar.gz
 mv $shdir/md5sums $LFS/sources
 pushd $LFS/sources
 md5sum -c md5sums
@@ -66,14 +66,14 @@ mkdir -v $LFS/tools
 ln -sv $LFS/tools /
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
-# Enter a password for user lfs ?
+# Enter a password for user lfs 
 passwd lfs
 chown -v lfs $LFS/tools
 chown -v lfs $LFS/sources
-# cd $shdir
+# cd $shdir -
 chown -R lfs $shdir
 chmod 777 ./
-
+su - lfs
 read -p "Press [Enter] key to resume..."
 cat > ~/.bash_profile << 'EOF' 
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 

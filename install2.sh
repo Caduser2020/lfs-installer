@@ -28,18 +28,18 @@ chmod -v 600 /var/log/btmp
 read -p "Press [Enter] key to resume..."
 
 cd /sources
-# Linux-5.2.8 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
-tar xvf linux-5.2.8.tar.xz
-cd linux-5.2.8
+# Linux-5.5.3 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
+tar xvf linux-5.5.3.tar.xz
+cd linux-5.5.3
 make mrproper
 read -p "Press [Enter] key to resume..."
-make INSTALL_HDR_PATH=dest headers_install
-read -p "Press [Enter] key to resume..."
-find dest/include \( -name .install -o -name ..install.cmd \) -delete
-cp -rv dest/include/* /usr/include
+make headers
+find usr/include -name '.*' -delete
+rm usr/include/Makefile
+cp -rv usr/include/* /usr/include
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf linux-5.2.8
+rm -Rf linux-5.5.3
 
 
 # Man-pages-5.02 || contains over 2,200 man pages || less than 0.1 SBUs
@@ -49,14 +49,12 @@ make install
 cd /sources
 rm -Rf man-pages-5.02
 
-# Glibc-2.30 || contains main C library || 21 SBUs
-tar xvf glibc-2.30.tar.xz
-cd glibc-2.30
-patch -Np1 -i ../glibc-2.30-fhs-1.patch
-sed -i '/asm.socket.h/a# include <linux/sockios.h>' \
-   sysdeps/unix/sysv/linux/bits/socket.h
+# Glibc-2.31 || contains main C library || 19 SBUs
+tar xvf glibc-2.31.tar.xz
+cd glibc-2.31
+patch -Np1 -i ../glibc-2.31-fhs-1.patch
 case $(uname -m) in
-    i?86)   ln -sfv ld-linux.so.2 /lib/ld-lsb.so.3
+    i?86) ln -sfv ld-linux.so.2 /lib/ld-lsb.so.3
     ;;
     x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 /lib64
             ln -sfv ../lib/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
@@ -81,7 +79,6 @@ x86_64) ln -sfnv $PWD/elf/ld-linux-x86-64.so.2 /lib ;;
 esac
 make check
 read -p "Press [Enter] key to resume..."
-
 touch /etc/ld.so.conf
 sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
 make install
@@ -154,7 +151,7 @@ CTIME=$(tzselect)
 echo "Your local time zone was detected to be"
 echo $CTIME
 read -p "Press [Enter] key to resume..."
-cp -v /usr/share/zoneinfo/$CTIME /etc/localtime
+ln -sfv /usr/share/zoneinfo/<xxx> /etc/localtime
 cat > /etc/ld.so.conf << "EOF"
 # Begin /etc/ld.so.conf
 /usr/local/lib
@@ -166,7 +163,7 @@ include /etc/ld.so.conf.d/*.conf
 EOF
 mkdir -pv /etc/ld.so.conf.d
 cd /sources
-rm -Rf glibc-2.30
+rm -Rf glibc-2.31
 
 # Adjusting the Toolchain
 mv -v /tools/bin/{ld,ld-old}
@@ -208,9 +205,49 @@ ln -sfv ../../lib/$(readlink /usr/lib/libz.so) /usr/lib/libz.so
 cd /sources
 rm -Rf zlib-1.2.11
 
-# File-5.37 || Tries to classify each given file || 0.1 SBUs
-tar xvf file-5.37.tar.gz
-cd file-5.37
+# Bzip2-1.0.8 || Contains programs for compressing and decompressing files|| 0.1 SBUs
+tar xvf bzip2-1.0.8.tar.gz
+cd bzip2-1.0.8
+patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch
+sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
+sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
+make -f Makefile-libbz2_so
+make clean
+read -p "Press [Enter] key to resume..."
+make
+read -p "Press [Enter] key to resume..."
+make PREFIX=/usr install
+cp -v bzip2-shared /bin/bzip2
+cp -av libbz2.so* /lib
+ln -sv ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so
+rm -v /usr/bin/{bunzip2,bzcat,bzip2}
+ln -sv bzip2 /bin/bunzip2
+ln -sv bzip2 /bin/bzcat
+read -p "Press [Enter] key to resume..."
+cd /sources
+rm -Rf bzip2-1.0.8
+
+# Xz-5.2.4 || Contains programs for compressing and decompressing files || 0.2 SBUs
+tar xvf xz-5.2.4.tar.xz
+cd xz-5.2.4
+./configure --prefix=/usr \
+--disable-static \
+--docdir=/usr/share/doc/xz-5.2.4
+read -p "Press [Enter] key to resume..."
+make
+read -p "Press [Enter] key to resume..."
+make check
+read -p "Press [Enter] key to resume..."
+make install
+mv -v /usr/bin/{lzma,unlzma,lzcat,xz,unxz,xzcat} /bin
+mv -v /usr/lib/liblzma.so.* /lib
+ln -svf ../../lib/$(readlink /usr/lib/liblzma.so) /usr/lib/liblzma.so
+cd /sources
+rm -Rf xz-5.2.4
+
+# File-5.38 || Tries to classify each given file || 0.1 SBUs
+tar xvf file-5.38.tar.gz
+cd file-5.38
 ./configure --prefix=/usr
 read -p "Press [Enter] key to resume..."
 make
@@ -220,7 +257,7 @@ read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf file-5.37
+rm -Rf file-5.38
 
 
 read -p "Press [Enter] key to resume..."

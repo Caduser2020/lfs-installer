@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Builds first part of first toolchain pass for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
+# Builds first part of first toolchain pass for Linux From Scratch 9.1 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  
 # This program is free software: you can redistribute it and/or modify 
@@ -30,29 +30,31 @@ then
 fi
 read -p "Press [Enter] key to resume..."
 
+cpus=`nproc`
+export MAKEFLAGS='-j ${cpus}'
+
 #Build 
 
-# Binutils-2.32 - Pass 1 || Contains a linker, an assembler, and other tools for handling object files || 1 SBUs
-tar xvf binutils-2.32.tar.xz
-cd binutils-2.32
+# Binutils-2.34 - Pass 1 || Contains a linker, an assembler, and other tools for handling object files || 1 SBUs
+tar xvf binutils-2.34.tar.xz
+cd binutils-2.34
 target_triplet=`./config.guess`
 export target_triplet
 echo $target_triplet
 read -p "Press [Enter] key to resume..."
 mkdir -v build; cd build
 ../configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
+time make -j${cpus}
+echo "Real Time is 1 SBU"
+read -p "Press [Enter] key to resume..."
 case $(uname -m) in
   x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
-time make -j4
-echo "Real Time is 1 SBU"
-read -p "Press [Enter] key to resume..."
-# real is 1 SBU
 make install
 read -p "Press [Enter] key to resume..."
 cd ..
 rm -Rf build
-rm -Rf binutils-2.32
+rm -Rf binutils-2.34
 cd /mnt/lfs/sources
 
 # Gcc-9.2.0 - Pass 1 || Contains the GNU compiler collection || 12 SBUs
@@ -111,7 +113,7 @@ cd objdir
     --disable-libstdcxx                            \
     --enable-languages=c,c++
 read -p "Press [Enter] key to resume..."
-make -j4
+make -j${cpus}
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."

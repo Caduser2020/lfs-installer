@@ -20,15 +20,17 @@
 # 
 #===================================================================================
 
-# Sudo-1.8.27 || allows a user to run some (or all) commands as root || 0.4 SBUs
-tar xvf sudo-1.8.27.tar.gz
-cd sudo-1.8.27
+# Sudo-1.8.31 || allows a user to run some (or all) commands as root || 0.4 SBUs
+tar xvf sudo-1.8.31.tar.gz
+cd sudo-1.8.31
+sed -e '/^pre-install:/{N;s@;@ -a -r $(sudoersdir)/sudoers;@}' \
+    -i plugins/sudoers/Makefile.in
 ./configure --prefix=/usr              \
             --libexecdir=/usr/lib      \
             --with-secure-path         \
             --with-all-insults         \
             --with-env-editor          \
-            --docdir=/usr/share/doc/sudo-1.8.27 \
+            --docdir=/usr/share/doc/sudo-1.8.31 \
             --with-passprompt="[sudo] password for %p: " &&
 make
 read -p "Press [Enter] key to resume..."
@@ -40,7 +42,7 @@ Defaults secure_path="/usr/bin:/bin:/usr/sbin:/sbin"
 %wheel ALL=(ALL) ALL
 EOF
 cd /sources
-rm -Rf sudo-1.8.27
+rm -Rf sudo-1.8.31
 
 # wget-1.20.3 || Contains a utility for downloading files from the Web || 0.4 SBUs
 tar xvf wget-1.20.3.tar.gz

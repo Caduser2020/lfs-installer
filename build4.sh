@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Builds text suite for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
+# Builds test suite for Linux From Scratch 9.1 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  
 # This program is free software: you can redistribute it and/or modify 
@@ -29,18 +29,18 @@ echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
 cd mnt/lfs/sources
-# Tcl-8.6.9 || Contains the Tool Command Language || 0.9 SBUs
+# Tcl-8.6.10 || Contains the Tool Command Language; Minimal Install || 0.9 SBUs
 # NOTE: 
-tar xvf tcl8.6.9-src.tar.gz
-cd tcl8.6.9
+tar xvf tcl8.6.10-src.tar.gz
+cd tcl8.6.10
 cd unix
 ./configure --prefix=/tools
 read -p "Press [Enter] key to resume..."
-make -j4
+make
 read -p "Press [Enter] key to resume..."
 # As this test may fail under certain host conditions, this test may be removed in a future version of LFS-installer.
 # TZ=UTC make test
-read -p "Press [Enter] key to resume..."
+# read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 chmod -v u+w /tools/lib/libtcl8.6.so
@@ -48,7 +48,7 @@ make install-private-headers
 ln -sv tclsh8.6 /tools/bin/tclsh
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
-rm -Rf tcl8.6.9
+rm -Rf tcl8.6.10
 
 # Expect5.45.4 || Contains a program for carrying out scripted dialogues with other interactive programs || 0.1 SBUs
 tar xvf expect5.45.4.tar.gz
@@ -56,12 +56,10 @@ cd expect5.45.4
 cp -v configure{,.orig}
 sed 's:/usr/local/bin:/bin:' configure.orig > configure
 read -p "Press [Enter] key to resume..."
-
 ./configure --prefix=/tools \
 --with-tcl=/tools/lib \
 --with-tclinclude=/tools/include
 read -p "Press [Enter] key to resume..."
-
 make -j4
 read -p "Press [Enter] key to resume..."
 # make test

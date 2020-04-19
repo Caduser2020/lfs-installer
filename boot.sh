@@ -25,12 +25,12 @@
 #===================================================================================
 
 cd /sources
-tar xvf lfs-bootscripts-20190524.tar.xz
-cd lfs-bootscripts-20190524
+tar xvf lfs-bootscripts-20191031.tar.xz
+cd lfs-bootscripts-20191031
 make install
 cd /sources
 bash /lib/udev/init-net-rules.sh
-cat /etc/udev/rules.d/70-persistent-net.rules
+# cat /etc/udev/rules.d/70-persistent-net.rules
 cd /etc/sysconfig/
 cat > ifconfig.enp0s3 << "EOF"
 ONBOOT=yes
@@ -48,7 +48,7 @@ nameserver 1.0.0.1
 # End /etc/resolv.conf
 EOF
 
-echo "lfs-9.0" > /etc/hostname
+echo "lfs-9.1" > /etc/hostname
 cat > /etc/hosts << "EOF"
 # Begin /etc/hosts
 127.0.0.1 localhost
@@ -165,10 +165,10 @@ devtmpfs        /dev        devtmpfs mode=0755,nosuid   0   0
 # End /etc/fstab
 EOF
 
-# Linux-5.2.8 || Contains the Linux kernel || 4.4 - 66.0 SBUs
+# Linux-5.5.3 || Contains the Linux kernel || 4.4 - 66.0 SBUs
 cd /sources
-tar xvf linux-5.2.8.tar.xz
-cd linux-5.2.8
+tar xvf linux-5.5.3.tar.xz
+cd linux-5.5.3
 make mrproper
 read -p "Press [Enter] key to resume..."
 make defconfig
@@ -177,11 +177,11 @@ make
 read -p "Press [Enter] key to resume..."
 make modules_install
 read -p "Press [Enter] key to resume..."
-cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.2.8-lfs-9.0
-cp -iv System.map /boot/System.map-5.2.8
-cp -iv .config /boot/config-5.2.8
-install -d /usr/share/doc/linux-5.2.8
-cp -r Documentation/* /usr/share/doc/linux-5.2.8
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.5.3-lfs-9.1
+cp -iv System.map /boot/System.map-5.5.3
+cp -iv .config /boot/config-5.5.3
+install -d /usr/share/doc/linux-5.5.3
+cp -r Documentation/* /usr/share/doc/linux-5.5.3
 install -v -m755 -d /etc/modprobe.d
 cat > /etc/modprobe.d/usb.conf << "EOF"
 # Begin /etc/modprobe.d/usb.conf
@@ -203,18 +203,26 @@ set default=0
 set timeout=5
 insmod ext2
 set root=(hd0,1)
-menuentry "GNU/Linux, Linux 5.2.8-lfs-9.0" {
- linux /boot/vmlinuz-5.2.8-lfs-9.0 root=/dev/sda1 ro
+menuentry "GNU/Linux, Linux 5.5.3-lfs-9.1" {
+ linux /boot/vmlinuz-5.5.3-lfs-9.1 root=/dev/sda1 ro
 }
 EOF
 
-echo 9.0 > /etc/lfs-release
+echo 9.1 > /etc/lfs-release
 
 cat > /etc/lsb-release << "EOF"
 DISTRIB_ID="Linux From Scratch"
-DISTRIB_RELEASE="9.0"
+DISTRIB_RELEASE="9.1"
 DISTRIB_CODENAME="LFS"
 DISTRIB_DESCRIPTION="Linux From Scratch"
+EOF
+
+cat > /etc/os-release << "EOF"
+NAME="Linux From Scratch"
+VERSION="9.1"
+ID=lfs
+PRETTY_NAME="Linux From Scratch 9.1"
+VERSION_CODENAME="LFS"
 EOF
 
 logout

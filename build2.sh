@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Builds second part of first toolchain pass for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
+# Builds second part of first toolchain pass for Linux From Scratch 9.1 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  
 # This program is free software: you can redistribute it and/or modify 
@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/> 
 #===================================================================================
 
-cd ..
+# cd ..
 if [ $LFS != /mnt/lfs ]
 then
     export LFS=/mnt/lfs
@@ -30,21 +30,21 @@ echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 
-# Linux-5.2.8 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
-tar xvf linux-5.2.8.tar.xz
-cd linux-5.2.8
+# Linux-5.5.3 || Linux API Headers expose the kernel's API for use by Glibc || less than 0.1 SBUs
+tar xvf linux-5.5.3.tar.xz
+cd linux-5.5.3
 make mrproper
 read -p "Press [Enter] key to resume..."
-make INSTALL_HDR_PATH=dest headers_install
+make headers
+cp -rv usr/include/* /tools/include
 read -p "Press [Enter] key to resume..."
-cp -rv dest/include/* /tools/include
 cd ..
-rm -Rf linux-5.2.8
+rm -Rf linux-5.5.3
 cd /mnt/lfs/sources
 
-# Glibc-2.30 || contains main C library || 4.8 SBUs
-tar xvf glibc-2.30.tar.xz
-cd glibc-2.30
+# Glibc-2.31 || contains main C library || 4.8 SBUs
+tar xvf glibc-2.31.tar.xz
+cd glibc-2.31
 mkdir -v build
 cd build
 ../configure \
@@ -64,7 +64,7 @@ $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'
 read -p "should say '[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]'"
 rm -v dummy.c a.out
-rm -Rf glibc-2.30
+rm -Rf glibc-2.31
 
 # Libstdc++ from GCC-9.2.0 || Contains standard C++ library || 0.5 SBUs
 # Unpack the gcc tarball again
@@ -81,7 +81,7 @@ cd build
     --disable-libstdcxx-pch \
     --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/9.2.0
 read -p "Press [Enter] key to resume..."
-make -j4
+make -j${cpus}
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."

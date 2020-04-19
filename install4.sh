@@ -30,28 +30,6 @@ if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to `
 echo 'PATH is `pwd`'
 read -p "Press [Enter] key to resume..."
 
-# Bzip2-1.0.8 || Contains programs for compressing and decompressing files|| 0.1 SBUs
-tar xvf bzip2-1.0.8.tar.gz
-cd bzip2-1.0.8
-patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch
-sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
-sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
-make -f Makefile-libbz2_so
-make clean
-read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make PREFIX=/usr install
-cp -v bzip2-shared /bin/bzip2
-cp -av libbz2.so* /lib
-ln -sv ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so
-rm -v /usr/bin/{bunzip2,bzcat,bzip2}
-ln -sv bzip2 /bin/bunzip2
-ln -sv bzip2 /bin/bzcat
-read -p "Press [Enter] key to resume..."
-cd /sources
-rm -Rf bzip2-1.0.8
-
 # Pkg-config-0.29.2 || Returns meta information for the specified library or package || 0.3 SBUs
 tar xvf pkg-config-0.29.2.tar.gz
 cd pkg-config-0.29.2
@@ -69,9 +47,9 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf pkg-config-0.29.2
 
-# Ncurses-6.1 || Contains libraries for terminal-independent handling of character screens || 0.4 SBUs
-tar xvf ncurses-6.1.tar.gz
-cd ncurses-6.1
+# Ncurses-6.2 || Contains libraries for terminal-independent handling of character screens || 0.4 SBUs
+tar xvf ncurses-6.2.tar.gz
+cd ncurses-6.2
 sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
 ./configure --prefix=/usr \
 --mandir=/usr/share/man \
@@ -88,78 +66,37 @@ read -p "Press [Enter] key to resume..."
 mv -v /usr/lib/libncursesw.so.6* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libncursesw.so) /usr/lib/libncursesw.so
 for lib in ncurses form panel menu ; do
-rm -vf /usr/lib/lib${lib}.so
-echo "INPUT(-l${lib}w)" > /usr/lib/lib${lib}.so
-ln -sfv ${lib}w.pc /usr/lib/pkgconfig/${lib}.pc
+    rm -vf                      /usr/lib/lib${lib}.so
+    echo "INPUT(-l${lib}w)" >   /usr/lib/lib${lib}.so
+    ln -sfv ${lib}w.pc          /usr/lib/pkgconfig/${lib}.pc
 done
 rm -vf /usr/lib/libcursesw.so
 echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
 ln -sfv libncurses.so /usr/lib/libcurses.so
-mkdir -v /usr/share/doc/ncurses-6.1
-cp -v -R doc/* /usr/share/doc/ncurses-6.1
+mkdir -v /usr/share/doc/ncurses-6.2
+cp -v -R doc/* /usr/share/doc/ncurses-6.2
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf ncurses-6.1
+rm -Rf ncurses-6.2
 
-# Attr-2.4.48 || Extends attributes on filesystem objects || 0.3 SBUs
-tar xvf attr-2.4.48.tar.gz
-cd attr-2.4.48
-./configure --prefix=/usr \
---bindir=/bin \
---disable-static \
---sysconfdir=/etc \
---docdir=/usr/share/doc/attr-2.4.48
+# Libcap-2.31 || Contains the library functions for manipulating POSIX 1003.1e capabilities || 0.1 SBUs
+tar xvf libcap-2.31.tar.xz
+cd libcap-2.31
+sed -i '/install.*STA...LIBNAME/d' libcap/Makefile
 read -p "Press [Enter] key to resume..."
-make
+make lib=lib
 read -p "Press [Enter] key to resume..."
-make check
+make test
 read -p "Press [Enter] key to resume..."
-make install
-read -p "Press [Enter] key to resume..."
-mv -v /usr/lib/libattr.so.* /lib
-ln -sfv ../../lib/$(readlink /usr/lib/libattr.so) /usr/lib/libattr.so
+make lib=lib install
+chmod -v 755 /lib/libcap.so.2.31
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf attr-2.4.48
+rm -Rf libcap-2.31
 
-# Acl-2.2.53 || contains utilities to administer Access Control Lists || 0.1 SBUs
-tar xvf acl-2.2.53.tar.gz
-cd acl-2.2.53
-./configure --prefix=/usr \
---bindir=/bin \
---disable-static \
---libexecdir=/usr/lib \
---docdir=/usr/share/doc/acl-2.2.53
-read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make install
-read -p "Press [Enter] key to resume..."
-mv -v /usr/lib/libacl.so.* /lib
-ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so
-read -p "Press [Enter] key to resume..."
-cd /sources
-rm -Rf acl-2.2.53
-
-# Libcap-2.27 || Contains the library functions for manipulating POSIX 1003.1e capabilities || 0.1 SBUs
-tar xvf libcap-2.27.tar.xz
-cd libcap-2.27
-sed -i '/install.*STALIBNAME/d' libcap/Makefile
-read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make RAISE_SETFCAP=no lib=lib prefix=/usr install
-chmod -v 755 /usr/lib/libcap.so.2.27
-read -p "Press [Enter] key to resume..."
-mv -v /usr/lib/libcap.so.* /lib
-ln -sfv ../../lib/$(readlink /usr/lib/libcap.so) /usr/lib/libcap.so
-read -p "Press [Enter] key to resume..."
-cd /sources
-rm -Rf libcap-2.27
-
-# Sed-4.7 || Filters and transforms text files in a single pass || 0.3 SBUs
-tar xvf sed-4.7.tar.xz
-cd sed-4.7
+# Sed-4.8 || Filters and transforms text files in a single pass || 0.3 SBUs
+tar xvf sed-4.8.tar.xz
+cd sed-4.8
 sed -i 's/usr/tools/' build-aux/help2man
 sed -i 's/testsuite.panic-tests.sh//' Makefile.in
 ./configure --prefix=/usr --bindir=/bin
@@ -170,11 +107,11 @@ read -p "Press [Enter] key to resume..."
 make check
 read -p "Press [Enter] key to resume..."
 make install
-install -d -m755 /usr/share/doc/sed-4.7
-install -m644 doc/sed.html /usr/share/doc/sed-4.7
+install -d -m755 /usr/share/doc/sed-4.8
+install -m644 doc/sed.html /usr/share/doc/sed-4.8
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf sed-4.7
+rm -Rf sed-4.8
 
 # Psmisc-23.2 || Contains programs for displaying information about running processes || less than 0.1 SBUs
 tar xvf psmisc-23.2.tar.xz
@@ -199,20 +136,19 @@ read -p "Press [Enter] key to resume..."
 cd /sources
 rm -Rf iana-etc-2.30
 
-# Bison-3.4.1 || Contains a parser generator || 0.3 SBUs
-tar xvf bison-3.4.1.tar.xz
-cd bison-3.4.1
-sed -i '6855 s/mv/cp/' Makefile.in
-./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.4.1
+# Bison-3.5.2 || Contains a parser generator || 0.3 SBUs
+tar xvf bison-3.5.2.tar.xz
+cd bison-3.5.2
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.5.2
 read -p "Press [Enter] key to resume..."
-make -j1
+make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf bison-3.4.1
+rm -Rf bison-3.5.2
 
-# flex-2.6.4 || A tool for generating programs that recognize patterns in text || 0.4 SBUs
+# flex-2.6.4 || A tool for generating programs that recognize patterns in text || 0.9 SBUs
 tar xvf flex-2.6.4.tar.gz
 cd flex-2.6.4
 sed -i "/math.h/a #include <malloc.h>" src/flexdef.h
@@ -229,23 +165,24 @@ ln -sv flex /usr/bin/lex
 cd /sources
 rm -Rf flex-2.6.4
 
-# Grep-3.3 || Contains programs for searching through files || 0.4 SBUs
-tar xvf grep-3.3.tar.xz
-cd grep-3.3
+# Grep-3.4 || Contains programs for searching through files || 0.7 SBUs
+tar xvf grep-3.4.tar.xz
+cd grep-3.4
 ./configure --prefix=/usr --bindir=/bin
 read -p "Press [Enter] key to resume..."
 make
 read -p "Press [Enter] key to resume..."
-make -k check
+make check
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 cd /sources
-rm -Rf grep-3.3
+rm -Rf grep-3.4
 
 # bash-5.0 || A widely-used command interpreter || 2.1 SBUs
 tar xvf bash-5.0.tar.gz
 cd bash-5.0
+patch -Np1 -i ../bash-5.0-upstream_fixes-1.patch
 ./configure --prefix=/usr                    \
             --docdir=/usr/share/doc/bash-5.0 \
             --without-bash-malloc            \

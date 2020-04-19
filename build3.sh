@@ -1,7 +1,7 @@
 #!/bin/bash  
 #=================================================================================== 
 # 
-# Builds second toolchain pass for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
+# Builds second toolchain pass for Linux From Scratch 9.1 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
 # Copyright (C) 2019 
  
 # This program is free software: you can redistribute it and/or modify 
@@ -30,10 +30,10 @@ read -p "Press [Enter] key to resume..."
 
 cd mnt/lfs/sources
 
-# Binutils-2.32 - Pass 2|| Contains a linker, an assembler, and other tools for handling object files || 1.1 SBUs
+# Binutils-2.34 - Pass 2|| Contains a linker, an assembler, and other tools for handling object files || 1.1 SBUs
 
-tar xvf binutils-2.32.tar.xz
-cd binutils-2.32
+tar xvf binutils-2.34.tar.xz
+cd binutils-2.34
 mkdir -v build
 cd build
 CC=$LFS_TGT-gcc \
@@ -46,16 +46,15 @@ RANLIB=$LFS_TGT-ranlib \
     --with-lib-path=/tools/lib \
     --with-sysroot
 read -p "Press [Enter] key to resume..."
-make -j4
+make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 make -C ld clean
-read -p "Press [Enter] key to resume..."
 make -C ld LIB_PATH=/usr/lib:/lib
 cp -v ld/ld-new /tools/bin
 cd /mnt/lfs/sources
-rm -Rf binutils-2.32
+rm -Rf binutils-2.34
 read -p "Press [Enter] key to resume..."
 
 # GCC-9.2.0 - Pass 2 || Contains the GNU compiler collection || 15 SBUs
@@ -89,6 +88,9 @@ sed -e '/m64=/s/lib64/lib/' \
 esac
 
 ./contrib/download_prerequisites
+# Fix Glibc-2.31 problem
+sed -e '1161 s|^|//|' \
+-i libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
 mkdir -v build; cd build
 
 CC=$LFS_TGT-gcc \
@@ -105,18 +107,18 @@ RANLIB=$LFS_TGT-ranlib \
 --disable-bootstrap \
 --disable-libgomp
 read -p "Press [Enter] key to resume..."
-make -j4
+make
 read -p "Press [Enter] key to resume..."
 make install
 read -p "Press [Enter] key to resume..."
 ln -sv gcc /tools/bin/cc
-read -p "Press [Enter] key to resume..."
 cd /mnt/lfs/sources
 rm -Rf gcc-9.2.0
 echo 'int main(){}' > dummy.c
 cc dummy.c
 readelf -l a.out | grep ': /tools'
 echo $PATH
+read -p "Press [Enter] key to resume..."
 rm -v dummy.c a.out
 
 bash $shdir/build4.sh

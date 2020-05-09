@@ -68,8 +68,30 @@ distro_check() {
     exit
   fi
 }
+update_package_cache() {
+  # Running apt-get update/upgrade with minimal output can cause some issues with
+  # requiring user input 
+
+  # Update package cache on apt based OSes. Do this every time since
+  # it's quick and packages can be updated at any time.
+
+  # Local, named variables
+  local str="Update local cache of available packages"
+  printf "  %b %s..." "${INFO}" "${str}"
+  # Create a command from the package cache variable
+  if eval "${UPDATE_PKG_CACHE}" &> /dev/null; then
+    printf "%b  %b %s\\n" "${OVER}" "${TICK}" "${str}"
+  # Otherwise,
+  else
+    # show an error and exit
+    printf "%b  %b %s\\n" "${OVER}" "${CROSS}" "${str}"
+    printf "  %bError: Unable to update package cache. Please try \"%s\"%b" "${COL_LIGHT_RED}" "${UPDATE_PKG_CACHE}" "${COL_NC}"
+    return 1
+  fi
+}
 # Compare multipoint versions
 function check_min_version {
+  printf "  %b Checking for %s ..." "${INFO}" "$3"
   if [[ $1 == "$2" ]]
   then
     printf "%b  %b Checking for %s\\n" "${OVER}" "${TICK}" "$3"
@@ -135,8 +157,8 @@ install_deps()
   check_min_version "$(chown --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '6.9.0' coreutils
   check_min_version "$(diff --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '2.8.1' diffutils
   check_min_version "$(find . --version | head -n1 | cut -d')' -f2 | tr -d ' ' | cut -d'.' -f-3)" '4.2.31' findutils
-  check_min_version "$(ld --version | head -n1 | awk '{print $(NF)}')" '2.25.0' binutils
   check_min_version "$(gawk --version | head -n1 | cut -d' ' -f3 | tr -d ',')" '4.0.1' gawk
+  check_min_version "$(ld --version | head -n1 | awk '{print $(NF)}')" '2.25.0' binutils
   check_min_version "$(gcc --version | head -n1 | cut -d' ' -f3 | cut -d'-' -f1)" '6.2.0' gcc
   check_min_version "$(g++ --version | head -n1 | cut -d' ' -f3 | cut -d'-' -f1)" '6.2.0' 'g++'
   check_min_version "$(ldd --version | head -n1 | cut -d" " -f2- | cut -d')' -f2 | tr -d ' ')" '2.11' glibc-devel
@@ -152,17 +174,12 @@ install_deps()
   check_min_version "$(tar --version | head -n1 | cut -d' ' -f4)" '1.22' tar
   check_min_version "$(makeinfo --version | head -n1 | cut -d' ' -f4)" '4.7' texinfo
   check_min_version "$(xz --version | head -n1 | cut -d' ' -f4)" '5.0' xz
-  echo 'int main(){}' > dummy.c && g++ -o dummy dummy.c
-  if [ -x dummy ]
-    then echo "g++ compilation OK";
-    else echo "g++ compilation failed"; exit 1; fi
-  rm -f dummy.c dummy
 
   # Debian based package install - debconf will download the entire package list
   # so we just create an array of packages not currently installed to cut down on the
   # amount of download traffic.
   if is_command debconf-apt-progress ; then
-    "${UPDATE_PKG_CACHE[@]}"
+    update_package_cache || exit 1
     if [[ "${#installArray[@]}" -gt 0 ]]; then
       debconf-apt-progress -- "${PKG_INSTALL[@]}" "${installArray[@]}"
       return
@@ -175,6 +192,12 @@ install_deps()
     return
   fi
   printf "%b\\n" "${DONE}"
+
+  echo 'int main(){}' > dummy.c && g++ -o dummy dummy.c
+  if [ -x dummy ]
+    then echo "g++ compilation OK";
+    else echo "g++ compilation failed"; exit 1; fi
+  rm -f dummy.c dummy
   return 0
 }
 # Must be root to install

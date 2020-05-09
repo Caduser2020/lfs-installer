@@ -48,6 +48,10 @@ distro_check() {
     UPDATE_PKG_CACHE="${PKG_MANAGER} update"
     # An array for packages
     PKG_INSTALL=("${PKG_MANAGER}" --yes install)
+    # Dependencies for LFS
+    LFS_DEPS=(bash binutils bison bzip2 coreutils diffutils findutils gawk \
+    build-essential build-essential build-essential grep gzip m4 make patch \
+    perl python3 sed tar texinfo xz-utils)
   elif is_command rpm ; then
     if is_command dnf ; then
       PKG_MANAGER="dnf"
@@ -55,14 +59,18 @@ distro_check() {
       PKG_MANAGER="yum"
     fi
 
-    if grep -qiE 'centos|scientific' /etc/redhat-release; then
-      # We need the PowerTools repo
-      PKG_MANAGER=$PKG_MANAGER" --enablerepo=PowerTools "
-    fi
-
     # Fedora based OS update cache on every PKG_INSTALL call, no need for a seperate update.
     UPDATE_PKG_CACHE=":"
     PKG_INSTALL=("${PKG_MANAGER}" install -y)
+
+    if (grep -qiE 'centos|scientific' /etc/redhat-release); then
+      # We need the PowerTools repo
+      PKG_INSTALL+=("--enablerepo=PowerTools")
+    fi
+
+    LFS_DEPS=(bash binutils bison bzip2 coreutils diffutils findutils gawk \
+    gcc gcc-c++ glibc-devel grep gzip m4 make patch perl python3 sed \
+    tar texinfo xz)
   else
     printf "OS distribution not supported"
     exit
@@ -138,14 +146,14 @@ install_deps()
 
   local bashversion
   bashversion="$(bash --version | head -n1 | cut -d' ' -f4 | cut -d'(' -f1)"
-  check_min_version "$bashversion" '3.2.0' bash
+  check_min_version "$bashversion" '3.2.0' "${LFS_DEPS[0]}"
   local MYSH
   MYSH="$(readlink -f /bin/sh)"
   echo "/bin/sh -> $MYSH"
-  echo "$MYSH" | grep -q bash || { printf "%bERROR: /bin/sh does not point to bash %b \\n" "${COL_LIGHT_RED}" "${COL_NC}"; installArray+=("bash"); }
+  echo "$MYSH" | grep -q bash || { printf "%bERROR: /bin/sh does not point to bash %b \\n" "${COL_LIGHT_RED}" "${COL_NC}"; installArray+=("${LFS_DEPS[0]}"); }
   unset MYSH
-  
-  check_min_version "$(bison --version | head -n1 | cut -d' ' -f4)" '2.7.0' bison
+
+  check_min_version "$(bison --version | head -n1 | cut -d' ' -f4)" '2.7.0' "${LFS_DEPS[2]}"
   if [ -h /usr/bin/yacc ]; then
     echo "/usr/bin/yacc -> $(readlink -f /usr/bin/yacc)";
   elif [ -x /usr/bin/yacc ]; then
@@ -153,28 +161,28 @@ install_deps()
   else
     echo "yacc not found"; installArray+=("yacc")
   fi
-  check_min_version "$(bzip2 --version 2>&1 < /dev/null | head -n1 | cut -d" " -f8 | tr -d ,)" '1.0.4' bzip2
-  check_min_version "$(chown --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '6.9.0' coreutils
-  check_min_version "$(diff --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '2.8.1' diffutils
-  check_min_version "$(find . --version | head -n1 | cut -d')' -f2 | tr -d ' ' | cut -d'.' -f-3)" '4.2.31' findutils
-  check_min_version "$(gawk --version | head -n1 | cut -d' ' -f3 | tr -d ',')" '4.0.1' gawk
-  check_min_version "$(ld --version | head -n1 | awk '{print $(NF)}')" '2.25.0' binutils
-  check_min_version "$(gcc --version | head -n1 | cut -d' ' -f3 | cut -d'-' -f1)" '6.2.0' gcc
-  check_min_version "$(g++ --version | head -n1 | cut -d' ' -f3 | cut -d'-' -f1)" '6.2.0' 'g++'
-  check_min_version "$(ldd --version | head -n1 | cut -d" " -f2- | cut -d')' -f2 | tr -d ' ')" '2.11' glibc-devel
-  check_min_version "$(grep --version | head -n1 | cut -d' ' -f4)" '2.5.1a' grep
-  check_min_version "$(gzip --version | head -n1 | cut -d' ' -f2)" '1.3.12' gzip
+  check_min_version "$(bzip2 --version 2>&1 < /dev/null | head -n1 | cut -d" " -f8 | tr -d ,)" '1.0.4' "${LFS_DEPS[3]}"
+  check_min_version "$(chown --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '6.9.0' "${LFS_DEPS[4]}"
+  check_min_version "$(diff --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '2.8.1' "${LFS_DEPS[5]}"
+  check_min_version "$(find . --version | head -n1 | cut -d')' -f2 | tr -d ' ' | cut -d'.' -f-3)" '4.2.31' "${LFS_DEPS[6]}"
+  check_min_version "$(gawk --version | head -n1 | cut -d' ' -f3 | tr -d ',')" '4.0.1' "${LFS_DEPS[7]}"
+  check_min_version "$(ld --version | head -n1 | awk '{print $(NF)}')" '2.25.0' "${LFS_DEPS[1]}"
+  check_min_version "$(gcc --version | head -n1 | cut -d' ' -f3 | cut -d'-' -f1)" '6.2.0' "${LFS_DEPS[8]}"
+  check_min_version "$(g++ --version | head -n1 | cut -d' ' -f3 | cut -d'-' -f1)" '6.2.0' "${LFS_DEPS[9]}"
+  check_min_version "$(ldd --version | head -n1 | cut -d" " -f2- | cut -d')' -f2 | tr -d ' ')" '2.11' "${LFS_DEPS[10]}"
+  check_min_version "$(grep --version | head -n1 | cut -d' ' -f4)" '2.5.1a' "${LFS_DEPS[11]}"
+  check_min_version "$(gzip --version | head -n1 | cut -d' ' -f2)" '1.3.12' "${LFS_DEPS[12]}"
   check_min_version "$(uname -r)" '3.2.0' linux || printf "%bERROR: Kernel is too old. Upgrade manually. %b \\n" "${COL_LIGHT_RED}" "${COL_NC}";
-  check_min_version "$(m4 --version | head -n1 | cut -d' ' -f4)" '1.4.10' m4
-  check_min_version "$(make --version | head -n1 | cut -d' ' -f3)" '4.0.0' make
-  check_min_version "$(patch --version | head -n1 | cut -d' ' -f3)" '2.5.4' patch
-  check_min_version "$(perl -V:version | cut -d"'" -f2)" '5.8.8' perl
-  check_min_version "$(python3 --version | cut -d' ' -f2)" '3.4' python3
-  check_min_version "$(sed --version | head -n1 | cut -d' ' -f4)" '4.1.5' sed
-  check_min_version "$(tar --version | head -n1 | cut -d' ' -f4)" '1.22' tar
-  check_min_version "$(makeinfo --version | head -n1 | cut -d' ' -f4)" '4.7' texinfo
-  check_min_version "$(xz --version | head -n1 | cut -d' ' -f4)" '5.0' xz
-
+  check_min_version "$(m4 --version | head -n1 | cut -d' ' -f4)" '1.4.10' "${LFS_DEPS[13]}"
+  check_min_version "$(make --version | head -n1 | cut -d' ' -f3)" '4.0.0' "${LFS_DEPS[14]}"
+  check_min_version "$(patch --version | head -n1 | cut -d' ' -f3)" '2.5.4' "${LFS_DEPS[15]}"
+  check_min_version "$(perl -V:version | cut -d"'" -f2)" '5.8.8' "${LFS_DEPS[16]}"
+  check_min_version "$(python3 --version | cut -d' ' -f2)" '3.4' "${LFS_DEPS[17]}"
+  check_min_version "$(sed --version | head -n1 | cut -d' ' -f4)" '4.1.5' "${LFS_DEPS[18]}"
+  check_min_version "$(tar --version | head -n1 | cut -d' ' -f4)" '1.22' "${LFS_DEPS[19]}"
+  check_min_version "$(makeinfo --version | head -n1 | cut -d' ' -f4)" '4.7' "${LFS_DEPS[20]}"
+  check_min_version "$(xz --version | head -n1 | cut -d' ' -f4)" '5.0' "${LFS_DEPS[21]}"
+exit 1
   # Debian based package install - debconf will download the entire package list
   # so we just create an array of packages not currently installed to cut down on the
   # amount of download traffic.
@@ -283,11 +291,11 @@ chown -R lfs "$shdir"
 chmod 777 ./
 su - lfs
 read -r -p "Press [Enter] key to resume..."
-cat > ~/.bash_profile << 'EOF' 
+cat > ~/.bash_profile << EOF
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
 EOF
 
-cat > ~/.bashrc << 'EOF' 
+cat > ~/.bashrc << EOF
 set +h 
 umask 022 
 LFS=/mnt/lfs 

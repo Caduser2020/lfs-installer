@@ -159,7 +159,7 @@ install_deps()
   elif [ -x /usr/bin/yacc ]; then
     echo "yacc is $(/usr/bin/yacc -V | head -n1)"
   else
-    echo "yacc not found"; installArray+=("yacc")
+    echo "yacc not found"; installArray+=("byacc")
   fi
   check_min_version "$(bzip2 --version 2>&1 < /dev/null | head -n1 | cut -d" " -f8 | tr -d ,)" '1.0.4' "${LFS_DEPS[3]}"
   check_min_version "$(chown --version | head -n1 | cut -d')' -f2 | tr -d ' ')" '6.9.0' "${LFS_DEPS[4]}"
@@ -190,14 +190,14 @@ install_deps()
     update_package_cache || exit 1
     if [[ "${#installArray[@]}" -gt 0 ]]; then
       debconf-apt-progress -- "${PKG_INSTALL[@]}" "${installArray[@]}"
-      return
     fi
     printf "\\n"
-    return 0
+
   # Install Fedora/CentOS packages
   elif [[ "${#installArray[@]}" -gt 0 ]]; then
+    printf "  %b Installing Dependencies ..." "${INFO}"
     "${PKG_INSTALL[@]}" "${installArray[@]}" &> /dev/null
-    return
+    printf "%b  %b Installing Dependencies\\n" "${OVER}" "${TICK}"
   fi
   printf "%b\\n" "${DONE}"
 
@@ -206,7 +206,6 @@ install_deps()
     then echo "g++ compilation OK";
     else echo "g++ compilation failed"; exit 1; fi
   rm -f dummy.c dummy
-  return 0
 }
 # Must be root to install
 # If the user's id is zero,
@@ -308,3 +307,4 @@ EOF
 cd ~
 # shellcheck disable=SC1091
 source .bash_profile
+bash build.sh

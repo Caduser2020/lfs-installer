@@ -182,7 +182,7 @@ install_deps()
   check_min_version "$(tar --version | head -n1 | cut -d' ' -f4)" '1.22' "${LFS_DEPS[19]}"
   check_min_version "$(makeinfo --version | head -n1 | cut -d' ' -f4)" '4.7' "${LFS_DEPS[20]}"
   check_min_version "$(xz --version | head -n1 | cut -d' ' -f4)" '5.0' "${LFS_DEPS[21]}"
-exit 1
+
   # Debian based package install - debconf will download the entire package list
   # so we just create an array of packages not currently installed to cut down on the
   # amount of download traffic.

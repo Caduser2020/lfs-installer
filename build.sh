@@ -21,17 +21,16 @@
 # Enter previous password set
 
 cd /mnt/lfs/sources || exit 1
-whoami
-shdir=/mnt/lfs
-if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo "\$shdir is set to $shdir"; fi
+whoami | grep -q 'lfs' || { printf "Use 'su - lfs' to run code as the lfs user \
+otherwise, it will not continue properly\\n"; exit 1; }
 
 if [ "${LFS}" != /mnt/lfs ]; then
   export LFS=/mnt/lfs
 fi
 read -r -p "Press [Enter] key to resume..."
 
-cpus=$(nproc)
-export MAKEFLAGS="-j ${cpus}"
+export MAKEFLAGS
+MAKEFLAGS="-j $(nproc)"
 
 #Build
 
@@ -65,13 +64,6 @@ tar xvf gcc-9.2.0.tar.xz
 (
   cd gcc-9.2.0 || exit 1
 
-  # tar -xf ../mpfr-4.0.2.tar.xz
-  # mv -v mpfr-4.0.2 mpfr
-  # tar -xf ../gmp-6.1.2.tar.xz
-  # mv -v gmp-6.1.2 gmp
-  # tar -xf ../mpc-1.1.0.tar.gz
-  # mv -v mpc-1.1.0 mpc
-
   ./contrib/download_prerequisites
   for file in gcc/config/{linux,i386/linux{,64}}.h; do
     cp -uv $file{,.orig}
@@ -86,41 +78,43 @@ tar xvf gcc-9.2.0.tar.xz
   done
 
   case $(uname -m) in
-  x86_64)
-    sed -e '/m64=/s/lib64/lib/' \
-      -i.orig gcc/config/i386/t-linux64
+    x86_64)
+      sed -e '/m64=/s/lib64/lib/' \
+          -i.orig gcc/config/i386/t-linux64
     ;;
   esac
 
   mkdir -v objdir
-  cd objdir || exit 1
-  ../configure \
-    --target="$LFS_TGT" \
-    --prefix=/tools \
-    --with-glibc-version=2.11 \
-    --with-sysroot="$LFS" \
-    --with-newlib \
-    --without-headers \
-    --with-local-prefix=/tools \
-    --with-native-system-header-dir=/tools/include \
-    --disable-nls \
-    --disable-shared \
-    --disable-multilib \
-    --disable-decimal-float \
-    --disable-threads \
-    --disable-libatomic \
-    --disable-libgomp \
-    --disable-libquadmath \
-    --disable-libssp \
-    --disable-libvtv \
-    --disable-libstdcxx \
-    --enable-languages=c,c++
-  read -r -p "Press [Enter] key to resume..."
-  make
-  read -r -p "Press [Enter] key to resume..."
-  make install
-  read -r -p "Press [Enter] key to resume..."
+  (
+    cd objdir || exit 1
+    ../configure \
+      --target=$LFS_TGT \
+      --prefix=/tools \
+      --with-glibc-version=2.11 \
+      --with-sysroot=$LFS \
+      --with-newlib \
+      --without-headers \
+      --with-local-prefix=/tools \
+      --with-native-system-header-dir=/tools/include \
+      --disable-nls \
+      --disable-shared \
+      --disable-multilib \
+      --disable-decimal-float \
+      --disable-threads \
+      --disable-libatomic \
+      --disable-libgomp \
+      --disable-libquadmath \
+      --disable-libssp \
+      --disable-libvtv \
+      --disable-libstdcxx \
+      --enable-languages=c,c++
+    read -r -p "Press [Enter] key to resume..."
+    make
+    read -r -p "Press [Enter] key to resume..."
+    make install
+    read -r -p "Press [Enter] key to resume..."
+  )
   rm -Rf gcc-9.2.0
 )
-cd ~ || exit 1
+cd /home/lfs || exit 1
 bash build2.sh

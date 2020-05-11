@@ -283,12 +283,9 @@ groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 # Enter a password for user lfs 
 passwd lfs
-chown -v lfs $LFS/tools
-chown -v lfs $LFS/sources
 
-read -r -p "Press [Enter] key to resume..."
 cat > /home/lfs/.bash_profile << EOF
-exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
+exec env -i HOME=/home/lfs TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
 EOF
 
 cat > /home/lfs/.bashrc << EOF
@@ -300,8 +297,11 @@ LFS_TGT="$(uname -m)"-lfs-linux-gnu
 PATH=/tools/bin:/bin:/usr/bin 
 export LFS LC_ALL LFS_TGT PATH 
 EOF
+(
+  cd "${shdir}"
+  cp -r . /home/lfs
+)
+chown -Rv lfs $LFS
+chown -Rv lfs /home/lfs
 
-cp -r "${shdir}" /home/lfs
-printf "Now run bash build.sh to continue\\n"
-# shellcheck disable=SC1091
-su - lfs
+printf "Now run 'su - lfs; bash build.sh' to continue\\n"

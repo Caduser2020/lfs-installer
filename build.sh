@@ -27,7 +27,6 @@ otherwise, it will not continue properly\\n"; exit 1; }
 if [ "${LFS}" != /mnt/lfs ]; then
   export LFS=/mnt/lfs
 fi
-read -r -p "Press [Enter] key to resume..."
 
 export MAKEFLAGS
 MAKEFLAGS="-j $(nproc)"
@@ -40,7 +39,7 @@ tar xvf binutils-2.34.tar.xz
   cd binutils-2.34 || exit 1
   target_triplet=$(./config.guess)
   export target_triplet
-  echo "$target_triplet"
+  echo "Your platform is a $target_triplet"
   read -r -p "Press [Enter] key to resume..."
   mkdir -v build
   (
@@ -59,7 +58,7 @@ tar xvf binutils-2.34.tar.xz
   rm -Rf binutils-2.34
 )
 
-# Gcc-9.2.0 - Pass 1 || Contains the GNU compiler collection || 12 SBUs
+# Gcc-9.2.0 - Pass 1 || Contains the GNU compiler collection || 10 SBUs
 tar xvf gcc-9.2.0.tar.xz
 (
   cd gcc-9.2.0 || exit 1
@@ -88,7 +87,7 @@ tar xvf gcc-9.2.0.tar.xz
   (
     cd objdir || exit 1
     ../configure \
-      --target=$LFS_TGT \
+      --target="$LFS_TGT" \
       --prefix=/tools \
       --with-glibc-version=2.11 \
       --with-sysroot=$LFS \

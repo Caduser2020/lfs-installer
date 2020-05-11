@@ -271,11 +271,11 @@ mkdir -v $LFS/sources
 chmod -v a+wt $LFS/sources 
 cd /mnt/lfs/sources
 wget --input-file="$shdir"/wget-list.txt --continue --directory-prefix=$LFS/sources
-mv $LFS/e2fsprogs* $LFS/e2fsprogs-1.45.5.tar.gz
-mv "$shdir"/md5sums $LFS/sources
+cp "$shdir"/md5sums $LFS/sources
 pushd $LFS/sources
-md5sum -c md5sums
-read -r -p "Press [Enter] key to resume..."
+printf "  %b MD5 Sum Check" "${INFO}"
+md5sum -c --status md5sums || { printf "%b  %b MD5 Sum Check\\n" "${OVER}" "${CROSS}"; exit 1; }
+printf "%b  %b MD5 Sum Check\\n" "${OVER}" "${TICK}"
 popd
 mkdir -v $LFS/tools
 ln -sv $LFS/tools /
@@ -285,16 +285,13 @@ useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 passwd lfs
 chown -v lfs $LFS/tools
 chown -v lfs $LFS/sources
-# cd "$shdir" -
-chown -R lfs "$shdir"
-chmod 777 ./
-su - lfs
+
 read -r -p "Press [Enter] key to resume..."
-cat > ~/.bash_profile << EOF
+cat > /home/lfs/.bash_profile << EOF
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash 
 EOF
 
-cat > ~/.bashrc << EOF
+cat > /home/lfs/.bashrc << EOF
 set +h 
 umask 022 
 LFS=/mnt/lfs 
@@ -304,7 +301,7 @@ PATH=/tools/bin:/bin:/usr/bin
 export LFS LC_ALL LFS_TGT PATH 
 EOF
 
-cd ~
+cp -r "${shdir}" /home/lfs
+printf "Now run bash build.sh to continue\\n"
 # shellcheck disable=SC1091
-source .bash_profile
-bash build.sh
+su - lfs

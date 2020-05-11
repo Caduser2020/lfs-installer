@@ -54,9 +54,9 @@ tar xvf binutils-2.34.tar.xz
     make install
   )
   read -r -p "Press [Enter] key to resume..."
-  rm -Rf build
-  rm -Rf binutils-2.34
 )
+rm -Rf build
+rm -Rf binutils-2.34
 
 # Gcc-9.2.0 - Pass 1 || Contains the GNU compiler collection || 10 SBUs
 tar xvf gcc-9.2.0.tar.xz
@@ -113,7 +113,7 @@ tar xvf gcc-9.2.0.tar.xz
     make install
     read -r -p "Press [Enter] key to resume..."
   )
-  rm -Rf gcc-9.2.0
 )
+rm -Rf gcc-9.2.0
 cd /home/lfs || exit 1
 bash build2.sh

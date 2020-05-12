@@ -142,7 +142,7 @@ tar xvf file-5.38.tar.gz
 rm -Rf file-5.38
 
 # Findutils-4.7.0 || Contains programs to find files || 0.3 SBU
-tar xvf findutils-4.7.0.tar.gz
+tar xvf findutils-4.7.0.tar.xz
 (
   cd findutils-4.7.0 || exit 1
   ./configure --prefix=/tools

@@ -35,7 +35,7 @@ mkdir -v /var/{log,mail,spool}
 ln -sv /run /var/run
 ln -sv /run/lock /var/lock
 mkdir -pv /var/{opt,cache,lib/{color,misc,locate},local}
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 
 ln -sv /tools/bin/{bash,cat,chmod,dd,echo,ln,mkdir,pwd,rm,stty,touch} /bin
 ln -sv /tools/bin/{env,install,perl,printf} /usr/bin
@@ -43,7 +43,7 @@ ln -sv /tools/lib/libgcc_s.so{,.1} /usr/lib
 ln -sv /tools/lib/libstdc++.{a,so{,.6}} /usr/lib
 install -vdm755 /usr/lib/pkgconfig
 ln -sv bash /bin/sh
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 
 ln -sv /proc/self/mounts /etc/mtab
 cat > /etc/passwd << "EOF"
@@ -53,7 +53,7 @@ daemon:x:6:6:Daemon User:/dev/null:/bin/false
 messagebus:x:18:18:D-Bus Message Daemon User:/var/run/dbus:/bin/false
 nobody:x:99:99:Unprivileged User:/dev/null:/bin/false
 EOF
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 
 cat > /etc/group << "EOF"
 root:x:0:
@@ -81,7 +81,7 @@ wheel:x:97:
 nogroup:x:99:
 users:x:999:
 EOF
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 
 exec /tools/bin/bash --login +h
 

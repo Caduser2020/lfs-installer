@@ -20,7 +20,7 @@
 #===================================================================================
 
 cd /mnt/lfs/sources || exit 1
-export LFS=/mnt/LFS
+export LFS=/mnt/lfs
 set +e
 
 chown -R root:root $LFS/tools

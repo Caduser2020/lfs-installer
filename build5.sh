@@ -315,5 +315,5 @@ rm -Rf xz-5.2.4
 
 # bash strip.sh
 cd /home/lfs || exit 1
-cp -Rv . $LFS/shdir
-su - chroot.sh
+cp -Rvf . $LFS/shdir
+bash chroot.sh

@@ -19,16 +19,9 @@
 # 
 #===================================================================================
 
-cd /mnt/lfs/sources
-if [ $LFS != /mnt/lfs ]
-then
-    export LFS=/mnt/lfs
-else
-    echo '\$LFS is set to /mnt/lfs'
-fi
-if [ -z "$shdir" ]; then echo "\$shdir is blank"; else echo $shdir; fi
-echo 'PATH is `pwd`'
-read -p "Press [Enter] key to resume..."
+cd /mnt/lfs/sources || exit 1
+export LFS=/mnt/LFS
+set +e
 
 chown -R root:root $LFS/tools
 mkdir -pv $LFS/{dev,proc,sys,run}
@@ -40,10 +33,11 @@ mount -vt proc proc $LFS/proc
 mount -vt sysfs sysfs $LFS/sys
 mount -vt tmpfs tmpfs $LFS/run
 if [ -h $LFS/dev/shm ]; then
-mkdir -pv $LFS/$(readlink $LFS/dev/shm)
+mkdir -pv "$LFS/$(readlink $LFS/dev/shm)"
 fi
 
-read -p "Press [Enter] key to resume..."
+echo "Now run chroot2.sh to continue"
+read -r -p "Press [Enter] key to resume..."
 chroot "$LFS" /tools/bin/env -i \
 HOME=/root \
 TERM="$TERM" \

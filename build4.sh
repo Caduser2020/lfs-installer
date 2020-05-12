@@ -34,7 +34,7 @@ tar xvf tcl8.6.10-src.tar.gz
   # TZ=UTC make test
   # read -r -p "Press [Enter] key to resume..."
   make install
-  read -r -p "Press [Enter] key to resume..."
+  # read -r -p "Press [Enter] key to resume..."
   chmod -v u+w /tools/lib/libtcl8.6.so
   make install-private-headers
   ln -sv tclsh8.6 /tools/bin/tclsh

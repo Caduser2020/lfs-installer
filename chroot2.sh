@@ -1,22 +1,22 @@
-#!/bin/bash  
-#=================================================================================== 
-# 
-# Set up Chroot for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL. 
-# Copyright (C) 2019 
- 
-# This program is free software: you can redistribute it and/or modify 
-# it under the terms of the GNU Affero General Public License as published 
-# by the Free Software Foundation, either version 3 of the License, or 
-# (at your option) any later version. 
- 
-# This program is distributed in the hope that it will be useful, 
-# but WITHOUT ANY WARRANTY; without even the implied warranty of 
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
-# GNU Affero General Public License for more details. 
- 
-# You should have received a copy of the GNU Affero General Public License 
-# along with this program.  If not, see <https://www.gnu.org/licenses/> 
-# 
+#!/bin/bash
+#===================================================================================
+#
+# Set up Chroot for Linux From Scratch 8.4 on a Red Hat based distribution of linux, such as Fedora, CentOS, or RHEL.
+# Copyright (C) 2019
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>
+#
 #===================================================================================
 
 mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib/firmware,mnt,opt}
@@ -43,19 +43,17 @@ ln -sv /tools/lib/libgcc_s.so{,.1} /usr/lib
 ln -sv /tools/lib/libstdc++.{a,so{,.6}} /usr/lib
 install -vdm755 /usr/lib/pkgconfig
 ln -sv bash /bin/sh
-read -r -p "Press [Enter] key to resume..."
 
 ln -sv /proc/self/mounts /etc/mtab
-cat > /etc/passwd << "EOF"
+cat >/etc/passwd <<"EOF"
 root:x:0:0:root:/root:/bin/bash
 bin:x:1:1:bin:/dev/null:/bin/false
 daemon:x:6:6:Daemon User:/dev/null:/bin/false
 messagebus:x:18:18:D-Bus Message Daemon User:/var/run/dbus:/bin/false
 nobody:x:99:99:Unprivileged User:/dev/null:/bin/false
 EOF
-read -r -p "Press [Enter] key to resume..."
 
-cat > /etc/group << "EOF"
+cat >/etc/group <<"EOF"
 root:x:0:
 bin:x:1:daemon
 sys:x:2:
@@ -81,7 +79,8 @@ wheel:x:97:
 nogroup:x:99:
 users:x:999:
 EOF
+
+echo "Now run install2.sh to continue"
 read -r -p "Press [Enter] key to resume..."
 
 exec /tools/bin/bash --login +h
-

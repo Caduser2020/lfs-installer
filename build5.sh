@@ -20,6 +20,8 @@
 
 cd /mnt/lfs/sources || exit 1
 export LFS=/mnt/LFS
+MAKEFLAGS="-j$(nproc)"
+export MAKEFLAGS
 
 # M4-1.4.18 || Contains a macro-processor || 0.2 SBUs
 tar xvf m4-1.4.18.tar.xz
@@ -72,8 +74,8 @@ rm -Rf bash-5.0
 
 # Bison-3.5.2 || Contains parser generator || 0.3 SBUs
 tar xvf bison-3.5.2.tar.xz
-cd bison-3.5.2 || exit 1
 (
+  cd bison-3.5.2 || exit 1
   ./configure --prefix=/tools
   read -r -p "Press [Enter] key to resume..."
   make
@@ -172,7 +174,6 @@ tar xvf gettext-0.20.1.tar.xz
   ./configure --disable-shared
   read -r -p "Press [Enter] key to resume..."
   make
-  read -r -p "Press [Enter] key to resume..."
   cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /tools/bin
   read -r -p "Press [Enter] key to resume..."
 )

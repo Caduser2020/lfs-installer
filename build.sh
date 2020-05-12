@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>
 #===================================================================================
 
-# Enter previous password set
+set +e
 
 cd /mnt/lfs/sources || exit 1
 whoami | grep -q 'lfs' || { printf "Use 'su - lfs' to run code as the lfs user \

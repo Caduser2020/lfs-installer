@@ -199,5 +199,7 @@ tar xvf bash-5.0.tar.gz
   read -r -p "Press [Enter] key to resume..."
   mv -vf /usr/bin/bash /bin
 )
-echo "Now run bash '/shdir/install5.sh' to continue."
+rm -Rf bash-5.0
+
+echo "Now run 'bash /shdir/install5.sh' to continue."
 exec /bin/bash --login +h

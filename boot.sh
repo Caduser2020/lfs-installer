@@ -1,38 +1,40 @@
-#!/bin/bash  
-#=================================================================================== 
-# 
+#!/bin/bash
+#===================================================================================
+#
 # Booting a Linux system involves several tasks. The process must mount both virtual and real
-# file systems, initialize devices, activate swap, check file systems for integrity, mount any 
-# swap partitions or files, set the system clock, bring up networking, start any daemons 
-# required by the system, and accomplish any other custom tasks needed by the user. This 
-# process must be organized to ensure the tasks are performed in the correct order but, at the 
+# file systems, initialize devices, activate swap, check file systems for integrity, mount any
+# swap partitions or files, set the system clock, bring up networking, start any daemons
+# required by the system, and accomplish any other custom tasks needed by the user. This
+# process must be organized to ensure the tasks are performed in the correct order but, at the
 # same time, be executed as fast as possible.
-# Copyright (C) 2019 
- 
-# This program is free software: you can redistribute it and/or modify 
-# it under the terms of the GNU Affero General Public License as published 
-# by the Free Software Foundation, either version 3 of the License, or 
-# (at your option) any later version. 
- 
-# This program is distributed in the hope that it will be useful, 
-# but WITHOUT ANY WARRANTY; without even the implied warranty of 
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
-# GNU Affero General Public License for more details. 
- 
-# You should have received a copy of the GNU Affero General Public License 
-# along with this program.  If not, see <https://www.gnu.org/licenses/> 
-# 
+# Copyright (C) 2019
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>
+#
 #===================================================================================
 
-cd /sources
+cd /sources || exit 1
 tar xvf lfs-bootscripts-20191031.tar.xz
-cd lfs-bootscripts-20191031
-make install
-cd /sources
+(
+  cd lfs-bootscripts-20191031 || exit 1
+  make install
+)
+
 bash /lib/udev/init-net-rules.sh
 # cat /etc/udev/rules.d/70-persistent-net.rules
-cd /etc/sysconfig/
-cat > ifconfig.enp0s3 << "EOF"
+cd /etc/sysconfig/ || exit 1
+cat >ifconfig.enp0s3 <<"EOF"
 ONBOOT=yes
 IFACE=enp0s3
 SERVICE=ipv4-static
@@ -41,15 +43,15 @@ GATEWAY=192.168.1.1
 PREFIX=24
 BROADCAST=192.168.1.255
 EOF
-cat > /etc/resolv.conf << "EOF"
+cat >/etc/resolv.conf <<"EOF"
 # Begin /etc/resolv.conf
 nameserver 1.1.1.1
 nameserver 1.0.0.1
 # End /etc/resolv.conf
 EOF
 
-echo "lfs-9.1" > /etc/hostname
-cat > /etc/hosts << "EOF"
+echo "lfs-9.1" >/etc/hostname
+cat >/etc/hosts <<"EOF"
 # Begin /etc/hosts
 127.0.0.1 localhost
 ::1 localhost ip6-localhost ip6-loopback
@@ -58,7 +60,7 @@ ff02::2 ip6-allrouters
 # End /etc/hosts
 EOF
 
-cat > /etc/inittab << "EOF"
+cat >/etc/inittab <<"EOF"
 # Begin /etc/inittab
 id:3:initdefault:
 si::sysinit:/etc/rc.d/init.d/rc S
@@ -80,7 +82,7 @@ su:S016:once:/sbin/sulogin
 # End /etc/inittab
 EOF
 
-cat > /etc/sysconfig/clock << "EOF"
+cat >/etc/sysconfig/clock <<"EOF"
 # Begin /etc/sysconfig/clock
 UTC=1
 # Set this to any options you might need to give to hwclock,
@@ -93,9 +95,8 @@ EOF
 locale -a
 
 # (1) prompt user, and read command line argument
-read -p "Enter Preferred Locale: " answer
-$pref_locale = $answer;
-
+read -r -p "Enter Preferred Locale: " answer
+pref_locale=$answer
 
 LC_ALL=$pref_locale locale charmap
 LC_ALL=$pref_locale locale language
@@ -103,13 +104,13 @@ LC_ALL=$pref_locale locale charmap
 LC_ALL=$pref_locale locale int_curr_symbol
 LC_ALL=$pref_locale locale int_prefix
 
-cat > /etc/profile << "EOF"
+cat >/etc/profile <<"EOF"
 # Begin /etc/profile
 export LANG=en_US.utf8
 # End /etc/profile
 EOF
 
-cat > /etc/inputrc << "EOF"
+cat >/etc/inputrc <<"EOF"
 cat > /etc/inputrc << "EOF"
 # Begin /etc/inputrc
 # Modified by Chris Lynn <roryo@roryo.dynup.net>
@@ -144,14 +145,14 @@ set bell-style none
 # End /etc/inputrc
 EOF
 
-cat > /etc/shells << "EOF"
+cat >/etc/shells <<"EOF"
 # Begin /etc/shells
 /bin/sh
 /bin/bash
 # End /etc/shells
 EOF
 
-cat > /etc/fstab << "EOF"
+cat >/etc/fstab <<"EOF"
 # Begin /etc/fstab
 # file system   mount-point type    options             dump fsck
 # order
@@ -166,38 +167,38 @@ devtmpfs        /dev        devtmpfs mode=0755,nosuid   0   0
 EOF
 
 # Linux-5.5.3 || Contains the Linux kernel || 4.4 - 66.0 SBUs
-cd /sources
+cd /sources || exit 1
 tar xvf linux-5.5.3.tar.xz
-cd linux-5.5.3
-make mrproper
-read -p "Press [Enter] key to resume..."
-make defconfig
-read -p "Press [Enter] key to resume..."
-make
-read -p "Press [Enter] key to resume..."
-make modules_install
-read -p "Press [Enter] key to resume..."
-cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.5.3-lfs-9.1
-cp -iv System.map /boot/System.map-5.5.3
-cp -iv .config /boot/config-5.5.3
-install -d /usr/share/doc/linux-5.5.3
-cp -r Documentation/* /usr/share/doc/linux-5.5.3
-install -v -m755 -d /etc/modprobe.d
-cat > /etc/modprobe.d/usb.conf << "EOF"
+(
+  cd linux-5.5.3 || exit 1
+  make mrproper
+  read -r -p "Press [Enter] key to resume..."
+  make defconfig
+  read -r -p "Press [Enter] key to resume..."
+  make
+  read -r -p "Press [Enter] key to resume..."
+  make modules_install
+  read -r -p "Press [Enter] key to resume..."
+  cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.5.3-lfs-9.1
+  cp -iv System.map /boot/System.map-5.5.3
+  cp -iv .config /boot/config-5.5.3
+  install -d /usr/share/doc/linux-5.5.3
+  cp -r Documentation/* /usr/share/doc/linux-5.5.3
+  install -v -m755 -d /etc/modprobe.d
+  cat >/etc/modprobe.d/usb.conf <<"EOF"
 # Begin /etc/modprobe.d/usb.conf
 install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
 install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
 # End /etc/modprobe.d/usb.conf
 EOF
-cd /sources
-
+)
 # Currently broken on account of xorriso not included in LFS
 #cd /tmp
 #grub-mkrescue --output=grub-img.iso
 #xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
 grub-install /dev/sda
 
-cat > /boot/grub/grub.cfg << "EOF"
+cat >/boot/grub/grub.cfg <<"EOF"
 # Begin /boot/grub/grub.cfg
 set default=0
 set timeout=5
@@ -208,16 +209,16 @@ menuentry "GNU/Linux, Linux 5.5.3-lfs-9.1" {
 }
 EOF
 
-echo 9.1 > /etc/lfs-release
+echo 9.1 >/etc/lfs-release
 
-cat > /etc/lsb-release << "EOF"
+cat >/etc/lsb-release <<"EOF"
 DISTRIB_ID="Linux From Scratch"
 DISTRIB_RELEASE="9.1"
 DISTRIB_CODENAME="LFS"
 DISTRIB_DESCRIPTION="Linux From Scratch"
 EOF
 
-cat > /etc/os-release << "EOF"
+cat >/etc/os-release <<"EOF"
 NAME="Linux From Scratch"
 VERSION="9.1"
 ID=lfs

@@ -27,5 +27,5 @@ umount -lv $LFS/run
 umount -lv $LFS/proc
 umount -lv $LFS/sys
 umount -lv $LFS
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 shutdown -r now

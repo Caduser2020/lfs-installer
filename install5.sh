@@ -30,6 +30,7 @@ tar xvf libtool-2.4.6.tar.xz
   make
   read -r -p "Press [Enter] key to resume..."
   make check TESTSUITEFLAGS=-j4
+  echo "Five tests are know to fail because of a circular dependency"
   read -r -p "Press [Enter] key to resume..."
   make install
   read -r -p "Press [Enter] key to resume..."
@@ -604,7 +605,7 @@ tar xvf patch-2.7.6.tar.xz
 )
 rm -Rf patch-2.7.6
 
-# Man-DB-2.9.0 || contains programs for finding and viewing man pages || 0.4 SBUs
+# Man-DB-2.9.0 || contains programs for finding and viewing man pages || 0.5 SBUs
 tar xvf man-db-2.9.0.tar.xz
 (
   cd man-db-2.9.0 || exit 1

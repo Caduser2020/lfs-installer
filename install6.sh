@@ -22,7 +22,8 @@
 
 # Sudo-1.8.31 || allows a user to run some (or all) commands as root || 0.4 SBUs
 tar xvf sudo-1.8.31.tar.gz
-cd sudo-1.8.31
+(
+cd sudo-1.8.31 || exit 1
 sed -e '/^pre-install:/{N;s@;@ -a -r $(sudoersdir)/sudoers;@}' \
     -i plugins/sudoers/Makefile.in
 ./configure --prefix=/usr              \
@@ -33,40 +34,40 @@ sed -e '/^pre-install:/{N;s@;@ -a -r $(sudoersdir)/sudoers;@}' \
             --docdir=/usr/share/doc/sudo-1.8.31 \
             --with-passprompt="[sudo] password for %p: " &&
 make
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 make install &&
 ln -sfv libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 cat > /etc/sudoers.d/sudo << "EOF"
 Defaults secure_path="/usr/bin:/bin:/usr/sbin:/sbin"
 %wheel ALL=(ALL) ALL
 EOF
-cd /sources
+)
 rm -Rf sudo-1.8.31
 
 # wget-1.20.3 || Contains a utility for downloading files from the Web || 0.4 SBUs
 tar xvf wget-1.20.3.tar.gz
-cd wget-1.20.3
+cd wget-1.20.3 || exit 1
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
             --with-ssl=openssl &&
 make
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 make install
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 
-cd /sources
+cd /sources || exit 1
 rm -Rf wget-1.20.3
 
 # GPM-1.20.7 || contains a mouse server for the console and xterm || 0.1 SBUs
 tar xvf gpm-1.20.7.tar.bz2
-cd gpm-1.20.7
+cd gpm-1.20.7 || exit 1
 sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c &&
 patch -Np1 -i ../gpm-1.20.7-glibc_2.26-1.patch &&
 ./autogen.sh                                &&
 ./configure --prefix=/usr --sysconfdir=/etc &&
 make
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 make install                                          &&
 
 install-info --dir-file=/usr/share/info/dir           \
@@ -80,9 +81,9 @@ install -v -m644    doc/support/*                     \
                     /usr/share/doc/gpm-1.20.7/support &&
 install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
                     /usr/share/doc/gpm-1.20.7
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 make install-gpm
-read -p "Press [Enter] key to resume..."
+read -r -p "Press [Enter] key to resume..."
 cat > /etc/sysconfig/mouse << "EOF"
 # Begin /etc/sysconfig/mouse
 
@@ -92,6 +93,6 @@ GPMOPTS=""
 
 # End /etc/sysconfig/mouse
 EOF
-read -p "Press [Enter] key to resume..."
-cd ..
+read -r -p "Press [Enter] key to resume..."
+cd .. || exit 1
 rm -Rf gpm-1.20.7

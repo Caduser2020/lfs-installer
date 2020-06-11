@@ -19,6 +19,10 @@ This script is validated for Red Hat based distributions, such as:
 * Fedora
 * RHEL
 
+Experimental:
+* Ubuntu
+* Debian
+
 ### Validated Host Operating Systems
 
 * CentOS 7
